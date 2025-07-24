@@ -2,8 +2,8 @@
 export default function Homepage() {
 
 	return(
-		<Container>
+		<div>
 			
-		</Container>
+		</div>
 	)
 }
