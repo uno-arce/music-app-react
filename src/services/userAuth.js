@@ -1,6 +1,6 @@
 import instance from './instance'
 
-export default userAuth = {
+const userAuth = {
 	login: (email, password) => {
 		instance.post('/login', {
 			email: email,
@@ -24,3 +24,5 @@ export default userAuth = {
 		})
 	}
 }
+
+export default userAuth

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export function userAuthStore = create((set) => ({
+const userAuthStore = create((set) => ({
 	username: null,
 	email: null,
 	password: null,
@@ -11,3 +11,5 @@ export function userAuthStore = create((set) => ({
 	setPassword: (password) => ({ password: password }),
 	setIsAuthenticated: (status) => ({ isAuthenticated: status })
 }))
+
+export default userAuthStore
