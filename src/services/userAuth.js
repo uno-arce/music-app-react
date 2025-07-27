@@ -9,6 +9,7 @@ const userAuth = {
 			// save token and user data to user zustand store
 		}).catch(error => {
 			console.log('Login call error: ' + error)
+			return error
 		})
 	},
 
@@ -21,6 +22,18 @@ const userAuth = {
 			return response.status
 		}).catch(error => {
 			console.log('Register call error: ' + error)
+			return error
+		})
+	},
+
+	addSongRatings: (ratedSongs) => {
+		instance.post('/rate-songs', {
+			ratedSongs: ratedSongs
+		}).then(response => {
+			return response.status
+		}).catch(error => {
+			console.log(error)
+			return error
 		})
 	}
 }
