@@ -6,7 +6,7 @@ const userAuth = {
 			email: email,
 			password: password
 		}).then(response => {
-			// save token and user data to user zustand store
+			return response
 		}).catch(error => {
 			console.log('Login call error: ' + error)
 			return error
