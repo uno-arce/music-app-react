@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 
-const userAuthStore = create((set) => ({
+const useUserAuthStore = create((set) => ({
 	username: null,
 	email: null,
 	password: null,
 	isAuthenticated: false,
 
-	setUsername: (username) => ({ username: username }),
-	setEmail: (email) => ({ email: email }),
-	setPassword: (password) => ({ password: password }),
-	setIsAuthenticated: (status) => ({ isAuthenticated: status })
+	setUsername: (username) => set({ username: username }),
+	setEmail: (email) => set({ email: email }),
+	setPassword: (password) => set({ password: password }),
+	setIsAuthenticated: (status) => set({ isAuthenticated: status })
 }))
 
-export default userAuthStore
+export default useUserAuthStore
