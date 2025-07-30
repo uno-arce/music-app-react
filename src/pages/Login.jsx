@@ -1,9 +1,14 @@
+import { useEffect } from 'react'
 import Form from '../components/form'
+import Button from '../components/button'
 import useUserAuthStore from '../stores/userAuthStore'
 import userAuth from '../services/userAuth'
 
 
 export default function Login() {
+	useEffect(() => {
+		userAuth.verify
+	})
 
 	const userAuthStore = useUserAuthStore()
 
@@ -34,6 +39,9 @@ export default function Login() {
 			<Form 
 				inputs = {loginInputs}
 				call = {handleLoginSubmit}
+			/>
+			<Button
+				name = {"Login"}
 			/>
 		</div>
 	)
