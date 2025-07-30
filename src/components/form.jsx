@@ -7,6 +7,8 @@ export default function Form({ inputs, call }) {
 		try {
 			let response
 			response = await call();
+
+			return response
 		} catch(error) {
 			console.error(error)
 		}
