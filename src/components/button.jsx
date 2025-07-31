@@ -1,11 +1,9 @@
-import { useFormStatus } from 'react-dom'
+import React from 'react';
 
-export default function Button({name, id}) {
-	const status = useFormStatus()
-	
+export default function Button({name, id, isDisabled}) {
 	return(
 		<div>
-			<button type='submit' disabled={status.pending}>{name}</button>
+			<button type='submit' disabled={isDisabled}>{name}</button>
 		</div>
 	)
 }
