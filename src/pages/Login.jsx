@@ -1,16 +1,16 @@
-import { useEffect } from 'react'
+import React from 'react';
 import Form from '../components/form'
 import Button from '../components/button'
 import useUserAuthStore from '../stores/userAuthStore'
 import userAuth from '../services/userAuth'
+import { useNavigate } from 'react-router'
 
 
 export default function Login() {
-	useEffect(() => {
-		userAuth.verify
-	})
-
 	const userAuthStore = useUserAuthStore()
+	let navigate = useNavigate()
+
+	const isButtonDisabled = !userAuthStore.email || !userAuthStore.password
 
 	const loginInputs = [
 		{
@@ -23,6 +23,7 @@ export default function Login() {
 		{
 			name: 'password',
 			password: userAuthStore.password,
+			type: 'password',
 			updateState: (value) => {
 				userAuthStore.setPassword(value)
 			}
@@ -30,7 +31,19 @@ export default function Login() {
 	]
 
 	const handleLoginSubmit = async () => {
-        return userAuth.login(userAuthStore.email, userAuthStore.password);
+		userAuthStore.setIsFormDisabled(true)
+
+        userAuth.login(userAuthStore.email, userAuthStore.password).
+        then(response => {
+        	if(response.status !== 200) {
+        		return response.body.error
+        	} 
+
+        	userAuthStore.setEmail(null)
+        	userAuthStore.setPassword(null)
+        	userAuthStore.setIsFormDisabled(false)
+        	navigate('/')
+        })
     };
 
 	return(
@@ -39,10 +52,13 @@ export default function Login() {
 			<Form 
 				inputs = {loginInputs}
 				call = {handleLoginSubmit}
-			/>
+				isDisabled = {userAuthStore.isFormDisabled}
+			>
 			<Button
 				name = {"Login"}
+				isDisabled = {isButtonDisabled}
 			/>
+			</Form>
 		</div>
 	)
 }
