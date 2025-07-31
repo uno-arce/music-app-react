@@ -1,15 +1,17 @@
 // Pages
 import Login from './pages/Login'
 import Homepage from './pages/Homepage'
-
+import './App.css'
 
 // Routing
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import { useState } from 'react'
-import './App.css'
+import { useEffect } from 'react'
+import userAuth from './services/userAuth'
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    // return userAuth.verify()
+  }, [])
 
   return (
     <Router>
