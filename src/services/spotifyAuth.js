@@ -2,7 +2,7 @@ import instance from './instance'
 
 const spotifyAuth = {
 	requestAuthorization: () => {
-		instance.get('/')
+		instance.get('auth/spotify/')
 		.then(response => {
 			return response
 		})
@@ -13,7 +13,7 @@ const spotifyAuth = {
 	},
 
 	getAccessToken: () => {
-		instance.get('/callback')
+		instance.get('auth/spotify/callback')
 		.then(response  => {
 			return response
 		})
@@ -24,7 +24,7 @@ const spotifyAuth = {
 	},
 
 	getRefreshToken: () => {
-		instance.get('/refresh-token')
+		instance.get('auth/spotify/refresh-token')
 		.then(response => {
 			return response
 		})
