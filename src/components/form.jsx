@@ -1,18 +1,11 @@
+import React from 'react';
 
-export default function Form({ inputs, call }) {
+export default function Form({ inputs, call, disabled, children }) {
 
 	const handleSubmit = async(event) => {
 		event.preventDefault();
 
-		try {
-			let response
-			response = await call();
-
-			return response
-		} catch(error) {
-			console.error(error)
-		}
-		
+		await call()	
 	}
 
 	const formInputs = inputs.map(field => {
@@ -21,7 +14,9 @@ export default function Form({ inputs, call }) {
 				<label htmlFor={field.name}>{field.name}</label>
 				<input
 				name={field.name}
+				type={field.type || 'text'}
 				onChange={event => field.updateState(event.target.value)}
+				disabled={disabled}  
 				/>
 			</div>
 		)
@@ -30,6 +25,7 @@ export default function Form({ inputs, call }) {
 	return (
 		<form onSubmit={handleSubmit}>
 			{formInputs}
+			{children}
 		</form>
 	)
 
