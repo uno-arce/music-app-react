@@ -7,8 +7,7 @@ const spotifyAuth = {
 			return response
 		})
 		.catch(error) {
-			console.log(error)
-			return error
+			return error.response.data.error
 		}
 	},
 
@@ -18,8 +17,7 @@ const spotifyAuth = {
 			return response
 		})
 		.catch(error) {
-			console.log(error)
-			return error
+			return error.response.data.error
 		}
 	},
 
@@ -29,8 +27,7 @@ const spotifyAuth = {
 			return response
 		})
 		.catch(error) {
-			console.log(error)
-			return error
+			return error.response.data.error
 		}
 	}
 }

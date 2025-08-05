@@ -6,10 +6,11 @@ const userAuth = {
 			email: email,
 			password: password
 		}).then(response => {
+			console.log(response.data.message)
 			return response
 		}).catch(error => {
-			console.log('Login call error: ' + error)
-			return error
+			console.error(error)
+			return error.response.data.error
 		})
 	},
 
@@ -21,8 +22,7 @@ const userAuth = {
 		}).then(response => {
 			return response
 		}).catch(error => {
-			console.log('Register call error: ' + error)
-			return error
+			return error.response.data.error
 		})
 	},
 
@@ -32,7 +32,7 @@ const userAuth = {
 			return response
 		})
 		.catch(error => {
-			console.error(error)
+			return error.response.data.error
 		})
 	},
 
@@ -42,8 +42,7 @@ const userAuth = {
 		}).then(response => {
 			return response
 		}).catch(error => {
-			console.log(error)
-			return error
+			return error.response.data.error
 		})
 	}
 }

@@ -3,12 +3,12 @@ import instance from './instance'
 const spotifyAPI = {
 	getSavedTracks: () => {
 		instance.get('/saved-tracks')
-		.then(response  => {
+		.then(response => {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
-			return error
+			console.log(error.response.data.error)
+			return error.response.data.error
 		})
 	},
 
@@ -18,8 +18,8 @@ const spotifyAPI = {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
-			return error
+			console.log(error.response.data.error)
+			return error.response.data.error
 		})
 	},
 
@@ -29,8 +29,8 @@ const spotifyAPI = {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
-			return error
+			console.log(error.response.data.error)
+			return error.response.data.error
 		})
 	},
 
@@ -40,8 +40,8 @@ const spotifyAPI = {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
-			return error
+			console.log(error.response.data.error)
+			return error.response.data.error
 		})
 	},
 
@@ -51,8 +51,8 @@ const spotifyAPI = {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
-			return error
+			console.log(error.response.data.error)
+			return error.response.data.error
 		})
 	}
 }
