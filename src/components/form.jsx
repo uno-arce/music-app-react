@@ -1,12 +1,6 @@
 import React from 'react';
 
-export default function Form({ inputs, call, disabled, children }) {
-
-	const handleSubmit = async(event) => {
-		event.preventDefault();
-
-		await call()	
-	}
+export default function Form({ inputs, call, submit, disabled, children }) {
 
 	const formInputs = inputs.map(field => {
 		return (
@@ -16,14 +10,15 @@ export default function Form({ inputs, call, disabled, children }) {
 				name={field.name}
 				type={field.type || 'text'}
 				onChange={event => field.updateState(event.target.value)}
-				disabled={disabled}  
+				value={field.value}
+				disabled={disabled}
 				/>
 			</div>
 		)
 	})
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={event => submit(event, call)}>
 			{formInputs}
 			{children}
 		</form>
