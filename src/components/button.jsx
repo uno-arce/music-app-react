@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Button({name, id, isDisabled}) {
+export default function Button({name, id, call, isDisabled}) {
 	return(
 		<div>
-			<button type='submit' disabled={isDisabled}>{name}</button>
+			<button type='submit' disabled={isDisabled} onclick={call}>{name}</button>
 		</div>
 	)
 }
