@@ -7,6 +7,18 @@ const useAuth = () => {
 	const navigate = useNavigate()
 	const userAuthStore = useUserAuthStore()
 
+	useEffect(() => {
+		userAuth.verify()
+		.then(response => {
+			if(response.status !== 200) {
+				return response
+			}
+			userAuthStore.setIsAuthenticated(true)
+			userAuthStore.setIsLoading(false)
+		}).catch(error => {
+			console.log(error)
+		})
+	}, [userAuthStore])
 
 	const loginInputs = [
 		{
@@ -39,7 +51,7 @@ const useAuth = () => {
         	} 
 
         	userAuthStore.resetLoginState()
-        	navigate('/', { replace: true })
+        	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
 			console.log(error)
 			userAuthStore.resetLoginState()
