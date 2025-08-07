@@ -8,17 +8,22 @@ const useAuth = () => {
 	const userAuthStore = useUserAuthStore()
 
 	useEffect(() => {
-		userAuth.verify()
-		.then(response => {
-			if(response.status !== 200) {
-				return response
-			}
-			userAuthStore.setIsAuthenticated(true)
-			userAuthStore.setIsLoading(false)
-		}).catch(error => {
-			console.log(error)
-		})
-	}, [userAuthStore])
+		if(userAuthStore.isLoading) {
+			userAuth.verify()
+			.then(response => {
+				if(response.status !== 200) {
+					userAuthStore.setIsLoading(false)
+					return response
+				}
+				userAuthStore.setIsLoading(false)
+				userAuthStore.setIsAuthenticated(true)
+			}).catch(error => {
+				console.log(error)
+				userAuthStore.setIsLoading(false)
+				userAuthStore.setIsAuthenticated(false)
+			})
+		}
+	}, [userAuthStore.isLoading])
 
 	const loginInputs = [
 		{
@@ -61,7 +66,9 @@ const useAuth = () => {
 	return {
 		loginInputs,
 		isButtonDisabled,
-		login
+		login,
+		isLoading: userAuthStore.isLoading,
+		isAuthenticated: userAuthStore.isAuthenticated
 	}
 }
 
