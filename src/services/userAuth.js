@@ -27,12 +27,14 @@ const userAuth = {
 	},
 
 	verify: () => {
-		return instance.get('/verify')
+		return instance.get('users/verify')
 		.then(response => {
+			console.log(response)
 			return response
 		})
 		.catch(error => {
-			return error.response.data.error
+			console.log(error)
+			return error
 		})
 	},
 
