@@ -1,16 +1,16 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import useUserAuthStore from '../stores/userAuthStore'
+import useAuth from '../hooks/authHooks'
 
 const PublicRoute = ({ children }) => {
-	const userAuthStore = useUserAuthStore()
+	const {isLoading, isAuthenticated} = useAuth()
 
-	if(userAuthStore.isLoading) {
+	if(isLoading) {
 		return <div>Loading, please wait...</div>
 	}
 
-	if(userAuthStore.isAuthenticated) {
-		return
+	if(isAuthenticated) {
+		return <Navigate to='/homeprofile' replace/>
 	}
 
 	return children
