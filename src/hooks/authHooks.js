@@ -13,7 +13,7 @@ const useAuth = () => {
 			.then(response => {
 				if(response.status !== 200) {
 					userAuthStore.setIsLoading(false)
-					return response
+					return
 				}
 				userAuthStore.setIsLoading(false)
 				userAuthStore.setIsAuthenticated(true)
@@ -52,9 +52,10 @@ const useAuth = () => {
 		.then(response => {
 			if(response.status !== 200) {
 				userAuthStore.resetLoginState()
-        		return response
+        		return
         	} 
 
+        	userAuthStore.setIsAuthenticated(true)
         	userAuthStore.resetLoginState()
         	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
@@ -63,10 +64,25 @@ const useAuth = () => {
 		})
 	}
 
+	const logout = () => {
+		userAuth.logout()
+		.then(response => {
+			if(response.status !== 200) {
+				return
+			}
+
+			userAuthStore.setIsAuthenticated(false)
+		}).catch(error => {
+			console.log(error)
+			return
+		})
+	}
+
 	return {
 		loginInputs,
 		isButtonDisabled,
 		login,
+		logout,
 		isLoading: userAuthStore.isLoading,
 		isAuthenticated: userAuthStore.isAuthenticated
 	}
