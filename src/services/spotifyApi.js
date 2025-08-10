@@ -1,6 +1,17 @@
 import instance from './instance'
 
-const spotifyAPI = {
+const spotifyApi = {
+	saveSpotifyTokens: (accessToken, refreshToken) => {
+		instance.post('/save-tokens', {
+			accessToken: accessToken,
+			refreshToken: refreshToken
+		}).then(response => {
+			return response
+		}).catch(error => {
+			console.log(error.response.data.error)
+			return error.response.data.error
+		})
+	},
 	getSavedTracks: () => {
 		instance.get('/saved-tracks')
 		.then(response => {
@@ -56,3 +67,5 @@ const spotifyAPI = {
 		})
 	}
 }
+
+export default spotifyApi
