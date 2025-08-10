@@ -6,6 +6,7 @@ const userAuth = {
 			email: email,
 			password: password
 		}).then(response => {
+			console.log(response)
 			return response
 		}).catch(error => {
 			console.error(error)
