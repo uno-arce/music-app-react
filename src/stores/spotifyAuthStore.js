@@ -4,8 +4,9 @@ const useSpotifyAuthStore = create((set) => ({
 	isAuthorized: false,
 	isTokenExpired: true,
 
-	setAccessToken: (accessToken) => set({ accessToken: accessToken }),
-	setRefreshToken: (refreshToken) => set({ refreshToken: refreshToken }),
+
+	setIsAuthorized: (authorization) => set({ isAuthorized: authorization }),
+	setIsTokenExpired: (expiration) => set({ isTokenExpired: expiration }),
 }))
 
 export default useSpotifyAuthStore
