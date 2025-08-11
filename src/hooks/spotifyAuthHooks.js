@@ -9,14 +9,14 @@ const useSpotifyAuth = () => {
 		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
 	}
 
-	const saveSpotifyTokens = () => {
-		spotifyApi.saveSpotifyTokens(accessToken, refreshToken)
+	const saveSpotifyTokens = (accessToken, refreshToken, expiresIn) => {
+		spotifyApi.saveSpotifyTokens(accessToken, refreshToken, expiresIn)
 		.then(response => {
 			if(response.status !== 200) {
 				return
 			}
 
-			spotifyAuthStore.setIsAuthenticated(true)
+			spotifyAuthStore.setIsAuthorized(true)
 		}).catch(error => {
 			console.log(error)
 			return error
@@ -24,7 +24,8 @@ const useSpotifyAuth = () => {
 	}
 
 	return{
-		authenticate
+		authenticate,
+		saveSpotifyTokens
 	}
 }
 
