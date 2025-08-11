@@ -1,10 +1,11 @@
 import instance from './instance'
 
 const spotifyApi = {
-	saveSpotifyTokens: (accessToken, refreshToken) => {
-		instance.post('/save-tokens', {
+	saveSpotifyTokens: (accessToken, refreshToken, expiresIn) => {
+		return instance.post('auth/spotify/save-tokens', {
 			accessToken: accessToken,
-			refreshToken: refreshToken
+			refreshToken: refreshToken,
+			expiresIn: expiresIn
 		}).then(response => {
 			return response
 		}).catch(error => {
@@ -13,7 +14,7 @@ const spotifyApi = {
 		})
 	},
 	getSavedTracks: () => {
-		instance.get('/saved-tracks')
+		return instance.get('/saved-tracks')
 		.then(response => {
 			return response
 		})
@@ -24,7 +25,7 @@ const spotifyApi = {
 	},
 
 	getUserPlaylists: () => {
-		instance.get('/playlists')
+		return instance.get('/playlists')
 		.then(response => {
 			return response
 		})
@@ -35,7 +36,7 @@ const spotifyApi = {
 	},
 
 	getRecentlyPlayed: () => {
-		instance.get('/recently-played')
+		return instance.get('/recently-played')
 		.then(response => {
 			return response
 		})
@@ -46,7 +47,7 @@ const spotifyApi = {
 	},
 
 	getMostlyPlayed: () => {
-		instance.get('/mostly-played')
+		return instance.get('/mostly-played')
 		.then(response => {
 			return response
 		})
@@ -57,7 +58,7 @@ const spotifyApi = {
 	},
 
 	getMostlyListened: () => {
-		instance.get('/mostly-listened')
+		return instance.get('/mostly-listened')
 		.then(response => {
 			return response
 		})
