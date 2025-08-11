@@ -11,11 +11,18 @@ export default function SpotifyCallback() {
 		const params = new URLSearchParams(window.location.hash.slice(1))
 		const accessToken = params.get('access_token')
 		const refreshToken = params.get('refresh_token')
+		const expiresIn = params.get('expires_in')
 		const error = params.get('error')
 
-		if(accessToken && refreshToken) {
-			saveSpotifyTokens(accessToken, refreshToken)
-			navigate('/homeprofile')
+		const handleTokens = async () => {
+			if(accessToken && refreshToken && expiresIn) {
+				await saveSpotifyTokens(accessToken, refreshToken, expiresIn)
+				navigate('/homeprofile')
+			}
+		}
+
+		if(accessToken && refreshToken && expiresIn) {
+			handleTokens()
 		} 
 
 		if(error) {
