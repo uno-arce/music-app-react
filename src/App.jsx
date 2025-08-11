@@ -2,6 +2,7 @@
 import Login from './pages/Login'
 import Homepage from './pages/Homepage'
 import Homeprofile from './pages/Homeprofile'
+import SpotifyCallback from './pages/SpotifyCallback'
 import './App.css'
 
 // Routing
@@ -32,6 +33,11 @@ function App() {
               <Homeprofile/>
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path='/spotify-callback'
+          element={<SpotifyCallback/>}
         />
       </Routes>
     </ Router>
