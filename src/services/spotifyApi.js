@@ -13,8 +13,19 @@ const spotifyApi = {
 			return error.response.data.error
 		})
 	},
+	
+	verifyAuthorization: () => {
+		return instance.get('auth/spotify/verify-authorization')
+		.then(response => {
+			return response
+		}).catch(error => {
+			console.log(error.response.data.error)
+			return error.response.data.error
+		})
+	},
+
 	getSavedTracks: () => {
-		return instance.get('/saved-tracks')
+		return instance.get('auth/spotify/saved-tracks')
 		.then(response => {
 			return response
 		})
@@ -25,7 +36,7 @@ const spotifyApi = {
 	},
 
 	getUserPlaylists: () => {
-		return instance.get('/playlists')
+		return instance.get('auth/spotify/playlists')
 		.then(response => {
 			return response
 		})
@@ -36,7 +47,7 @@ const spotifyApi = {
 	},
 
 	getRecentlyPlayed: () => {
-		return instance.get('/recently-played')
+		return instance.get('auth/spotify/recently-played')
 		.then(response => {
 			return response
 		})
@@ -47,7 +58,7 @@ const spotifyApi = {
 	},
 
 	getMostlyPlayed: () => {
-		return instance.get('/mostly-played')
+		return instance.get('auth/spotify/mostly-played')
 		.then(response => {
 			return response
 		})
@@ -58,7 +69,7 @@ const spotifyApi = {
 	},
 
 	getMostlyListened: () => {
-		return instance.get('/mostly-listened')
+		return instance.get('auth/spotify/mostly-listened')
 		.then(response => {
 			return response
 		})
