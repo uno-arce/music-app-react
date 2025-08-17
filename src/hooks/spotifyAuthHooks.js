@@ -21,7 +21,7 @@ const useSpotifyAuth = () => {
 		}
 	}, [spotifyAuthStore.isAuthorized, spotifyAuthStore])
 
-	console.log(spotifyAuthStore.isAuthorized)
+	console.log('User authorized to spotify:' + spotifyAuthStore.isAuthorized)
 
 	const authenticate = () => {
 		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
