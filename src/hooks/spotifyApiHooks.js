@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import spotifyApi from '../services/spotifyApi'
+import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyStore from '../stores/spotifyStore'
-import useSpotifyAuthStore from '../store/spotifyAuthStore'
+import useSpotifyAuthStore from '../stores/spotifyAuthStore'
 
 const useSpotifyApi = () => {
 	const spotifyStore = useSpotifyStore()
 	const spotifyAuthStore = useSpotifyAuthStore()
+	const { isAuthorized } = useSpotifyAuth()
 
 	useEffect(() => {
-		if(spotifyAuthStore.isAuthorized) {
+		if(isAuthorized) {
 			spotifyStore.setIsLoading(true)
 
 			Promise.all([
@@ -23,11 +25,14 @@ const useSpotifyApi = () => {
 				spotifyStore.setIsLoading(false)
 			}) 
 		}
-	}, [spotifyAuthStore.isAuthorized, spotifyStore])
+	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
 
 	console.log(spotifyStore.recentlyPlayedTracks)
 
 	return {
-		isLoading: spotifyStore.isLoading
+		isLoading: spotifyStore.isLoading,
+        recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks
 	}
 }
+
+export default useSpotifyApi
