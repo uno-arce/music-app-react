@@ -27,7 +27,7 @@ const useSpotifyApi = () => {
 		}
 	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
 
-	console.log(spotifyStore.recentlyPlayedTracks)
+	// console.log(spotifyStore.recentlyPlayedTracks)
 
 	return {
 		isLoading: spotifyStore.isLoading,

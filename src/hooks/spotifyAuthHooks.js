@@ -14,6 +14,7 @@ const useSpotifyAuth = () => {
 				}
 
 				spotifyAuthStore.setIsAuthorized(true)
+				spotifyAuthStore.setIsAuthLoading(false)
 			}).catch(error => {
 				console.log(error)
 				return error
@@ -21,7 +22,7 @@ const useSpotifyAuth = () => {
 		}
 	}, [spotifyAuthStore.isAuthorized, spotifyAuthStore])
 
-	console.log('User authorized to spotify:' + spotifyAuthStore.isAuthorized)
+	// console.log('User authorized to spotify:' + spotifyAuthStore.isAuthorized)
 
 	const authenticate = () => {
 		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
@@ -44,7 +45,8 @@ const useSpotifyAuth = () => {
 	return{
 		authenticate,
 		saveSpotifyTokens,
-		isAuthorized: spotifyAuthStore.isAuthorized
+		isAuthorized: spotifyAuthStore.isAuthorized,
+		isAuthLoading: spotifyAuthStore.isAuthLoading
 	}
 }
 
