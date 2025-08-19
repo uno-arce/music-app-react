@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
 	const {isLoading, isAuthenticated} = useAuth()
 
 	if(isLoading) {
-		return <div>Loading, please wait...</div>
+		return <div className='flex animate-pulse'></div>
 	}
 
 	if(!isAuthenticated) {
