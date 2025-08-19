@@ -17,6 +17,7 @@ const spotifyApi = {
 	verifyAuthorization: () => {
 		return instance.get('auth/spotify/verify-authorization')
 		.then(response => {
+			console.log(response.data.message)
 			return response
 		}).catch(error => {
 			console.log(error.response.data.error)
