@@ -1,12 +1,19 @@
 import { create } from 'zustand' 
 
 const useSpotifyStore = create((set) => ({
-	selectedItems: [],
 	recentlyPlayedTracks: null,
+	savedTracks: null,
+	userPlaylists: null,
+	mostlyPlayed: null,
+	mostlyListened: null,
+
 	isLoading: true,
 
-	setSelectedItems: (item) => set({ selectedItems: selectedItems.push(item) }),
-	setRecentlyPlayedTracks: (recents) => set({ recentlyPlayedTracks: recents }),
+	setRecentlyPlayedTracks: (recent) => set({ recentlyPlayedTracks: recent }),
+	setSavedTracks: (saved) => set({ savedTracks: saved }),
+	setUserPlaylists: (playlist) => set({ userPlaylists: playlist }),
+	setMostlyPlayed: (played) => set({ mostlyPlayed: played }),
+	setMostlyListened: (listened) => set({ mostlyListened: listened }),
 	setIsLoading: (isLoading) => set({ isLoading: isLoading })
 }))
 
