@@ -14,11 +14,23 @@ const useSpotifyApi = () => {
 			spotifyStore.setIsLoading(true)
 
 			Promise.all([
-				spotifyApi.getRecentlyPlayed()
+				spotifyApi.getRecentlyPlayed(),
+				spotifyApi.getSavedTracks(),
+				spotifyApi.getUserPlaylists(),
+				spotifyApi.getMostlyPlayed(),
+				spotifyApi.getMostlyListened()
 			]).then(([
-				recentlyPlayedResponse
+				recentlyPlayedResponse,
+				savedTracksResponse,
+				userPlaylistsResponse,
+				mostlyPlayedResponse,
+				mostlyListenedResponse
 			]) => {
 				spotifyStore.setRecentlyPlayedTracks(recentlyPlayedResponse.data.items)
+				spotifyStore.setSavedTracks(savedTracksResponse.data.items)
+				spotifyStore.setUserPlaylists(userPlaylistsResponse.data.items)
+				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data.items)
+				spotifyStore.setMostlyListened(mostlyListenedResponse.data.items)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
@@ -27,7 +39,11 @@ const useSpotifyApi = () => {
 		}
 	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
 
-	// console.log(spotifyStore.recentlyPlayedTracks)
+	console.log(spotifyStore.recentlyPlayedTracks)
+	console.log(spotifyStore.savedTracks)
+	console.log(spotifyStore.userPlaylists)
+	console.log(spotifyStore.mostlyPlayed)
+	console.log(spotifyStore.mostlyListened)
 
 	return {
 		isLoading: spotifyStore.isLoading,
