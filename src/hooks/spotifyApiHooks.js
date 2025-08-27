@@ -9,6 +9,18 @@ const useSpotifyApi = () => {
 	const spotifyAuthStore = useSpotifyAuthStore()
 	const { isAuthorized } = useSpotifyAuth()
 
+	// Get unique items and populate respective store
+	const getUniqueItems = (items, populateStore) => {
+		const seenIds = new Set()
+		const uniqueItems = items.filter(item => {
+			const isDuplicate = seenIds.has(item.track.id)
+			seenIds.add(item.track.id)
+			return !isDuplicate
+		})
+
+		return populateStore(uniqueItems)
+	}
+
 	useEffect(() => {
 		if(isAuthorized) {
 			spotifyStore.setIsLoading(true)
@@ -26,7 +38,7 @@ const useSpotifyApi = () => {
 				mostlyPlayedResponse,
 				mostlyListenedResponse
 			]) => {
-				spotifyStore.setRecentlyPlayedTracks(recentlyPlayedResponse.data.items)
+				getUniqueItems(recentlyPlayedResponse.data.items, spotifyStore.setRecentlyPlayedTracks)
 				spotifyStore.setSavedTracks(savedTracksResponse.data.items)
 				spotifyStore.setUserPlaylists(userPlaylistsResponse.data.items)
 				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data.items)
