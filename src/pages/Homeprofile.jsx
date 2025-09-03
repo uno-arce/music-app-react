@@ -15,7 +15,7 @@ export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, recentlyPlayedTracks } = useSpotifyApi()
-	const { handleOpenPopoverView, isPopoverOpen } = usePopover()
+	const { handleOpenPopoverView, isPopoverOpen, popoverItem } = usePopover()
 
 	return(
 		<div>
@@ -39,7 +39,7 @@ export default function Homeprofile() {
 					isOpen={isPopoverOpen}
 				>
 					<Popover>
-						<Rating/>
+						<Rating item={popoverItem}/>
 					</Popover>
 				</Collection>
 			</Placeholder>
