@@ -8,7 +8,7 @@ export default function Collection({ items, isSelectable, openPopover, isOpen, c
 
 	const dataCollection = items.map(item => {
 		return(
-			<div onClick={() => openPopover(item)} className={flex} key={item.track.id}>
+			<div onClick={() => openPopover(item, isSelectable)} className={flex} key={item.track.id}>
 				<img className={imageClasses} src={item.track.album.images[0].url}/>
 				<div>
 					<p className={textClasses}>{item.track.name}</p>
