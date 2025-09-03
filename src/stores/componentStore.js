@@ -5,7 +5,7 @@ const useComponentStore = create((set) => ({
 	popoverItem: null,
 	isPopoverOpen: false,
 	setPopoverItem: (popoverItem) => set({ popoverItem: popoverItem }),
-	setIsPopoverOpen: (isOpen) => set({ isPopOverOpen: isOpen })
+	setIsPopoverOpen: (isOpen) => set({ isPopoverOpen: isOpen })
 }))
 
 export default useComponentStore
