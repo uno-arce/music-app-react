@@ -1,9 +1,12 @@
 import React from 'react'
 import useTracksStore from '../stores/tracksStore'
+
 import useAuth from '../hooks/authHooks'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyApi from '../hooks/spotifyApiHooks'
 import usePopover from '../hooks/popoverHooks'
+import useRating from '../hooks/ratingHooks'
+
 import Form from '../components/form'
 import Button from '../components/button'
 import Placeholder from '../components/Placeholder'
@@ -15,7 +18,8 @@ export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, recentlyPlayedTracks } = useSpotifyApi()
-	const { handleOpenPopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit } = useRating()
 
 	return(
 		<div>
@@ -38,8 +42,13 @@ export default function Homeprofile() {
 					openPopover={handleOpenPopoverView}
 					isOpen={isPopoverOpen}
 				>
-					<Popover>
-						<Rating item={popoverItem}/>
+					<Popover close={handleClosePopoverView}>
+						<Rating 
+							item={popoverItem}
+							handleOnHover={handleHoverRating}
+							handleOnLeave={handleLeaveRating}
+							handleFillRating={handleRatingPath}
+						/>
 					</Popover>
 				</Collection>
 			</Placeholder>
