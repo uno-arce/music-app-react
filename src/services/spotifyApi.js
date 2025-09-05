@@ -13,6 +13,17 @@ const spotifyApi = {
 			return error.response.data.error
 		})
 	},
+
+	rateTrack: (track) => {
+		return instance.put('auth/spotify/rate-track', {
+			track: track
+		}).then(response => {
+			return response
+		}).catch(error => {
+			console.log(error.response.data.error)
+			return error.response.data.error
+		})
+	},
 	
 	verifyAuthorization: () => {
 		return instance.get('auth/spotify/verify-authorization')
