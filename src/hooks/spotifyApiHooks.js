@@ -3,10 +3,12 @@ import spotifyApi from '../services/spotifyApi'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyStore from '../stores/spotifyStore'
 import useSpotifyAuthStore from '../stores/spotifyAuthStore'
+import useComponentStore from '../stores/componentStore'
 
 const useSpotifyApi = () => {
 	const spotifyStore = useSpotifyStore()
 	const spotifyAuthStore = useSpotifyAuthStore()
+	const componentStore = useComponentStore()
 	const { isAuthorized } = useSpotifyAuth()
 
 	// Get unique items and populate respective store
@@ -57,9 +59,23 @@ const useSpotifyApi = () => {
 	console.log(spotifyStore.mostlyPlayed)
 	console.log(spotifyStore.mostlyListened)
 
+	const rateTrack = () => {
+		spotifyApi.rateTrack(componentStore.popoverItem)
+		.then(response => {
+			if(response.status !== 200)  {
+				return
+			}
+
+			componentStore.setPopoverItem(null)
+		}).catch(error => {
+			console.log(error)
+		})
+	}
+
 	return {
 		isLoading: spotifyStore.isLoading,
-        recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks
+        recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks,
+        rateTrack
 	}
 }
 
