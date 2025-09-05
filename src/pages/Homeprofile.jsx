@@ -17,9 +17,9 @@ import Rating from '../components/rating'
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
-	const { isLoading, recentlyPlayedTracks } = useSpotifyApi()
+	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
-	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit } = useRating()
+	const { handleHoverRating, handleLeaveRating, handleRatingPath } = useRating()
 
 	return(
 		<div>
@@ -48,6 +48,7 @@ export default function Homeprofile() {
 							handleOnHover={handleHoverRating}
 							handleOnLeave={handleLeaveRating}
 							handleFillRating={handleRatingPath}
+							call={rateTrack}
 						/>
 					</Popover>
 				</Collection>
