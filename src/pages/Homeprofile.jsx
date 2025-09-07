@@ -5,7 +5,6 @@ import useAuth from '../hooks/authHooks'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyApi from '../hooks/spotifyApiHooks'
 import usePopover from '../hooks/popoverHooks'
-import useRating from '../hooks/ratingHooks'
 
 import Form from '../components/form'
 import Button from '../components/button'
@@ -19,17 +18,14 @@ export default function Homeprofile() {
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
-	const { handleHoverRating, handleLeaveRating, handleRatingPath } = useRating()
 
 	return(
 		<div>
-			<Placeholder isLoading={isAuthLoading}>
-				<Button
-					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
-					call={authenticate}
-					isDisabled={isAuthorized}
-				/>
-			</Placeholder>
+			<Button
+				name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
+				call={authenticate}
+				isDisabled={isAuthorized}
+			/>	
 			<Button
 				name={"Logout"}
 				call={logout}
@@ -39,15 +35,12 @@ export default function Homeprofile() {
 				<Collection 
 					items={recentlyPlayedTracks}
 					isSelectable={true}
-					openPopover={handleOpenPopoverView}
+					openCollection={handleOpenPopoverView}
 					isOpen={isPopoverOpen}
 				>
 					<Popover close={handleClosePopoverView}>
 						<Rating 
 							item={popoverItem}
-							handleOnHover={handleHoverRating}
-							handleOnLeave={handleLeaveRating}
-							handleFillRating={handleRatingPath}
 							call={rateTrack}
 						/>
 					</Popover>
