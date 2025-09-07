@@ -14,9 +14,9 @@ const spotifyApi = {
 		})
 	},
 
-	rateTrack: (track) => {
-		return instance.put('auth/spotify/rate-track', {
-			track: track
+	rateTrack: (ratedSong) => {
+		return instance.put('users/rate-song', {
+			ratedSong: ratedSong
 		}).then(response => {
 			return response
 		}).catch(error => {
