@@ -1,7 +1,9 @@
 import React from 'react'
+import useRating from '../hooks/ratingHooks'
 import { containerStyle, imageStyle, ratingStyle } from '../styles/style'
 
-export default function Rating({ item, handleOnHover, handleOnLeave, handleFillRating, call }) {
+export default function Rating({ item, call }) {
+	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit } = useRating()
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
 	const { 
@@ -49,11 +51,11 @@ export default function Rating({ item, handleOnHover, handleOnLeave, handleFillR
 				viewBox="0 -960 960 960"
 				width="48px" 
 				fill="currentColor"
-				onMouseEnter={() => handleOnHover(symbol.index)}
-				onMouseLeave={() => handleOnLeave()}
-				onClick={call}
+				onMouseEnter={() => handleHoverRating(symbol.index)}
+				onMouseLeave={() => handleLeaveRating()}
+				onClick={() => handleRatingSubmit(call)}
 			>
-				<path d={handleFillRating(symbol.index)}/>
+				<path d={handleRatingPath(symbol.index)}/>
 			</svg>
 		)
 	})
