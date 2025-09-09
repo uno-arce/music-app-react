@@ -35,12 +35,12 @@ export const popoverStyle = () => {
 }
 
 // Rating
-export const ratingStyle = () => {
-	const ratingSymbolFifth= 'peer/fifth fill-blue-100 hover:fill-blue-200 transition-all'
-	const ratingSymbolFourth= 'peer/fourth fill-blue-100 hover:fill-blue-200 peer-hover/fifth:fill-blue-200 transition-all'
-	const ratingSymbolThird= 'peer/third fill-blue-100 hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 transition-all'
-	const ratingSymbolSecond= 'peer/second fill-blue-100 hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 transition-all'
-	const ratingSymbolFirst= 'peer/first fill-blue-100 hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 peer-hover/second:fill-blue-200 transition-all'
+export const ratingStyle = (clickedIndex) => {
+	const ratingSymbolFifth= `peer/fifth ${clickedIndex >= 5 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 transition-all`
+	const ratingSymbolFourth= `peer/fourth ${clickedIndex >= 4 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 transition-all`
+	const ratingSymbolThird= `peer/third ${clickedIndex >= 3 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 transition-all`
+	const ratingSymbolSecond= `peer/second ${clickedIndex >= 2 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 transition-all`
+	const ratingSymbolFirst= `peer/first ${clickedIndex >= 1 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 peer-hover/second:fill-blue-200 transition-all`
 	const ratingGroup = 'flex flex-col items-start w-2xs'
 	const ratingTitle = 'grow text-left text-pretty'
 	const ratingSubtitle = 'text-left'
