@@ -1,7 +1,9 @@
 import React from 'react'
+import usePopover from '../hooks/popoverHooks'
 import { popoverStyle, containerStyle } from '../styles/style'
 
 export default function Popover({ close, children }) {
+	const { handleClosePopoverView } = usePopover()
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { flexColumn } = containerStyle()
 	return(
@@ -14,7 +16,7 @@ export default function Popover({ close, children }) {
 					viewBox="0 -960 960 960" 
 					width="32px" 
 					fill="currentColor"
-					onClick={close}
+					onClick={() => handleClosePopoverView(close)}
 				>
 					<path d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"/>
 				</svg>
