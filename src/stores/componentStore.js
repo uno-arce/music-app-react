@@ -10,8 +10,17 @@ const useComponentStore = create((set) => ({
 	//Rating
 	hoveredIndex: 0,
 	clickedIndex: 0,
+	lastClickedIndex: 0,
 	setHoveredIndex: (hoveredIndex) => set({ hoveredIndex: hoveredIndex }),
-	setClickedIndex: (clickedIndex) => set({ clickedIndex: clickedIndex })
+	setClickedIndex: (clickedIndex) => set({ clickedIndex: clickedIndex }),
+	setLastClickedIndex: (lastClickedIndex) => set({ lastClickedIndex: lastClickedIndex }),
+	resetRatingState: () => {
+		set({
+			hoveredIndex: -1,
+			clickedIndex: -1,
+			lastClickedIndex: -1
+		})
+	}
 }))
 
 export default useComponentStore
