@@ -53,20 +53,20 @@ const useSpotifyApi = () => {
 		}
 	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
 
-	console.log(spotifyStore.recentlyPlayedTracks)
-	console.log(spotifyStore.savedTracks)
-	console.log(spotifyStore.userPlaylists)
-	console.log(spotifyStore.mostlyPlayed)
-	console.log(spotifyStore.mostlyListened)
+	// console.log(spotifyStore.recentlyPlayedTracks)
+	// console.log(spotifyStore.savedTracks)
+	// console.log(spotifyStore.userPlaylists)
+	// console.log(spotifyStore.mostlyPlayed)
+	// console.log(spotifyStore.mostlyListened)
 
-	const rateTrack = () => {
-		spotifyApi.rateTrack(componentStore.popoverItem)
+	const rateTrack = (ratedSong) => {
+		spotifyApi.rateTrack(ratedSong)
 		.then(response => {
 			if(response.status !== 200)  {
 				return
 			}
 
-			componentStore.setPopoverItem(null)
+			console.log(response.data.message)
 		}).catch(error => {
 			console.log(error)
 		})
