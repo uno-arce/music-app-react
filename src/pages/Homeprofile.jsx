@@ -5,6 +5,7 @@ import useAuth from '../hooks/authHooks'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyApi from '../hooks/spotifyApiHooks'
 import usePopover from '../hooks/popoverHooks'
+import useRating from '../hooks/ratingHooks'
 
 import Form from '../components/form'
 import Button from '../components/button'
@@ -17,7 +18,8 @@ export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
-	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { handleOpenPopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { handleCloseRating } = useRating()
 
 	return(
 		<div>
@@ -38,7 +40,7 @@ export default function Homeprofile() {
 					openCollection={handleOpenPopoverView}
 					isOpen={isPopoverOpen}
 				>
-					<Popover close={handleClosePopoverView}>
+					<Popover close={handleCloseRating}>
 						<Rating 
 							item={popoverItem}
 							call={rateTrack}
