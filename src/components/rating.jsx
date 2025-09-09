@@ -3,7 +3,7 @@ import useRating from '../hooks/ratingHooks'
 import { containerStyle, imageStyle, ratingStyle } from '../styles/style'
 
 export default function Rating({ item, call }) {
-	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit } = useRating()
+	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit, lastClickedIndex } = useRating()
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
 	const { 
@@ -16,7 +16,7 @@ export default function Rating({ item, call }) {
 		ratingSymbolFirst,
 		ratingTitle, 
 		ratingSubtitle
-	} = ratingStyle()
+	} = ratingStyle(lastClickedIndex)
 
 	const symbols = [
 		{
@@ -53,7 +53,7 @@ export default function Rating({ item, call }) {
 				fill="currentColor"
 				onMouseEnter={() => handleHoverRating(symbol.index)}
 				onMouseLeave={() => handleLeaveRating()}
-				onClick={() => handleRatingSubmit(call)}
+				onClick={() => handleRatingSubmit(symbol.index, call)}
 			>
 				<path d={handleRatingPath(symbol.index)}/>
 			</svg>
