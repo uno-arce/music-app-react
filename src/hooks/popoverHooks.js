@@ -12,9 +12,11 @@ const usePopover = () => {
 		componentStore.setIsPopoverOpen(true)
 	}
 
-	const handleClosePopoverView = () => {
+	const handleClosePopoverView = (resetChildrenState) => {
 		componentStore.setPopoverItem(null)
 		componentStore.setIsPopoverOpen(false)
+
+		resetChildrenState()
 	}
 
 	return {
