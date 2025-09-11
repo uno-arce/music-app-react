@@ -1,6 +1,8 @@
 import React from 'react';
+import useForm from '../hooks/formHooks'
 
-export default function Form({ inputs, call, submit, disabled, children }) {
+export default function Form({ inputs, call, isDisabled, children }) {
+	const { handleFormSubmit } = useForm()
 
 	const formInputs = inputs.map(field => {
 		return (
@@ -18,7 +20,7 @@ export default function Form({ inputs, call, submit, disabled, children }) {
 	})
 
 	return (
-		<form onSubmit={event => submit(event, call)}>
+		<form onSubmit={event => handleFormSubmit(event, call)}>
 			{formInputs}
 			{children}
 		</form>
