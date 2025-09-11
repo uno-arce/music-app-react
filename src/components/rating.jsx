@@ -2,7 +2,7 @@ import React from 'react'
 import useRating from '../hooks/ratingHooks'
 import { containerStyle, imageStyle, ratingStyle } from '../styles/style'
 
-export default function Rating({ item, call }) {
+export default function Rating({ item, call, renderRatingView }) {
 	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit, lastClickedIndex } = useRating()
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
@@ -41,7 +41,7 @@ export default function Rating({ item, call }) {
 		}
 	]
 
-	const rating = symbols.map(symbol => {
+	const ratingButton = symbols.map(symbol => {
 		return(
 			<svg 
 				key={symbol.index}
@@ -61,15 +61,8 @@ export default function Rating({ item, call }) {
 	})
 
 	return(
-		<div className={flex}>
-			<img className={imageClasses} src={item.track.album.images[0].url}/>
-			<div className={ratingGroup}>
-				<p className={ratingTitle}>Your rating to {item.track.name} by {item.track.artists[0].name}</p>
-				<div className={ratingDefault}>
-					{rating}
-				</div>
-				<p className={ratingSubtitle}>Rated tracks will be saved in your favorites</p>
-			</div>
-		</div>
+		<>
+			{renderRatingView(ratingButton)}
+		</>
 	)
 }
