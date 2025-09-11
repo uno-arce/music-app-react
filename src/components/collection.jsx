@@ -1,19 +1,14 @@
 import React from 'react'
-import { containerStyle, imageStyle, textStyle } from '../styles/style'
 
-export default function Collection({ items, isSelectable, openCollection, isOpen, children }) {
-	const { flex } = containerStyle()
-	const imageClasses = imageStyle()
-	const textClasses = textStyle()
+export default function Collection({ items, isSelectable, openCollection, isOpen, renderItem, children }) {
 
-	const dataCollection = items.map(item => {
+	const dataCollection = items.map((item, index) => {
 		return(
-			<div onClick={() => openCollection(item, isSelectable)} className={flex} key={item.track.id}>
-				<img className={imageClasses} src={item.track.album.images[0].url}/>
-				<div>
-					<p className={textClasses}>{item.track.name}</p>
-					<p className={textClasses}>{item.track.artists[0].name}</p>
-				</div>
+			<div 
+				key={index}
+				onClick={() => openCollection(item, isSelectable)} 
+			>
+				{renderItem(item)}
 			</div>
 		)
 	})
