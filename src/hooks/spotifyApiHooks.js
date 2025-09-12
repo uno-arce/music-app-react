@@ -66,6 +66,7 @@ const useSpotifyApi = () => {
 				return
 			}
 
+			componentStore.setIsAlertOpen(true)
 			console.log(response.data.message)
 		}).catch(error => {
 			console.log(error)

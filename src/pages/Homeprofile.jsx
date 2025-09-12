@@ -13,19 +13,22 @@ import Placeholder from '../components/Placeholder'
 import Collection from '../components/collection'
 import Popover from '../components/popover'
 import Rating from '../components/rating'
+import Alert from '../components/alert'
 
-import { containerStyle, imageStyle, textStyle } from '../styles/style'
+import { containerStyle, popoverStyle, ratingStyle, imageStyle, textStyle } from '../styles/style'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
-	const { handleOpenPopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { handleCloseRating } = useRating()
 
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
 	const textClasses = textStyle()
+	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
+	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 
 	const renderRecentlyPlayedTracksView = (item, index) => (
 		<div className={flex} >
@@ -47,7 +50,7 @@ export default function Homeprofile() {
 					viewBox="0 -960 960 960" 
 					width="32px" 
 					fill="currentColor"
-					onClick={() => handleClosePopoverView(close)}
+					onClick={() => handleClosePopoverView(handleCloseRating)}
 				>
 					<path d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"/>
 				</svg>
@@ -58,7 +61,7 @@ export default function Homeprofile() {
 		</div>
 	)
 
-	const renderRatingView = (ratingButton) => (
+	const renderRatingView = (item, ratingButton) => (
 		<div className={flex}>
 			<img className={imageClasses} src={item.track.album.images[0].url}/>
 			<div className={ratingGroup}>
@@ -70,6 +73,13 @@ export default function Homeprofile() {
 			</div>
 		</div>
 	) 
+
+	const renderRatingAlertView = () => (
+		<div>
+			<p>Success!</p>
+			<p>Song and rating updated in your favorites</p>
+		</div>
+	)
 
 	return(
 		<div>
@@ -92,7 +102,6 @@ export default function Homeprofile() {
 					renderItem={renderRecentlyPlayedTracksView}
 				>
 					<Popover 
-						close={handleCloseRating}
 						renderPopover={renderPopoverRatingView}
 					>
 						<Rating 
@@ -100,6 +109,7 @@ export default function Homeprofile() {
 							call={rateTrack}
 							renderRating={renderRatingView}
 						/>
+						<Alert renderAlert={renderRatingAlertView}/>
 					</Popover>
 				</Collection>
 			</Placeholder>
