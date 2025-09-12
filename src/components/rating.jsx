@@ -2,20 +2,16 @@ import React from 'react'
 import useRating from '../hooks/ratingHooks'
 import { containerStyle, imageStyle, ratingStyle } from '../styles/style'
 
-export default function Rating({ item, call, renderRatingView }) {
+export default function Rating({ item, call, renderRating }) {
 	const { handleHoverRating, handleLeaveRating, handleRatingPath, handleRatingSubmit, lastClickedIndex } = useRating()
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
 	const { 
-		ratingDefault, 
-		ratingGroup, 
 		ratingSymbolFifth,
 		ratingSymbolFourth,
 		ratingSymbolThird,
 		ratingSymbolSecond,
 		ratingSymbolFirst,
-		ratingTitle, 
-		ratingSubtitle
 	} = ratingStyle(lastClickedIndex)
 
 	const symbols = [
@@ -62,7 +58,7 @@ export default function Rating({ item, call, renderRatingView }) {
 
 	return(
 		<>
-			{renderRatingView(ratingButton)}
+			{renderRating(item, ratingButton)}
 		</>
 	)
 }

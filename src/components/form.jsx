@@ -13,7 +13,7 @@ export default function Form({ inputs, call, isDisabled, children }) {
 				type={field.type || 'text'}
 				onChange={event => field.updateState(event.target.value)}
 				value={field.value}
-				disabled={disabled}
+				disabled={isDisabled}
 				/>
 			</div>
 		)
