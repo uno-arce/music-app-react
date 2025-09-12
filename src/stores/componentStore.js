@@ -20,7 +20,11 @@ const useComponentStore = create((set) => ({
 			clickedIndex: -1,
 			lastClickedIndex: -1
 		})
-	}
+	},
+
+	// Alert
+	isAlertOpen: false,
+	setIsAlertOpen: (isOpen) => set({ isAlertOpen: isOpen })
 }))
 
 export default useComponentStore
