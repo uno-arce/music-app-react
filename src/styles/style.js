@@ -58,6 +58,20 @@ export const ratingStyle = (clickedIndex) => {
 	}
 }
 
+// Alert 
+export const alertStyle = (status) => {
+	const alertPosition = 'fixed z-10 inset-0 flex flex-col justify-center items-center'
+	const alertGroup = 'absolute top-0 flex min-h-fit min-w-fit p-4 mt-4 gap-4 bg-neutral-100'
+	const alertIcon = 'fill-blue-200'
+	const alertDescription = 'text-left'
+	return {
+		alertPosition,
+		alertGroup,
+		alertIcon,
+		alertDescription
+	}
+}
+
 // Texts 
 export const textStyle = () => {
 	const textDefault = 'neutral-700'
