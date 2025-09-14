@@ -24,7 +24,9 @@ const useComponentStore = create((set) => ({
 
 	// Alert
 	isAlertOpen: false,
-	setIsAlertOpen: (isOpen) => set({ isAlertOpen: isOpen })
+	alertStatus: null,
+	setIsAlertOpen: (isOpen) => set({ isAlertOpen: isOpen }),
+	setAlertStatus: (status) => set({ alertStatus: status })
 }))
 
 export default useComponentStore
