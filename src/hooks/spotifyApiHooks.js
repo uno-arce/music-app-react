@@ -63,12 +63,15 @@ const useSpotifyApi = () => {
 		spotifyApi.rateTrack(ratedSong)
 		.then(response => {
 			if(response.status !== 200)  {
-				return
+				componentStore.setAlertStatus('failed')
 			}
 
 			componentStore.setIsAlertOpen(true)
+			componentStore.setAlertStatus('success')
 			console.log(response.data.message)
 		}).catch(error => {
+			componentStore.setIsAlertOpen(true)
+			componentStore.setAlertStatus('failed')
 			console.log(error)
 		})
 	}
