@@ -10,6 +10,7 @@ const useAlert = () => {
 		if(componentStore.isAlertOpen) {
 			timer = setTimeout(() => {
 				componentStore.setIsAlertOpen(false)
+				componentStore.setAlertStatus(null)
 			}, 5000)
 		}
 
@@ -22,11 +23,18 @@ const useAlert = () => {
 
 	const closeAlert = () => {
 		componentStore.setIsAlertOpen(false)
+		componentStore.setAlertStatus(null)
+	}
+
+	const handleAlertPath = (paths) => {
+		return paths[componentStore.alertStatus]
 	}
 
 	return {
 		closeAlert,
-		isAlertOpen: componentStore.isAlertOpen
+		handleAlertPath,
+		isAlertOpen: componentStore.isAlertOpen,
+		alertStatus: componentStore.alertStatus
 	}
 }
 
