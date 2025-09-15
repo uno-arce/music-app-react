@@ -1,5 +1,6 @@
 // Pages
 import Login from './pages/Login'
+import Register from './pages/Register'
 import Homepage from './pages/Homepage'
 import Homeprofile from './pages/Homeprofile'
 import SpotifyCallback from './pages/SpotifyCallback'
@@ -7,7 +8,6 @@ import './App.css'
 
 // Routing
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import { useEffect } from 'react'
 import PublicRoute from './components/PublicRoute'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -27,6 +27,15 @@ function App() {
         />
 
         <Route
+          path='/register'
+          element={
+            <PublicRoute>
+              <Register/>
+            </PublicRoute>
+          }
+        />
+
+        <Route
           path='/homeprofile'
           element={
             <ProtectedRoute>
@@ -37,7 +46,11 @@ function App() {
 
         <Route
           path='/spotify-callback'
-          element={<SpotifyCallback/>}
+          element={
+            <ProtectedRoute>
+              <SpotifyCallback/>
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </ Router>
