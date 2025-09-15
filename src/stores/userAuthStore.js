@@ -16,8 +16,9 @@ const useUserAuthStore = create((set) => ({
 	setIsAuthenticated: (authenticated) => set({ isAuthenticated: authenticated }),
 	setIsLoading: (loading) => set({ isLoading: loading }),
 
-	resetLoginState: () => {
+	resetUserAuthState: () => {
 		set({
+			username: '',
 			email: '',
 			password: '',
 			isFormDisabled: false
