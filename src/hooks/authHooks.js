@@ -43,7 +43,7 @@ const useAuth = () => {
 		}
 	]
 
-	const isButtonDisabled = !userAuthStore.email || !userAuthStore.password
+	const isLoginButtonDisabled = !userAuthStore.email || !userAuthStore.password
 
 	const login = () => {
 		userAuthStore.setIsFormDisabled(true)
@@ -51,16 +51,59 @@ const useAuth = () => {
 		userAuth.login(userAuthStore.email, userAuthStore.password)
 		.then(response => {
 			if(response.status !== 200) {
-				userAuthStore.resetLoginState()
+				userAuthStore.resetUserAuthState()
         		return
         	} 
 
         	userAuthStore.setIsAuthenticated(true)
-        	userAuthStore.resetLoginState()
+        	userAuthStore.resetUserAuthState()
         	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
 			console.log(error)
-			userAuthStore.resetLoginState()
+			userAuthStore.resetUserAuthState()
+		})
+	}
+
+	const registerInputs = [
+		{
+			name: 'Username',
+			value: userAuthStore.username,
+			updateState: (value) => {
+				userAuthStore.setUsername(value)
+			}
+		},
+		{
+			name: 'Email',
+			value: userAuthStore.email,
+			updateState: (value) => {
+				userAuthStore.setEmail(value)
+			}
+		},
+		{
+			name: 'Password',
+			value: userAuthStore.password,
+			updateState: (value) => {
+				userAuthStore.setPassword(value)
+			}
+		}
+	]
+
+	const isRegisterButtonDisabled = !userAuthStore.username || !userAuthStore.email || !userAuthStore.password
+
+	const register = () => {
+		userAuthStore.setIsFormDisabled(true)
+
+		userAuth.register(userAuthStore.username, userAuthStore.email, userAuthStore.password)
+		.then(response => {
+			if(response.status !== 200) {
+				return
+			}
+
+			userAuthStore.resetUserAuthState()
+			navigate('/login')
+		}).catch(error => {
+			console.log(error)
+			return
 		})
 	}
 
@@ -80,11 +123,15 @@ const useAuth = () => {
 
 	return {
 		loginInputs,
-		isButtonDisabled,
+		registerInputs,
+		isLoginButtonDisabled,
+		isRegisterButtonDisabled,
 		login,
+		register,
 		logout,
 		isLoading: userAuthStore.isLoading,
-		isAuthenticated: userAuthStore.isAuthenticated
+		isAuthenticated: userAuthStore.isAuthenticated,
+		isFormDisabled: userAuthStore.isFormDisabled
 	}
 }
 
