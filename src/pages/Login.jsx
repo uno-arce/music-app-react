@@ -7,8 +7,8 @@ import useForm from '../hooks/formHooks'
 
 
 export default function Login() {
-	const { login, loginInputs, isButtonDisabled } = useAuth()
-	const { validate, handleFormSubmit } = useForm()
+	const { login, loginInputs, isLoginButtonDisabled } = useAuth()
+	const { validate } = useForm()
 	const userAuthStore = useUserAuthStore()
 
 	return(
@@ -17,12 +17,11 @@ export default function Login() {
 			<Form 
 				inputs = {loginInputs}
 				call = {login}
-				submit = {handleFormSubmit}
 				isDisabled = {userAuthStore.isFormDisabled}
 			>
 			<Button
 				name = {"Login"}
-				isDisabled = {isButtonDisabled}
+				isDisabled = {isLoginButtonDisabled}
 			/>
 			</Form>
 		</div>
