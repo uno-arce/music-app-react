@@ -1,13 +1,28 @@
 import { useEffect } from 'react'
-import useUserAuthStore from '../stores/userAuthStore'
 
 
 const useForm = () => {
+
+	const validateTextLength = (input, min, max) => {
+		if(input.length >= min && input.length <= max) {
+			return true
+		}
+
+		return false
+	}
+
+	const validateTextCase = (input) => {
+
+		return
+	}
 	
-	const validate = (inputs) => {
-		// inputs.map(field => {
-		// 	return field
-		// })
+	const validateTextCharacters = (input) => {
+		
+		return
+	}
+
+	const validateUniqueness = async (input, call) => {
+
 		return
 	}
 
@@ -18,7 +33,7 @@ const useForm = () => {
 	}
 
 	return {
-		validate,
+		validateTextLength,
 		handleFormSubmit
 	}
 }
