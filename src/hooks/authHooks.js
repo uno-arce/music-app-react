@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import useUserAuthStore from '../stores/userAuthStore'
-import userAuth from '../services/userAuth.js'
+import userAuth from '../services/userAuth'
+import useForm from '../hooks/formHooks'
 
 const useAuth = () => {
 	const navigate = useNavigate()
 	const userAuthStore = useUserAuthStore()
+	const { validateTextLength } = useForm()
 
 	useEffect(() => {
 		if(userAuthStore.isLoading) {
@@ -70,6 +72,13 @@ const useAuth = () => {
 			value: userAuthStore.username,
 			updateState: (value) => {
 				userAuthStore.setUsername(value)
+				console.log(value)
+				console.log(value.length)
+			},
+			validateState: (value) => {
+				const isUsernameLengthCorrect = validateTextLength(value, 6, 20)
+				userAuthStore.setIsUsernameLengthCorrect(isUsernameLengthCorrect)
+				console.log(isUsernameLengthCorrect)
 			}
 		},
 		{
@@ -82,6 +91,7 @@ const useAuth = () => {
 		{
 			name: 'Password',
 			value: userAuthStore.password,
+			type: 'password',
 			updateState: (value) => {
 				userAuthStore.setPassword(value)
 			}
@@ -131,7 +141,8 @@ const useAuth = () => {
 		logout,
 		isLoading: userAuthStore.isLoading,
 		isAuthenticated: userAuthStore.isAuthenticated,
-		isFormDisabled: userAuthStore.isFormDisabled
+		isFormDisabled: userAuthStore.isFormDisabled,
+		isUsernameLengthCorrect: userAuthStore.isUsernameLengthCorrect
 	}
 }
 
