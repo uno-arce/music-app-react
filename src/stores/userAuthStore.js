@@ -10,6 +10,8 @@ const useUserAuthStore = create((set) => ({
 	isLoading: true,
 
 	isUsernameLengthCorrect: false,
+	isUsernameCharactersCorrect: false,
+	isEmailFormatCorrect: false,
 
 	setUsername: (username) => set({ username: username }),
 	setEmail: (email) => set({ email: email }),
@@ -17,7 +19,9 @@ const useUserAuthStore = create((set) => ({
 	setIsFormDisabled: (form) => set({ isFormDisabled: form }),
 	setIsAuthenticated: (authenticated) => set({ isAuthenticated: authenticated }),
 	setIsLoading: (loading) => set({ isLoading: loading }),
-	setIsUsernameLengthCorrect: (isUsernameLengthCorrect)  => set({ isUsernameLengthCorrect: isUsernameLengthCorrect }),
+	setIsUsernameLengthCorrect: (isLengthCorrect) => set({ isUsernameLengthCorrect: isLengthCorrect }),
+	setIsUsernameCharactersCorrect: (isCharactersCorrect) => set({ isUsernameCharactersCorrect: isCharactersCorrect }),
+	setIsEmailFormatCorrect: (isEmailFormatCorrect) => set({ isEmailFormatCorrect: isEmailFormatCorrect }),
 
 	resetUserAuthState: () => {
 		set({
