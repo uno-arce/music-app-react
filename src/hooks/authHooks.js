@@ -7,7 +7,7 @@ import useForm from '../hooks/formHooks'
 const useAuth = () => {
 	const navigate = useNavigate()
 	const userAuthStore = useUserAuthStore()
-	const { validateTextLength } = useForm()
+	const { validateTextLength, validateMixedCharacters, validateEmailFormat } = useForm()
 
 	useEffect(() => {
 		if(userAuthStore.isLoading) {
@@ -71,14 +71,18 @@ const useAuth = () => {
 			name: 'Username',
 			value: userAuthStore.username,
 			updateState: (value) => {
-				userAuthStore.setUsername(value)
+				userAuthStore.setUsername(value.toLowerCase())
 				console.log(value)
 				console.log(value.length)
 			},
 			validateState: (value) => {
 				const isUsernameLengthCorrect = validateTextLength(value, 6, 20)
+				const isUsernameCharactersCorrect = validateMixedCharacters(value)
+
 				userAuthStore.setIsUsernameLengthCorrect(isUsernameLengthCorrect)
+				userAuthStore.setIsUsernameCharactersCorrect(isUsernameCharactersCorrect)
 				console.log(isUsernameLengthCorrect)
+				console.log(isUsernameCharactersCorrect)
 			}
 		},
 		{
@@ -86,6 +90,12 @@ const useAuth = () => {
 			value: userAuthStore.email,
 			updateState: (value) => {
 				userAuthStore.setEmail(value)
+			},
+			validateState: (value) => {
+				const isEmailFormatCorrect = validateEmailFormat(value)
+
+				userAuthStore.setIsEmailFormatCorrect(isEmailFormatCorrect)
+				console.log(isEmailFormatCorrect)
 			}
 		},
 		{
@@ -117,6 +127,10 @@ const useAuth = () => {
 		})
 	}
 
+	const checkEmailAvailability = () => {
+		
+	}
+
 	const logout = () => {
 		userAuth.logout()
 		.then(response => {
@@ -142,7 +156,9 @@ const useAuth = () => {
 		isLoading: userAuthStore.isLoading,
 		isAuthenticated: userAuthStore.isAuthenticated,
 		isFormDisabled: userAuthStore.isFormDisabled,
-		isUsernameLengthCorrect: userAuthStore.isUsernameLengthCorrect
+		isUsernameLengthCorrect: userAuthStore.isUsernameLengthCorrect,
+		isUsernameCharactersCorrect: userAuthStore.isUsernameCharactersCorrect,
+		isEmailFormatCorrect: userAuthStore.isEmailFormatCorrect
 	}
 }
 
