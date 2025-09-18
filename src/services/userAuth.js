@@ -34,7 +34,7 @@ const userAuth = {
 		})
 		.catch(error => {
 			console.log(error)
-			return error
+			return error.response.data.error
 		})
 	},
 
@@ -46,9 +46,20 @@ const userAuth = {
 		})
 		.catch(error => {
 			console.log(error)
-			return error
+			return error.response.data.error
 		})
 	},
+
+	checkEmailAvailability: () => {
+		return instance.post('users/check-email-availability')
+		.then(response => {
+			return response
+		})
+		.catch(error => {
+			console.log(error)
+			return error.response.data.error
+		})
+	}
 
 	addSongRatings: (ratedSongs) => {
 		return instance.post('users/rate-songs', {
