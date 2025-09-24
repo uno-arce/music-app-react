@@ -12,8 +12,9 @@ const useForm = () => {
 	}
 
 	const validateTextCase = (input) => {
-
-		return
+		const hasUpperCase = /[A-Z]/.test(input)
+		const hasLowerCase = /[a-z]/.test(input)
+		return hasUpperCase && hasLowerCase
 	}
 	
 	const validateMixedCharacters = (input) => {
@@ -23,18 +24,27 @@ const useForm = () => {
 		const isNotOnlyNumbers = !/^[0-9]+$/.test(input)
 		const isNotOnlySymbols = !/^[^a-zA-Z0-9]+$/.test(input)
 
-		return (hasLetter || hasNumber || hasSymbol) && isNotOnlyNumbers &&  isNotOnlySymbols
+		return (hasLetter || hasNumber || hasSymbol) && isNotOnlyNumbers && isNotOnlySymbols
 	}
 
 	const validateEmailFormat = (input) => {
-		const isEmailLikeFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)
+		const isEmailLikeFormat = /^[^\s@]+@[^\s@]+\.(com)$/i.test(input)
 
 		return isEmailLikeFormat
 	}
 
-	const validateUniqueness = async (input, call) => {
+	const validatePassword = (input) => {
+		const hasLetter = /[a-zA-Z]/.test(input)
+		const hasNumber = /[0-9]/.test(input)
+		const hasSymbol = /[^a-zA-Z0-9]/.test(input)
+		const isNotOnlyNumbers = !/^[0-9]+$/.test(input)
+		const isNotOnlySymbols = !/^[^a-zA-Z0-9]+$/.test(input)
 
-		return
+		return (hasLetter && hasNumber && hasSymbol) && isNotOnlyNumbers && isNotOnlySymbols
+	}
+
+	const validateUniqueness = async (value, call) => {
+		await call(value)
 	}
 
 	const handleFormSubmit = async (event, call) => {
@@ -45,8 +55,11 @@ const useForm = () => {
 
 	return {
 		validateTextLength,
+		validateTextCase,
 		validateMixedCharacters,
 		validateEmailFormat,
+		validatePassword,
+		validateUniqueness,
 		handleFormSubmit
 	}
 }
