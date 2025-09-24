@@ -7,7 +7,7 @@ import useForm from '../hooks/formHooks'
 const useAuth = () => {
 	const navigate = useNavigate()
 	const userAuthStore = useUserAuthStore()
-	const { validateTextLength, validateMixedCharacters, validateEmailFormat } = useForm()
+	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
 
 	useEffect(() => {
 		if(userAuthStore.isLoading) {
@@ -20,7 +20,6 @@ const useAuth = () => {
 				userAuthStore.setIsLoading(false)
 				userAuthStore.setIsAuthenticated(true)
 			}).catch(error => {
-				console.log(error)
 				userAuthStore.setIsLoading(false)
 				userAuthStore.setIsAuthenticated(false)
 			})
@@ -66,6 +65,41 @@ const useAuth = () => {
 		})
 	}
 
+	const isRegisterButtonDisabled = !userAuthStore.username || !userAuthStore.email || !userAuthStore.password
+
+	const register = () => {
+		userAuthStore.setIsFormDisabled(true)
+
+		userAuth.register(userAuthStore.username, userAuthStore.email, userAuthStore.password)
+		.then(response => {
+			if(response.status !== 200) {
+				return
+			}
+
+			userAuthStore.resetUserAuthState()
+			navigate('/login')
+		}).catch(error => {
+			console.log(error)
+			return
+		})
+	}
+
+	const checkEmailAvailability = (email) => {
+		userAuth.checkEmailAvailability(email)
+		.then(response => {
+			if (response.status !== 200) {
+				userAuthStore.setIsEmailAvailable(false)
+				return
+			}
+
+			userAuthStore.setIsEmailAvailable(true)
+		}).catch(error => {
+			console.log(error)
+			userAuthStore.setIsEmailAvailable(false)
+			return
+		})
+	}
+
 	const registerInputs = [
 		{
 			name: 'Username',
@@ -93,43 +127,30 @@ const useAuth = () => {
 			},
 			validateState: (value) => {
 				const isEmailFormatCorrect = validateEmailFormat(value)
+				const isEmailUnique = isEmailFormatCorrect ? validateUniqueness(value, checkEmailAvailability) : userAuthStore.setIsEmailAvailable(false)
 
 				userAuthStore.setIsEmailFormatCorrect(isEmailFormatCorrect)
-				console.log(isEmailFormatCorrect)
+				console.log('Is email format correct:', isEmailFormatCorrect)
 			}
 		},
 		{
 			name: 'Password',
 			value: userAuthStore.password,
-			type: 'password',
+			type: userAuthStore.isPasswordVisible ? 'text' : 'password',
 			updateState: (value) => {
 				userAuthStore.setPassword(value)
+			},
+			validateState: (value) => {
+				const isPasswordCharactersCorrect = validatePassword(value)
+				const isPasswordTextCaseCorrect = validateTextCase(value)
+				const isPasswordLengthCorrect = validateTextLength(value, 6, 20)
+
+				userAuthStore.setIsPasswordCharactersCorrect(isPasswordCharactersCorrect)
+				userAuthStore.setIsPasswordTextCaseCorrect(isPasswordTextCaseCorrect)
+				userAuthStore.setIsPasswordLengthCorrect(isPasswordLengthCorrect)
 			}
 		}
 	]
-
-	const isRegisterButtonDisabled = !userAuthStore.username || !userAuthStore.email || !userAuthStore.password
-
-	const register = () => {
-		userAuthStore.setIsFormDisabled(true)
-
-		userAuth.register(userAuthStore.username, userAuthStore.email, userAuthStore.password)
-		.then(response => {
-			if(response.status !== 200) {
-				return
-			}
-
-			userAuthStore.resetUserAuthState()
-			navigate('/login')
-		}).catch(error => {
-			console.log(error)
-			return
-		})
-	}
-
-	const checkEmailAvailability = () => {
-		
-	}
 
 	const logout = () => {
 		userAuth.logout()
@@ -145,6 +166,11 @@ const useAuth = () => {
 		})
 	}
 
+	const toggleShowPassword = () => {
+		const isPasswordVisible = userAuthStore.isPasswordVisible
+		userAuthStore.setIsPasswordVisible(!isPasswordVisible)
+	}
+
 	return {
 		loginInputs,
 		registerInputs,
@@ -153,12 +179,18 @@ const useAuth = () => {
 		login,
 		register,
 		logout,
+		toggleShowPassword,
 		isLoading: userAuthStore.isLoading,
 		isAuthenticated: userAuthStore.isAuthenticated,
 		isFormDisabled: userAuthStore.isFormDisabled,
 		isUsernameLengthCorrect: userAuthStore.isUsernameLengthCorrect,
 		isUsernameCharactersCorrect: userAuthStore.isUsernameCharactersCorrect,
-		isEmailFormatCorrect: userAuthStore.isEmailFormatCorrect
+		isEmailFormatCorrect: userAuthStore.isEmailFormatCorrect,
+		isEmailAvailable: userAuthStore.isEmailAvailable,
+		isPasswordCharactersCorrect: userAuthStore.isPasswordCharactersCorrect,
+		isPasswordTextCaseCorrect: userAuthStore.isPasswordTextCaseCorrect,
+		isPasswordTextLengthCorrect: userAuthStore.isPasswordTextLengthCorrect,
+		isPasswordVisible: userAuthStore.isPasswordVisible
 	}
 }
 
