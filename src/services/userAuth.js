@@ -50,8 +50,10 @@ const userAuth = {
 		})
 	},
 
-	checkEmailAvailability: () => {
-		return instance.post('users/check-email-availability')
+	checkEmailAvailability: (email) => {
+		return instance.post('users/check-email-availability', {
+			email: email
+		})
 		.then(response => {
 			return response
 		})
@@ -59,7 +61,7 @@ const userAuth = {
 			console.log(error)
 			return error.response.data.error
 		})
-	}
+	},
 
 	addSongRatings: (ratedSongs) => {
 		return instance.post('users/rate-songs', {
