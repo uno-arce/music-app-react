@@ -16,7 +16,7 @@ const useUserAuthStore = create((set) => ({
 	isPasswordCharactersCorrect: false,
 	isPasswordTextCaseCorrect: false,
 	isPasswordLengthCorrect: false,
-	isPasswordVisible: true,
+	isPasswordVisible: false,
 
 	setUsername: (username) => set({ username: username }),
 	setEmail: (email) => set({ email: email }),
@@ -41,6 +41,23 @@ const useUserAuthStore = create((set) => ({
 			email: '',
 			password: '',
 			isFormDisabled: false
+		})
+	},
+
+	resetUserRegistrationState: () => {
+		set({
+			username: '',
+			email: '',
+			password: '',
+			isFormDisabled: false,
+			isUsernameLengthCorrect: false,
+			isUsernameCharactersCorrect: false,
+			isEmailFormatCorrect: false,
+			isEmailAvailable: false,
+			isPasswordCharactersCorrect: false,
+			isPasswordTextCaseCorrect: false,
+			isPasswordLengthCorrect: false,
+			isPasswordVisible: false,
 		})
 	}
 }))
