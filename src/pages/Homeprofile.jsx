@@ -24,15 +24,14 @@ export default function Homeprofile() {
 	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { handleCloseRating } = useRating()
-	const { alertStatus, handleAlertPath } = useAlert()
+	const { alertStatus } = useAlert()
 
 	const { flex, flexColumn } = containerStyle()
 	const imageClasses = imageStyle()
 	const textClasses = textStyle()
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
-	const { alertPosition, alertGroup, alertIcon, alertDescription } = alertStyle(alertStatus)
-
+	
 	const renderRecentlyPlayedTracksView = (item, index) => (
 		<div className={flex} >
 			<img className={imageClasses} src={item.track.album.images[0].url}/>
@@ -77,30 +76,6 @@ export default function Homeprofile() {
 		</div>
 	) 
 
-	const renderRatingAlertView = () => {
-		const alertPath = {
-			success: 'M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z',
-			failed: 'M240-840h400v520L360-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 1.5-15t4.5-15l120-282q9-20 30-34t44-14Zm480 520v-520h160v520H720Z'
-		}
-
-		return(
-			<div className={alertPosition}>
-				<div className={alertGroup}>
-					<svg 
-						className={alertIcon}
-						xmlns="http://www.w3.org/2000/svg" 
-						height="24px" 
-						viewBox="0 -960 960 960" 
-						width="24px" 
-						fill="currentColor">
-						<path d={handleAlertPath(alertPath)}/>
-					</svg>
-					<p className={alertDescription}>{alertStatus === 'success' ? 'Song and rating updated in your favorites' : 'Something went wrong. Try again.'}</p>
-				</div>
-			</div>
-		)
-	}
-
 	return(
 		<div>
 			<Button
@@ -130,7 +105,7 @@ export default function Homeprofile() {
 							renderRating={renderRatingView}
 						/>
 					</Popover>
-					<Alert renderAlert={renderRatingAlertView}/>
+					<Alert/>
 				</Collection>
 			</Placeholder>
 
