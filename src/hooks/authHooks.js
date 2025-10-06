@@ -65,7 +65,13 @@ const useAuth = () => {
 		})
 	}
 
-	const isRegisterButtonDisabled = !userAuthStore.username || !userAuthStore.email || !userAuthStore.password
+	const isRegisterButtonDisabled = !userAuthStore.isUsernameLengthCorrect || !userAuthStore.isUsernameCharactersCorrect || !userAuthStore.isEmailFormatCorrect || !userAuthStore.isEmailAvailable || !userAuthStore.isPasswordCharactersCorrect || !userAuthStore.isPasswordTextCaseCorrect || !userAuthStore.isPasswordLengthCorrect
+
+	const isUsernameCorrect = !userAuthStore.isUsernameLengthCorrect && !userAuthStore.isUsernameCharactersCorrect
+
+	const isEmailCorrect = !userAuthStore.isEmailFormatCorrect && !userAuthStore.isEmailAvailable
+
+	const isPasswordCorrect = !userAuthStore.isPasswordCharactersCorrect && !userAuthStore.isPasswordTextCaseCorrect && !userAuthStore.isPasswordLengthCorrect
 
 	const register = () => {
 		userAuthStore.setIsFormDisabled(true)
@@ -76,8 +82,8 @@ const useAuth = () => {
 				return
 			}
 
-			userAuthStore.resetUserAuthState()
-			navigate('/login')
+			userAuthStore.resetUserRegistrationState()
+			navigate('/login', { replace: true })
 		}).catch(error => {
 			console.log(error)
 			return
@@ -106,8 +112,6 @@ const useAuth = () => {
 			value: userAuthStore.username,
 			updateState: (value) => {
 				userAuthStore.setUsername(value.toLowerCase())
-				console.log(value)
-				console.log(value.length)
 			},
 			validateState: (value) => {
 				const isUsernameLengthCorrect = validateTextLength(value, 6, 20)
@@ -115,8 +119,6 @@ const useAuth = () => {
 
 				userAuthStore.setIsUsernameLengthCorrect(isUsernameLengthCorrect)
 				userAuthStore.setIsUsernameCharactersCorrect(isUsernameCharactersCorrect)
-				console.log(isUsernameLengthCorrect)
-				console.log(isUsernameCharactersCorrect)
 			}
 		},
 		{
@@ -130,7 +132,6 @@ const useAuth = () => {
 				const isEmailUnique = isEmailFormatCorrect ? validateUniqueness(value, checkEmailAvailability) : userAuthStore.setIsEmailAvailable(false)
 
 				userAuthStore.setIsEmailFormatCorrect(isEmailFormatCorrect)
-				console.log('Is email format correct:', isEmailFormatCorrect)
 			}
 		},
 		{
@@ -176,6 +177,9 @@ const useAuth = () => {
 		registerInputs,
 		isLoginButtonDisabled,
 		isRegisterButtonDisabled,
+		isUsernameCorrect,
+		isEmailCorrect,
+		isPasswordCorrect,
 		login,
 		register,
 		logout,
@@ -189,7 +193,7 @@ const useAuth = () => {
 		isEmailAvailable: userAuthStore.isEmailAvailable,
 		isPasswordCharactersCorrect: userAuthStore.isPasswordCharactersCorrect,
 		isPasswordTextCaseCorrect: userAuthStore.isPasswordTextCaseCorrect,
-		isPasswordTextLengthCorrect: userAuthStore.isPasswordTextLengthCorrect,
+		isPasswordLengthCorrect: userAuthStore.isPasswordLengthCorrect,
 		isPasswordVisible: userAuthStore.isPasswordVisible
 	}
 }
