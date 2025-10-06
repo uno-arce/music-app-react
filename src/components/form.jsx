@@ -1,11 +1,12 @@
 import React from 'react';
 import useForm from '../hooks/formHooks'
 
-export default function Form({ inputs, call, isDisabled, formValidator, children }) {
-	const { handleFormSubmit } = useForm()
+export default function Form({ inputs, call, isDisabled, isStepForm, formValidator, children }) {
+	const { currentFormStep, handleFormSubmit } = useForm()
 
 	const formInputs = inputs.map(field => {
 		return (
+			(currentFormStep == field.name || !isStepForm) &&
 			<div key={field.name}>
 				<label htmlFor={field.name}>{field.name}</label>
 				<input
