@@ -25,8 +25,15 @@ const useComponentStore = create((set) => ({
 	// Alert
 	isAlertOpen: false,
 	alertStatus: null,
+	alertMessage: null,
 	setIsAlertOpen: (isOpen) => set({ isAlertOpen: isOpen }),
-	setAlertStatus: (status) => set({ alertStatus: status })
+	setAlertStatus: (status) => set({ alertStatus: status }),
+	setAlertMessage: (alertMessage) => set({ alertMessage: alertMessage }),
+
+	// Form
+	currentFormStep: 'Username',
+	setCurrentFormStep: (currentFormStep) => set({ currentFormStep: currentFormStep })
+
 }))
 
 export default useComponentStore
