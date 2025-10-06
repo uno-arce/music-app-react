@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-
+import useComponentStore from '../stores/componentStore'
 
 const useForm = () => {
+	const componentStore = useComponentStore()
 
 	const validateTextLength = (input, min, max) => {
 		if(input.length >= min && input.length <= max) {
@@ -53,6 +54,11 @@ const useForm = () => {
 		await call()
 	}
 
+	const handleNextStepForm = (field) => {
+		componentStore.setCurrentFormStep(field)
+	}
+
+
 	return {
 		validateTextLength,
 		validateTextCase,
@@ -60,7 +66,9 @@ const useForm = () => {
 		validateEmailFormat,
 		validatePassword,
 		validateUniqueness,
-		handleFormSubmit
+		handleNextStepForm,
+		handleFormSubmit,
+		currentFormStep: componentStore.currentFormStep
 	}
 }
 
