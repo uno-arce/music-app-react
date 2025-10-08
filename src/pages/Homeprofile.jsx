@@ -1,11 +1,12 @@
 import React from 'react'
-import useTracksStore from '../stores/tracksStore'
 
 import useAuth from '../hooks/authHooks'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 import useSpotifyApi from '../hooks/spotifyApiHooks'
 import usePopover from '../hooks/popoverHooks'
 import useRating from '../hooks/ratingHooks'
+import useCollection from '../hooks/collectionHooks'
+import useTrack from '../hooks/trackHooks'
 import useAlert from '../hooks/alertHooks'
 
 import Form from '../components/form'
@@ -14,6 +15,7 @@ import Placeholder from '../components/Placeholder'
 import Collection from '../components/collection'
 import Popover from '../components/popover'
 import Rating from '../components/rating'
+import Track from '../components/track'
 import Alert from '../components/alert'
 
 import { containerStyle, popoverStyle, ratingStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
@@ -21,8 +23,10 @@ import { containerStyle, popoverStyle, ratingStyle, alertStyle, imageStyle, text
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
-	const { isLoading, recentlyPlayedTracks, rateTrack } = useSpotifyApi()
+	const { isLoading, recentlyPlayedTracks, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
+	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
+	const { trackPreviewDetails, isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
 	const { alertStatus } = useAlert()
 
@@ -33,12 +37,23 @@ export default function Homeprofile() {
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 	
 	const renderRecentlyPlayedTracksView = (item, index) => (
-		<div className={flex} >
+		<div className={flex}>
 			<img className={imageClasses} src={item.track.album.images[0].url}/>
-			<div>
-				<p className={textClasses}>{item.track.name}</p>
-				<p className={textClasses}>{item.track.artists[0].name}</p>
-			</div>
+			{index === collectionSelectedIndex ? 
+				<div>
+					<p className={textClasses}>{item.track.name}</p>
+					<p className={textClasses}>{item.track.artists[0].name}</p>
+					<Button
+						name={'Give a rating'}
+						call={() => handleOpenPopoverView(item, true)}
+					/>
+					<Button
+						name={'Play track preview'}
+						call={() => handleOpenTrackView(item, getTrackPreviewDetails)}
+					/>
+				</div>
+			: null
+			}
 		</div>
 	)
 
@@ -92,7 +107,7 @@ export default function Homeprofile() {
 				<Collection 
 					items={recentlyPlayedTracks}
 					isSelectable={true}
-					openCollection={handleOpenPopoverView}
+					openCollection={handleOpenCollectionView}
 					isOpen={isPopoverOpen}
 					renderItem={renderRecentlyPlayedTracksView}
 				>
@@ -108,6 +123,8 @@ export default function Homeprofile() {
 					<Alert/>
 				</Collection>
 			</Placeholder>
+
+			{ isTrackOpen && trackPreviewDetails ? <Track/> : null }
 
 		</div>
 	)
