@@ -59,11 +59,26 @@ const useSpotifyApi = () => {
 	// console.log(spotifyStore.mostlyPlayed)
 	// console.log(spotifyStore.mostlyListened)
 
+	const getTrackPreviewDetails = (trackItem) => {
+		spotifyApi.getTrackPreviewDetails(trackItem)
+		.then(response => {
+			if(response.status !== 200) {
+				return
+			}
+			componentStore.setTrackPreviewDetails(response.data)
+		}).catch(error => {
+			console.log(error)
+			return
+		})
+	}
+
 	const rateTrack = (ratedSong) => {
 		spotifyApi.rateTrack(ratedSong)
 		.then(response => {
 			if(response.status !== 200)  {
+				componentStore.setIsAlertOpen(true)
 				componentStore.setAlertStatus('failed')
+				return
 			}
 
 			componentStore.setIsAlertOpen(true)
@@ -79,6 +94,7 @@ const useSpotifyApi = () => {
 	return {
 		isLoading: spotifyStore.isLoading,
         recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks,
+        getTrackPreviewDetails,
         rateTrack
 	}
 }
