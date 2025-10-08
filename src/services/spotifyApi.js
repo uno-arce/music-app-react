@@ -89,6 +89,19 @@ const spotifyApi = {
 			console.log(error.response.data.error)
 			return error.response.data.error
 		})
+	},
+
+	getTrackPreviewDetails: (trackDetails) => {
+		return instance.post('auth/spotify/track-preview-details', {
+			trackDetails: trackDetails
+		}).then(response => {
+			return response
+		})
+		.catch(error => {
+			console.log(error.response.data.error)
+			return error.response.data.error
+		})
+
 	}
 }
 
