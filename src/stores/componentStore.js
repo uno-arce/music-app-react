@@ -1,6 +1,14 @@
 import { create } from 'zustand'
 
 const useComponentStore = create((set) => ({
+	// Collection
+	collectionItem: null,
+	collectionSelectedIndex: 0,
+	isCollectionOpen: false,
+	setCollectionItem: (collectionItem) => set({ collectionItem: collectionItem }),
+	setCollectionSelectedIndex: (selectedIndex) => set({ collectionSelectedIndex: selectedIndex}),
+	setIsCollectionOpen: (isOpen) => set({ isCollectionOpen: isOpen }),
+
 	// Popover
 	popoverItem: null,
 	isPopoverOpen: false,
@@ -32,8 +40,15 @@ const useComponentStore = create((set) => ({
 
 	// Form
 	currentFormStep: 'Username',
-	setCurrentFormStep: (currentFormStep) => set({ currentFormStep: currentFormStep })
+	setCurrentFormStep: (currentFormStep) => set({ currentFormStep: currentFormStep }),
 
+	// Track
+	trackPreviewDetails: null,
+	isTrackOpen: false,
+	isTrackPlaying: false,
+	setTrackPreviewDetails: (preview) => set({ trackPreviewDetails: preview }),
+	setIsTrackOpen: (isOpen) => set({ isTrackOpen: isOpen }),
+	setIsTrackPlaying: (isTrackPlaying) => set({ isTrackPlaying: isTrackPlaying })
 }))
 
 export default useComponentStore
