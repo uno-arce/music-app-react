@@ -6,9 +6,9 @@ export default function Collection({ items, isSelectable, openCollection, isOpen
 		return(
 			<div 
 				key={index}
-				onClick={() => openCollection(item, isSelectable)} 
+				onClick={() => openCollection(item, index, isSelectable)} 
 			>
-				{renderItem(item)}
+				{renderItem(item, index)}
 			</div>
 		)
 	})
