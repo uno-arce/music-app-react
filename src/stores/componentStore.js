@@ -46,9 +46,11 @@ const useComponentStore = create((set) => ({
 	trackPreviewDetails: null,
 	isTrackOpen: false,
 	isTrackPlaying: false,
+	isTrackMuted: false,
 	setTrackPreviewDetails: (preview) => set({ trackPreviewDetails: preview }),
 	setIsTrackOpen: (isOpen) => set({ isTrackOpen: isOpen }),
-	setIsTrackPlaying: (isTrackPlaying) => set({ isTrackPlaying: isTrackPlaying })
+	setIsTrackPlaying: (isTrackPlaying) => set({ isTrackPlaying: isTrackPlaying }),
+	setIsTrackMuted: (isMuted) => set({ isTrackMuted: isMuted })
 }))
 
 export default useComponentStore
