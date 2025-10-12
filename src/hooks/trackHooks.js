@@ -33,7 +33,13 @@ const useTrack = () => {
 	}
 
 	const removeTrackSource = () => {
-		componentStore.setTrackPreviewDetails(null)
+		if(trackRef.current) {
+			trackRef.current.pause()
+			trackRef.current.load()
+			componentStore.setTrackPreviewDetails(null)
+			componentStore.setIsTrackPlaying(false)
+			componentStore.setIsTrackPaused(false)
+		}
 	}
 
 	const togglePlayPause = () => {
@@ -49,6 +55,46 @@ const useTrack = () => {
 			trackRef.current.currentTime = 0
 			await trackRef.current.play()
 			componentStore.setIsTrackPlaying(true)
+			componentStore.setIsTrackPaused(false)
+		}
+	}
+
+	const handleTrackCurrentTime = () => {
+		if(trackRef.current) {
+			componentStore.setTrackCurrentTime(trackRef.current.currentTime)
+		}
+	}
+
+	const handleTrackDuration = () => {
+		if(trackRef.current) {
+			componentStore.setTrackDuration(trackRef.current.duration)
+		}
+	}
+
+	const handleTrackTime = (timeInSeconds) => {
+		if(componentStore.trackPreviewDetails) {
+			const minutes = Math.floor(timeInSeconds / 60)
+			const seconds = Math.floor(timeInSeconds % 60)
+
+			const timeFormat = `${minutes}:${seconds < 10  ? '0' : ''}${seconds}`
+
+			return timeFormat
+		}
+	}
+
+	const handleTimeSeek = (event) => {
+		if(trackRef.current) {
+			const newTime = parseFloat(event.target.value)
+			if(!isNaN(newTime)) {
+				const wasPlaying = componentStore.isTrackPlaying
+
+				pauseTrack()
+
+				trackRef.current.currentTime = newTime
+				componentStore.setTrackCurrentTime(newTime)
+
+				wasPlaying ? playTrack() : null
+			}
 		}
 	}
 
@@ -57,8 +103,6 @@ const useTrack = () => {
 			const newVolume = parseFloat(event.target.value)
 			!isNaN(newVolume) ? trackRef.current.volume = newVolume : null
 		}
-
-		console.log(trackRef.current.volume)
 	}
 
 	const volumeOn = () => {
@@ -90,12 +134,16 @@ const useTrack = () => {
 	const handleTrackEnd = () => {
 		if(trackRef.current) {
 			componentStore.setIsTrackPlaying(false)
+			componentStore.setIsTrackPaused(false)
 		}
 	}
 
 	useEffect(() => {
-		if(componentStore.trackPreviewDetails && !componentStore.isTrackPlaying) {
-			// componentStore.collectionSelectedIndex ? removeTrackSource() : null
+		if(componentStore.collectionSelectedIndex && componentStore.isTrackPaused && !componentStore.isTrackPlaying) {
+			removeTrackSource()
+		}
+
+		if(componentStore.trackPreviewDetails && !componentStore.isTrackPlaying && !componentStore.isTrackPaused) {
 			playTrack() 
 		}
 
@@ -103,7 +151,23 @@ const useTrack = () => {
 			pauseTrack()
 			removeTrackSource()
 		}
+
+		
 	}, [componentStore.trackPreviewDetails, componentStore.collectionSelectedIndex])
+
+	useEffect(() => {
+		if(trackRef.current) {
+			trackRef.current.addEventListener('timeupdate', handleTrackCurrentTime)
+			trackRef.current.addEventListener('loadedmetadata', handleTrackDuration)
+		}
+
+		return () => {
+			if(trackRef.current) {
+				trackRef.current.removeEventListener('timeupdate', handleTrackCurrentTime)
+				trackRef.current.removeEventListener('loadedmetadata', handleTrackDuration)
+			}
+		}
+	}, [])
 
 	return {
 		trackRef,
@@ -111,12 +175,16 @@ const useTrack = () => {
 		toggleVolumeOnOff,
 		handleOpenTrackView,
 		handleReplay,
+		handleTrackTime,
+		handleTimeSeek,
 		handleVolumeChange,
 		handleTrackEnd,
 		trackPreviewDetails: componentStore.trackPreviewDetails,
 		isTrackOpen: componentStore.isTrackOpen,
 		isTrackPlaying: componentStore.isTrackPlaying,
-		isTrackMuted: componentStore.isTrackMuted
+		isTrackMuted: componentStore.isTrackMuted,
+		trackDuration: componentStore.trackDuration,
+		trackCurrentTime: componentStore.trackCurrentTime
 	}
 }
 

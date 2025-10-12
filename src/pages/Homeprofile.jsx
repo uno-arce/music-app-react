@@ -26,7 +26,7 @@ export default function Homeprofile() {
 	const { isLoading, recentlyPlayedTracks, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
 	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
-	const { trackPreviewDetails, isTrackOpen, handleOpenTrackView } = useTrack()
+	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
 	const { alertStatus } = useAlert()
 
@@ -124,7 +124,7 @@ export default function Homeprofile() {
 				</Collection>
 			</Placeholder>
 
-			{ isTrackOpen && trackPreviewDetails ? <Track/> : null }
+			<Track/>
 
 		</div>
 	)
