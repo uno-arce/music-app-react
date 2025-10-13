@@ -35,10 +35,10 @@ const useTrack = () => {
 	const removeTrackSource = () => {
 		if(trackRef.current) {
 			trackRef.current.pause()
+			trackRef.current.currentTime = 0
+			trackRef.current.src = ''
 			trackRef.current.load()
-			componentStore.setTrackPreviewDetails(null)
-			componentStore.setIsTrackPlaying(false)
-			componentStore.setIsTrackPaused(false)
+			componentStore.resetTrackState()
 		}
 	}
 
@@ -133,13 +133,17 @@ const useTrack = () => {
 
 	const handleTrackEnd = () => {
 		if(trackRef.current) {
-			componentStore.setIsTrackPlaying(false)
-			componentStore.setIsTrackPaused(false)
+			trackRef.current.currentTime = 0
+			trackRef.current.pause()
+			componentStore.setTrackCurrentTime(0)
 		}
 	}
 
+	const isTrackButtonDisabled = !componentStore.trackPreviewDetails ? true : false
+
 	useEffect(() => {
-		if(componentStore.collectionSelectedIndex && componentStore.isTrackPaused && !componentStore.isTrackPlaying) {
+		if(componentStore.collectionSelectedIndex && componentStore.isTrackPlaying) {
+			pauseTrack()
 			removeTrackSource()
 		}
 
@@ -147,12 +151,10 @@ const useTrack = () => {
 			playTrack() 
 		}
 
-		if(componentStore.collectionSelectedIndex && componentStore.isTrackPlaying) {
-			pauseTrack()
+		if(componentStore.collectionSelectedIndex && componentStore.isTrackPaused && !componentStore.isTrackPlaying) {
 			removeTrackSource()
 		}
 
-		
 	}, [componentStore.trackPreviewDetails, componentStore.collectionSelectedIndex])
 
 	useEffect(() => {
@@ -179,9 +181,10 @@ const useTrack = () => {
 		handleTimeSeek,
 		handleVolumeChange,
 		handleTrackEnd,
+		isTrackButtonDisabled,
 		trackPreviewDetails: componentStore.trackPreviewDetails,
 		isTrackOpen: componentStore.isTrackOpen,
-		isTrackPlaying: componentStore.isTrackPlaying,
+		isTrackPlaying: !trackRef.current?.paused,
 		isTrackMuted: componentStore.isTrackMuted,
 		trackDuration: componentStore.trackDuration,
 		trackCurrentTime: componentStore.trackCurrentTime
