@@ -4,7 +4,7 @@ import useTrack from '../hooks/trackHooks'
 import { containerStyle } from '../styles/style'
 
 export default function Track() {
-	const { trackRef, trackPreviewDetails, trackDuration, trackCurrentTime, isTrackPlaying, isTrackMuted, handleTrackDuration, handleTrackCurrentTime, handleTrackTime, handleTimeSeek, togglePlayPause, toggleVolumeOnOff, handleReplay, handleVolumeChange, handleTrackEnd } = useTrack()
+	const { trackRef, trackPreviewDetails, trackDuration, trackCurrentTime, isTrackPlaying, isTrackMuted, isTrackButtonDisabled, handleTrackDuration, handleTrackCurrentTime, handleTrackTime, handleTimeSeek, togglePlayPause, toggleVolumeOnOff, handleReplay, handleVolumeChange, handleTrackEnd } = useTrack()
 
 	const { flex } = containerStyle()
 
@@ -28,6 +28,7 @@ export default function Track() {
 
 			<button
 				onClick={togglePlayPause}
+				disabled={isTrackButtonDisabled}
 			>
 				{isTrackPlaying ? pauseButton : playButton}
 			</button>
