@@ -183,6 +183,7 @@ const useTrack = () => {
 		handleTrackEnd,
 		isTrackButtonDisabled,
 		trackPreviewDetails: componentStore.trackPreviewDetails,
+		selectedTrackDetails: componentStore.collectionItem,
 		isTrackOpen: componentStore.isTrackOpen,
 		isTrackPlaying: !trackRef.current?.paused,
 		isTrackMuted: componentStore.isTrackMuted,
