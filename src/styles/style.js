@@ -77,3 +77,12 @@ export const textStyle = () => {
 	const textDefault = 'neutral-700'
 	return textDefault
 }
+
+// Collection - Tracks
+export const collectionTrackStyle = () => {
+	const trackGroup = 'grid grid-cols-5'
+
+	return {
+		trackGroup
+	}
+} 
