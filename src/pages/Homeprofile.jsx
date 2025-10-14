@@ -18,7 +18,7 @@ import Rating from '../components/rating'
 import Track from '../components/track'
 import Alert from '../components/alert'
 
-import { containerStyle, popoverStyle, ratingStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
+import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -35,25 +35,11 @@ export default function Homeprofile() {
 	const textClasses = textStyle()
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
+	const { trackGroup } = collectionTrackStyle()
 	
-	const renderRecentlyPlayedTracksView = (item, index) => (
-		<div className={flex}>
+	const renderRecentlyPlayedTracks = (item, index) => (
+		<div>
 			<img className={imageClasses} src={item.track.album.images[0].url}/>
-			{index === collectionSelectedIndex ? 
-				<div>
-					<p className={textClasses}>{item.track.name}</p>
-					<p className={textClasses}>{item.track.artists[0].name}</p>
-					<Button
-						name={'Give a rating'}
-						call={() => handleOpenPopoverView(item, true)}
-					/>
-					<Button
-						name={'Play track preview'}
-						call={() => handleOpenTrackView(item, getTrackPreviewDetails)}
-					/>
-				</div>
-			: null
-			}
 		</div>
 	)
 
@@ -91,6 +77,52 @@ export default function Homeprofile() {
 		</div>
 	) 
 
+	const renderRecentlyPlayedTracksView = () => {
+		const selectedTrack = recentlyPlayedTracks?.[collectionSelectedIndex] || 0 
+		return(
+		<>
+			{selectedTrack && (
+				<p>{selectedTrack.track.name}</p>
+			)}
+
+			<div className={trackGroup}>
+				<Collection 
+					items={recentlyPlayedTracks}
+					isSelectable={true}
+					openCollection={handleOpenCollectionView}
+					isOpen={isPopoverOpen}
+					renderItem={renderRecentlyPlayedTracks}
+				>
+					<Popover 
+						renderPopover={renderPopoverRatingView}
+					>
+						<Rating 
+							item={popoverItem}
+							call={rateTrack}
+							renderRating={renderRatingView}
+						/>
+					</Popover>
+					<Alert/>
+				</Collection>
+			</div>
+
+			{selectedTrack && (
+				<div>
+					<p className={textClasses}>{selectedTrack.track.artists[0].name}</p>
+					<Button
+						name={'Give a rating'}
+						call={() => handleOpenPopoverView(selectedTrack, true)}
+					/>
+					<Button
+						name={'Play track preview'}
+						call={() => handleOpenTrackView(selectedTrack, getTrackPreviewDetails)}
+					/>
+				</div>
+			)}
+		</>
+		)
+	}
+
 	return(
 		<div>
 			<Button
@@ -104,24 +136,7 @@ export default function Homeprofile() {
 			/>
 
 			<Placeholder isLoading={isLoading}>
-				<Collection 
-					items={recentlyPlayedTracks}
-					isSelectable={true}
-					openCollection={handleOpenCollectionView}
-					isOpen={isPopoverOpen}
-					renderItem={renderRecentlyPlayedTracksView}
-				>
-					<Popover 
-						renderPopover={renderPopoverRatingView}
-					>
-						<Rating 
-							item={popoverItem}
-							call={rateTrack}
-							renderRating={renderRatingView}
-						/>
-					</Popover>
-					<Alert/>
-				</Collection>
+				{renderRecentlyPlayedTracksView()}
 			</Placeholder>
 
 			<Track/>
