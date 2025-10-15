@@ -72,6 +72,15 @@ export const alertStyle = (status) => {
 	}
 }
 
+// Menu
+export const menuStyle = () => {
+	const menuCategoryName = 'cursor-pointer select-none'
+
+	return{
+		menuCategoryName
+	}
+}
+
 // Texts 
 export const textStyle = () => {
 	const textDefault = 'neutral-700'
