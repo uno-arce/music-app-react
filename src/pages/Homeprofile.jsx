@@ -7,6 +7,7 @@ import usePopover from '../hooks/popoverHooks'
 import useRating from '../hooks/ratingHooks'
 import useCollection from '../hooks/collectionHooks'
 import useTrack from '../hooks/trackHooks'
+import useMenu from '../hooks/menuHooks'
 import useAlert from '../hooks/alertHooks'
 
 import Form from '../components/form'
@@ -17,8 +18,9 @@ import Popover from '../components/popover'
 import Rating from '../components/rating'
 import Track from '../components/track'
 import Alert from '../components/alert'
+import Menu from '../components/menu'
 
-import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
+import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, menuStyle, imageStyle, textStyle } from '../styles/style'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -28,6 +30,7 @@ export default function Homeprofile() {
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
+	const { trackMenuList } = useMenu()
 	const { alertStatus } = useAlert()
 
 	const { flex, flexColumn } = containerStyle()
@@ -35,7 +38,14 @@ export default function Homeprofile() {
 	const textClasses = textStyle()
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
+	const { menuCategoryName } = menuStyle()
 	const { trackGroup } = collectionTrackStyle()
+
+	const renderMenu = (category, index) => (
+		<div className={menuCategoryName}>
+			{category}
+		</div>
+	)
 	
 	const renderRecentlyPlayedTracks = (item, index) => (
 		<div>
@@ -82,7 +92,10 @@ export default function Homeprofile() {
 		return(
 		<>
 			{selectedTrack && (
-				<p>{selectedTrack.track.name}</p>
+				<div className={flex}>
+					<p>{collectionSelectedIndex + 1}</p>
+					<p>{selectedTrack.track.name}</p>
+				</div>
 			)}
 
 			<div className={trackGroup}>
@@ -135,11 +148,16 @@ export default function Homeprofile() {
 				call={logout}
 			/>
 
+			<Track/>
+
 			<Placeholder isLoading={isLoading}>
 				{renderRecentlyPlayedTracksView()}
 			</Placeholder>
 
-			<Track/>
+			<Menu 
+				menuList={trackMenuList}
+				renderMenu={renderMenu}
+			/>
 
 		</div>
 	)
