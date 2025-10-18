@@ -43,7 +43,7 @@ const useComponentStore = create((set) => ({
 	setCurrentFormStep: (currentFormStep) => set({ currentFormStep: currentFormStep }),
 
 	// Menu
-	selectedMenuCategory: null,
+	selectedMenuCategory: 'recentlyPlayed',
 	setSelectedMenuCategory: (category) => set({ selectedMenuCategory: category }),
 
 	// Track
