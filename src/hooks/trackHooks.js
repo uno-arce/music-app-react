@@ -5,10 +5,23 @@ const useTrack = () => {
 	const trackRef = useRef(null)
 	const componentStore = useComponentStore()
 
+	const handleRenderImageSource = (item) => {
+		return item?.track?.album?.images?.[0]?.url || 
+	        item?.album?.images[0].url || item?.images[0].url
+	}
+
+	const handleRenderTrackName = (item) => {
+		return item?.track?.name || item?.name
+	}
+
+	const handleRenderArtistName = (item) => {
+		return item?.track?.artists?.[0]?.name || item?.artists?.[0]?.name || ''
+	}
+
 	const handleOpenTrackView = async (item, call) => {
 		const trackDetails= {
-			name: item.track.name,
-			artist: item.track.artists[0].name
+			name: handleRenderTrackName(item),
+			artist: handleRenderArtistName(item)
 		}
 
 		componentStore.setIsTrackOpen(true)
@@ -142,6 +155,10 @@ const useTrack = () => {
 	const isTrackButtonDisabled = !componentStore.trackPreviewDetails ? true : false
 
 	useEffect(() => {
+		if(componentStore.selectedMenuCategory && componentStore.isTrackPlaying || componentStore.isTrackPaused) {
+			removeTrackSource()
+		}
+
 		if(componentStore.collectionSelectedIndex && componentStore.isTrackPlaying) {
 			pauseTrack()
 			removeTrackSource()
@@ -155,7 +172,7 @@ const useTrack = () => {
 			removeTrackSource()
 		}
 
-	}, [componentStore.trackPreviewDetails, componentStore.collectionSelectedIndex])
+	}, [componentStore.trackPreviewDetails, componentStore.collectionSelectedIndex, componentStore.selectedMenuCategory])
 
 	useEffect(() => {
 		if(trackRef.current) {
@@ -181,11 +198,13 @@ const useTrack = () => {
 		handleTimeSeek,
 		handleVolumeChange,
 		handleTrackEnd,
+		handleRenderImageSource,
+		handleRenderTrackName,
+		handleRenderArtistName,
 		isTrackButtonDisabled,
 		trackPreviewDetails: componentStore.trackPreviewDetails,
-		selectedTrackDetails: componentStore.collectionItem,
 		isTrackOpen: componentStore.isTrackOpen,
-		isTrackPlaying: !trackRef.current?.paused,
+		isTrackPlaying: componentStore.isTrackPlaying,
 		isTrackMuted: componentStore.isTrackMuted,
 		trackDuration: componentStore.trackDuration,
 		trackCurrentTime: componentStore.trackCurrentTime
