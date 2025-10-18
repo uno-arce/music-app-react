@@ -25,10 +25,10 @@ import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertS
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
-	const { isLoading, recentlyPlayedTracks, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
+	const { isLoading, spotifyCollectionItems,  recentlyPlayedTracks, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
 	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
-	const { isTrackOpen, handleOpenTrackView } = useTrack()
+	const { isTrackOpen, handleOpenTrackView, handleRenderImageSource, handleRenderTrackName, handleRenderArtistName } = useTrack()
 	const { handleCloseRating } = useRating()
 	const { trackMenuList } = useMenu()
 	const { alertStatus } = useAlert()
@@ -43,15 +43,20 @@ export default function Homeprofile() {
 
 	const renderMenu = (category, index) => (
 		<div className={menuCategoryName}>
-			{category}
+			{category.label}
 		</div>
 	)
 	
-	const renderRecentlyPlayedTracks = (item, index) => (
-		<div>
-			<img className={imageClasses} src={item.track.album.images[0].url}/>
-		</div>
-	)
+	const renderTracks = (item, index) => {
+	    return (
+	        <div>
+	            <img 
+	                className={imageClasses} 
+	                src={handleRenderImageSource(item)} 
+	            />
+	        </div>
+	    );
+	}
 
 	const renderPopoverRatingView = (children) => (
 		<div className={popoverBackground}>
@@ -76,9 +81,9 @@ export default function Homeprofile() {
 
 	const renderRatingView = (item, ratingButton) => (
 		<div className={flex}>
-			<img className={imageClasses} src={item.track.album.images[0].url}/>
+			<img className={imageClasses} src={handleRenderImageSource(item)}/>
 			<div className={ratingGroup}>
-				<p className={ratingTitle}>Your rating to {item.track.name} by {item.track.artists[0].name}</p>
+				<p className={ratingTitle}>Your rating to {handleRenderTrackName(item)} by {handleRenderArtistName(item)}</p>
 				<div className={ratingDefault}>
 					{ratingButton}
 				</div>
@@ -87,24 +92,34 @@ export default function Homeprofile() {
 		</div>
 	) 
 
-	const renderRecentlyPlayedTracksView = () => {
-		const selectedTrack = recentlyPlayedTracks?.[collectionSelectedIndex] || 0 
+	const renderTracksView = () => {
+		const collectionData = spotifyCollectionItems()
+		const collectionItems = collectionData.items
+		const selectedTrack = collectionItems?.[collectionSelectedIndex]
+
+		console.log('Selected track: ', selectedTrack)
+		console.log('Collection items: ', collectionItems)
 		return(
 		<>
+			<Track
+				trackName={selectedTrack}
+				artistName={selectedTrack}
+			/>
+
 			{selectedTrack && (
 				<div className={flex}>
 					<p>{collectionSelectedIndex + 1}</p>
-					<p>{selectedTrack.track.name}</p>
+					<p>{handleRenderTrackName(selectedTrack)}</p>
 				</div>
 			)}
 
 			<div className={trackGroup}>
 				<Collection 
-					items={recentlyPlayedTracks}
+					items={collectionItems}
 					isSelectable={true}
 					openCollection={handleOpenCollectionView}
 					isOpen={isPopoverOpen}
-					renderItem={renderRecentlyPlayedTracks}
+					renderItem={renderTracks}
 				>
 					<Popover 
 						renderPopover={renderPopoverRatingView}
@@ -121,7 +136,7 @@ export default function Homeprofile() {
 
 			{selectedTrack && (
 				<div>
-					<p className={textClasses}>{selectedTrack.track.artists[0].name}</p>
+					<p className={textClasses}>{handleRenderArtistName(selectedTrack)}</p>
 					<Button
 						name={'Give a rating'}
 						call={() => handleOpenPopoverView(selectedTrack, true)}
@@ -148,10 +163,8 @@ export default function Homeprofile() {
 				call={logout}
 			/>
 
-			<Track/>
-
 			<Placeholder isLoading={isLoading}>
-				{renderRecentlyPlayedTracksView()}
+				{renderTracksView()}
 			</Placeholder>
 
 			<Menu 
