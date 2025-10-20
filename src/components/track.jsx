@@ -4,7 +4,7 @@ import useTrack from '../hooks/trackHooks'
 import { containerStyle } from '../styles/style'
 
 export default function Track({ trackName, artistName }) {
-	const { trackRef, trackPreviewDetails, trackDuration, trackCurrentTime, isTrackPlaying, isTrackMuted, isTrackButtonDisabled, handleRenderTrackName, handleRenderArtistName, handleTrackDuration, handleTrackCurrentTime, handleTrackTime, handleTimeSeek, togglePlayPause, toggleVolumeOnOff, handleReplay, handleVolumeChange, handleTrackEnd } = useTrack()
+	const { trackRef, trackPreviewDetails, trackDuration, trackCurrentTime, isTrackPlaying, isTrackMuted, isTrackButtonDisabled, handleTrackDuration, handleTrackCurrentTime, handleTrackTime, handleTimeSeek, togglePlayPause, toggleVolumeOnOff, handleReplay, handleVolumeChange, handleTrackEnd } = useTrack()
 
 	const { flex } = containerStyle()
 
@@ -42,8 +42,8 @@ export default function Track({ trackName, artistName }) {
 			<p>{handleTrackTime(trackCurrentTime)}</p>
 
 			<div>
-				<p>{handleRenderTrackName(trackName)}</p>
-				<p>{handleRenderArtistName(artistName)}</p>
+				<p>{trackName}</p>
+				<p>{artistName}</p>
 				<input
 					type='range'
 					min='0'

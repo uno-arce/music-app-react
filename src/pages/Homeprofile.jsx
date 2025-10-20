@@ -28,9 +28,9 @@ export default function Homeprofile() {
 	const { isLoading, spotifyCollectionItems,  recentlyPlayedTracks, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
 	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
-	const { isTrackOpen, handleOpenTrackView, handleRenderImageSource, handleRenderTrackName, handleRenderArtistName } = useTrack()
+	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
-	const { trackMenuList } = useMenu()
+	const { trackMenuList, selectedMenuCategory } = useMenu()
 	const { alertStatus } = useAlert()
 
 	const { flex, flexColumn } = containerStyle()
@@ -52,7 +52,7 @@ export default function Homeprofile() {
 	        <div>
 	            <img 
 	                className={imageClasses} 
-	                src={handleRenderImageSource(item)} 
+	                src={item.image} 
 	            />
 	        </div>
 	    );
@@ -81,9 +81,9 @@ export default function Homeprofile() {
 
 	const renderRatingView = (item, ratingButton) => (
 		<div className={flex}>
-			<img className={imageClasses} src={handleRenderImageSource(item)}/>
+			<img className={imageClasses} src={item.image}/>
 			<div className={ratingGroup}>
-				<p className={ratingTitle}>Your rating to {handleRenderTrackName(item)} by {handleRenderArtistName(item)}</p>
+				<p className={ratingTitle}>Your rating to {item.track} by {item.artist}</p>
 				<div className={ratingDefault}>
 					{ratingButton}
 				</div>
@@ -97,19 +97,17 @@ export default function Homeprofile() {
 		const collectionItems = collectionData.items
 		const selectedTrack = collectionItems?.[collectionSelectedIndex]
 
-		console.log('Selected track: ', selectedTrack)
-		console.log('Collection items: ', collectionItems)
 		return(
 		<>
 			<Track
-				trackName={selectedTrack}
-				artistName={selectedTrack}
+				trackName={selectedTrack?.track}
+				artistName={selectedTrack?.artist}
 			/>
 
 			{selectedTrack && (
 				<div className={flex}>
 					<p>{collectionSelectedIndex + 1}</p>
-					<p>{handleRenderTrackName(selectedTrack)}</p>
+					<p>{selectedTrack.track}</p>
 				</div>
 			)}
 
@@ -136,7 +134,7 @@ export default function Homeprofile() {
 
 			{selectedTrack && (
 				<div>
-					<p className={textClasses}>{handleRenderArtistName(selectedTrack)}</p>
+					<p className={textClasses}>{selectedTrack.track}</p>
 					<Button
 						name={'Give a rating'}
 						call={() => handleOpenPopoverView(selectedTrack, true)}

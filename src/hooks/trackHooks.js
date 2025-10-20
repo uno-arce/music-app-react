@@ -5,23 +5,10 @@ const useTrack = () => {
 	const trackRef = useRef(null)
 	const componentStore = useComponentStore()
 
-	const handleRenderImageSource = (item) => {
-		return item?.track?.album?.images?.[0]?.url || 
-	        item?.album?.images[0].url || item?.images[0].url
-	}
-
-	const handleRenderTrackName = (item) => {
-		return item?.track?.name || item?.name
-	}
-
-	const handleRenderArtistName = (item) => {
-		return item?.track?.artists?.[0]?.name || item?.artists?.[0]?.name || ''
-	}
-
 	const handleOpenTrackView = async (item, call) => {
 		const trackDetails= {
-			name: handleRenderTrackName(item),
-			artist: handleRenderArtistName(item)
+			name: item.track,
+			artist: item.artist
 		}
 
 		componentStore.setIsTrackOpen(true)
@@ -198,9 +185,6 @@ const useTrack = () => {
 		handleTimeSeek,
 		handleVolumeChange,
 		handleTrackEnd,
-		handleRenderImageSource,
-		handleRenderTrackName,
-		handleRenderArtistName,
 		isTrackButtonDisabled,
 		trackPreviewDetails: componentStore.trackPreviewDetails,
 		isTrackOpen: componentStore.isTrackOpen,

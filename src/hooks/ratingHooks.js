@@ -34,8 +34,8 @@ const useRating = () => {
 		const item = componentStore.popoverItem
 
 		const track = {
-			name: item?.track?.name || item?.name,
-			artist: item?.track?.artists?.[0]?.name || item?.artists[0].name,
+			name: item.track,
+			artist: item.artist,
 			rating: index
 		}
 

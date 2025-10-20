@@ -15,8 +15,8 @@ const useSpotifyApi = () => {
 	const getUniqueItems = (items, populateStore) => {
 		const seenIds = new Set()
 		const uniqueItems = items.filter(item => {
-			const isDuplicate = seenIds.has(item.track.id)
-			seenIds.add(item.track.id)
+			const isDuplicate = seenIds.has(item.id)
+			seenIds.add(item.id)
 			return !isDuplicate
 		})
 
@@ -40,11 +40,11 @@ const useSpotifyApi = () => {
 				mostlyPlayedResponse,
 				mostlyListenedResponse
 			]) => {
-				getUniqueItems(recentlyPlayedResponse.data.items, spotifyStore.setRecentlyPlayedTracks)
-				spotifyStore.setSavedTracks(savedTracksResponse.data.items)
-				spotifyStore.setUserPlaylists(userPlaylistsResponse.data.items)
-				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data.items)
-				spotifyStore.setMostlyListened(mostlyListenedResponse.data.items)
+				getUniqueItems(recentlyPlayedResponse.data, spotifyStore.setRecentlyPlayedTracks)
+				spotifyStore.setSavedTracks(savedTracksResponse.data)
+				spotifyStore.setUserPlaylists(userPlaylistsResponse.data)
+				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data)
+				spotifyStore.setMostlyListened(mostlyListenedResponse.data)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
@@ -52,12 +52,6 @@ const useSpotifyApi = () => {
 			}) 
 		}
 	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
-
-	// console.log(spotifyStore.recentlyPlayedTracks)
-	// console.log(spotifyStore.savedTracks)
-	// console.log(spotifyStore.userPlaylists)
-	// console.log(spotifyStore.mostlyPlayed)
-	// console.log(spotifyStore.mostlyListened)
 
 	const getTrackPreviewDetails = (trackItem) => {
 		spotifyApi.getTrackPreviewDetails(trackItem)
@@ -96,21 +90,21 @@ const useSpotifyApi = () => {
 			recentlyPlayed: {
 				items: spotifyStore.recentlyPlayedTracks
 			},
-			mostlyListened: {
-				items: spotifyStore.mostlyListened
-			},
-			mostlyPlayed: {
-				items: spotifyStore.mostlyPlayed
-			},
-			savedTracks: {
-				items: spotifyStore.savedTracks
-			},
-			ratedTracks: {
-				items: spotifyStore.savedTracks
-			},
-			playlists: {
-				items: spotifyStore.userPlaylists
-			}
+			// mostlyListened: {
+			// 	items: spotifyStore.mostlyListened
+			// },
+			// mostlyPlayed: {
+			// 	items: spotifyStore.mostlyPlayed
+			// },
+			// savedTracks: {
+			// 	items: spotifyStore.savedTracks
+			// },
+			// ratedTracks: {
+			// 	items: spotifyStore.savedTracks
+			// },
+			// playlists: {
+			// 	items: spotifyStore.userPlaylists
+			// }
 		}
 
 		return spotifyCollectionItemConfig[componentStore.selectedMenuCategory]

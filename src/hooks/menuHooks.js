@@ -39,7 +39,8 @@ const useMenu = () => {
 
 	return {
 		trackMenuList,
-		handleSelectMenuCategory
+		handleSelectMenuCategory,
+		selectedMenuCategory: componentStore.selectedMenuCategory
 	}
 }
 
