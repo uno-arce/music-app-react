@@ -17,8 +17,8 @@ const useMenu = () => {
 			label: 'Mostly Played'
 		},
 		{
-			activeCategoryKey: 'savedTracks',
-			label: 'Saved Tracks'
+			activeCategoryKey: 'likedTracks',
+			label: 'Liked Tracks'
 		},
 		{
 			activeCategoryKey: 'ratedTracks',

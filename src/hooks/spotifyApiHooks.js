@@ -85,35 +85,34 @@ const useSpotifyApi = () => {
 		})
 	}
 
-	const spotifyCollectionItems = () => {
-		const spotifyCollectionItemConfig = {
-			recentlyPlayed: {
-				items: spotifyStore.recentlyPlayedTracks
-			},
-			// mostlyListened: {
-			// 	items: spotifyStore.mostlyListened
-			// },
-			// mostlyPlayed: {
-			// 	items: spotifyStore.mostlyPlayed
-			// },
-			// savedTracks: {
-			// 	items: spotifyStore.savedTracks
-			// },
-			// ratedTracks: {
-			// 	items: spotifyStore.savedTracks
-			// },
-			// playlists: {
-			// 	items: spotifyStore.userPlaylists
-			// }
+	const spotifyCollectionItemConfig = {
+		recentlyPlayed: {
+			items: spotifyStore.recentlyPlayedTracks || []
+		},
+		mostlyListened: {
+			items: spotifyStore.mostlyListened || []
+		},
+		mostlyPlayed: {
+			items: spotifyStore.mostlyPlayed || []
+		},
+		likedTracks: {
+			items: spotifyStore.savedTracks || []
+		},
+		ratedTracks: {
+			items: spotifyStore.savedTracks || []
+		},
+		playlists: {
+			items: spotifyStore.userPlaylists || []
 		}
-
-		return spotifyCollectionItemConfig[componentStore.selectedMenuCategory]
 	}
+
+	const collectionItems = spotifyCollectionItemConfig[componentStore.selectedMenuCategory].items
 
 	return {
 		isLoading: spotifyStore.isLoading,
         recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks,
-        spotifyCollectionItems,
+        spotifyCollectionItems: collectionItems,
+        selectedSpotifyItem: collectionItems[componentStore.collectionSelectedIndex],
         getTrackPreviewDetails,
         rateTrack
 	}
