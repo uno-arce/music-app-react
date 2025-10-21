@@ -90,8 +90,14 @@ export const textStyle = () => {
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
+	const trackSubtitleGroup = 'grid grid-cols-2'
+	const trackSubtitle = 'text-left'
+	const trackSubtitleInfo = 'text-right'
 
 	return {
-		trackGroup
+		trackGroup,
+		trackSubtitleGroup,
+		trackSubtitle,
+		trackSubtitleInfo
 	}
 } 
