@@ -35,7 +35,10 @@ const useRating = () => {
 
 		const track = {
 			name: item.track,
+			image: item.image,
+			album: item.album,
 			artist: item.artist,
+			reference: item.reference,
 			rating: index
 		}
 
