@@ -32,19 +32,23 @@ const useSpotifyApi = () => {
 				spotifyApi.getSavedTracks(),
 				spotifyApi.getUserPlaylists(),
 				spotifyApi.getMostlyPlayed(),
-				spotifyApi.getMostlyListened()
+				spotifyApi.getMostlyListened(),
+				spotifyApi.getRatedTracks()
 			]).then(([
 				recentlyPlayedResponse,
 				savedTracksResponse,
 				userPlaylistsResponse,
 				mostlyPlayedResponse,
-				mostlyListenedResponse
+				mostlyListenedResponse,
+				ratedTracksResponse
 			]) => {
 				getUniqueItems(recentlyPlayedResponse.data, spotifyStore.setRecentlyPlayedTracks)
 				spotifyStore.setSavedTracks(savedTracksResponse.data)
 				spotifyStore.setUserPlaylists(userPlaylistsResponse.data)
 				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data)
 				spotifyStore.setMostlyListened(mostlyListenedResponse.data)
+				spotifyStore.setRatedTracks(ratedTracksResponse.data)
+				console.log(ratedTracksResponse)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
@@ -74,10 +78,15 @@ const useSpotifyApi = () => {
 				componentStore.setAlertStatus('failed')
 				return
 			}
+			console.log(response)
 
 			componentStore.setIsAlertOpen(true)
 			componentStore.setAlertStatus('success')
 			componentStore.setAlertMessage(response.data.message)
+
+			if(response.data.isExisting == -1 ) {
+				spotifyStore.setRatedTracks(ratedSong)
+			}
 		}).catch(error => {
 			componentStore.setIsAlertOpen(true)
 			componentStore.setAlertStatus('failed')
@@ -99,7 +108,7 @@ const useSpotifyApi = () => {
 			items: spotifyStore.savedTracks || []
 		},
 		ratedTracks: {
-			items: spotifyStore.savedTracks || []
+			items: spotifyStore.ratedTracks || []
 		},
 		playlists: {
 			items: spotifyStore.userPlaylists || []
