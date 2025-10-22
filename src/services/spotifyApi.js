@@ -91,6 +91,15 @@ const spotifyApi = {
 		})
 	},
 
+	getRatedTracks: () => {
+		return instance.get('users/get-rated-songs')
+		.then(response => {
+			return response
+		}).catch(error => {
+			return error.response.data.error
+		})
+	},
+
 	getTrackPreviewDetails: (trackDetails) => {
 		return instance.post('auth/spotify/track-preview-details', {
 			trackDetails: trackDetails
