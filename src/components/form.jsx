@@ -8,7 +8,7 @@ export default function Form({ inputs, call, isDisabled, isStepForm, formValidat
 		return (
 			(currentFormStep == field.name || !isStepForm) &&
 			<div key={field.name}>
-				<label htmlFor={field.name}>{field.name}</label>
+				<p htmlFor={field.name}>{field.name}</p>
 				<input
 				name={field.name}
 				type={field.type || 'text'}
