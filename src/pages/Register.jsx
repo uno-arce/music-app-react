@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import Form from '../components/form'
 import Button from '../components/button'
 
@@ -8,11 +9,10 @@ import useForm from '../hooks/formHooks'
 import { containerStyle } from '../styles/style'
 
 export default function Register() {
-	const { 
-		registerInputs, register, toggleShowPassword, isFormDisabled, isRegisterButtonDisabled, isUsernameCorrect, isEmailCorrect, isPasswordCorrect, isUsernameLengthCorrect, isUsernameCharactersCorrect, isEmailFormatCorrect, isEmailAvailable, isPasswordCharactersCorrect, isPasswordTextCaseCorrect, isPasswordLengthCorrect, isPasswordVisible
+	const { username, email, registerInputs, register, toggleShowPassword, isFormDisabled, isRegisterButtonDisabled, isUsernameCorrect, isEmailCorrect, isPasswordCorrect, isUsernameLengthCorrect, isUsernameCharactersCorrect, isEmailFormatCorrect, isEmailAvailable, isPasswordCharactersCorrect, isPasswordTextCaseCorrect, isPasswordLengthCorrect, isPasswordVisible
 	} = useAuth()
 
-	const { handleNextStepForm } = useForm()
+	const { handleNextStepForm, currentFormStep } = useForm()
 
 	const { flex } = containerStyle()
 
@@ -105,9 +105,37 @@ export default function Register() {
 		}
 	}
 
+	const renderFinalStepValidatorView = () => {
+		if(currentFormStep == 'Confirm Details') {
+			return(
+				<div>
+					<p>Account Details</p>
+					<div className={flex}>
+						<p>Username</p>
+						<p>{username}</p>
+					</div>
+					<div className={flex}>
+						<p>Email</p>
+						<p>{email}</p>
+					</div>
+					<div className={flex}>
+						<Button
+							name={'Go Back'}
+							call={() => handleNextStepForm('Password')}
+						/>
+						<Button
+							name={'Register'}
+						/>
+					</div>
+				</div>
+			)
+		}
+		return null
+	}
+
 	return(
 		<div>
-			<p>Register to be a member</p>
+			<h1>Register an Account</h1>
 			<Form
 				inputs={registerInputs}
 				call={register}
@@ -115,7 +143,10 @@ export default function Register() {
 				isStepForm={true}
 				formValidator={renderRegisterFormValidatorView}
 			>
+				{renderFinalStepValidatorView()}
 			</Form>
+				<span>Already have an ccount? </span>
+				<NavLink to='/login'>Login</NavLink>
 		</div>
 	)
 }
