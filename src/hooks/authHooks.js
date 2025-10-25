@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import useUserAuthStore from '../stores/userAuthStore'
+import useComponentStore from '../stores/componentStore'
 import userAuth from '../services/userAuth'
 import useForm from '../hooks/formHooks'
 
 const useAuth = () => {
 	const navigate = useNavigate()
 	const userAuthStore = useUserAuthStore()
+	const componentStore = useComponentStore()
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
 
 	useEffect(() => {
@@ -83,6 +85,7 @@ const useAuth = () => {
 			}
 
 			userAuthStore.resetUserRegistrationState()
+			componentStore.setCurrentFormStep('Username')
 			navigate('/login', { replace: true })
 		}).catch(error => {
 			console.log(error)
@@ -184,6 +187,8 @@ const useAuth = () => {
 		register,
 		logout,
 		toggleShowPassword,
+		username: userAuthStore.username,
+		email: userAuthStore.email,
 		isLoading: userAuthStore.isLoading,
 		isAuthenticated: userAuthStore.isAuthenticated,
 		isFormDisabled: userAuthStore.isFormDisabled,
