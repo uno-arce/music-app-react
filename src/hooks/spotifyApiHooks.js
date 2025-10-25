@@ -48,7 +48,6 @@ const useSpotifyApi = () => {
 				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data)
 				spotifyStore.setMostlyListened(mostlyListenedResponse.data)
 				spotifyStore.setRatedTracks(ratedTracksResponse.data)
-				console.log(ratedTracksResponse)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
@@ -84,9 +83,7 @@ const useSpotifyApi = () => {
 			componentStore.setAlertStatus('success')
 			componentStore.setAlertMessage(response.data.message)
 
-			if(response.data.isExisting == -1 ) {
-				spotifyStore.setRatedTracks(ratedSong)
-			}
+			spotifyStore.setRatedTracks(response.data.updatedRatedTracks)
 		}).catch(error => {
 			componentStore.setIsAlertOpen(true)
 			componentStore.setAlertStatus('failed')

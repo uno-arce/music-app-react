@@ -15,13 +15,7 @@ const useSpotifyStore = create((set) => ({
 	setUserPlaylists: (playlist) => set({ userPlaylists: playlist }),
 	setMostlyPlayed: (played) => set({ mostlyPlayed: played }),
 	setMostlyListened: (listened) => set({ mostlyListened: listened }),
-	setRatedTracks: (rated) => set((state) => {
-		if(state.ratedTracks === null) {
-			return { ratedTracks: rated }
-		} else {
-			return { ratedTracks: [...state.ratedTracks, rated] }
-		}
-	}),
+	setRatedTracks: (rated) => set({ ratedTracks: rated }),
 	setIsLoading: (isLoading) => set({ isLoading: isLoading })
 }))
 

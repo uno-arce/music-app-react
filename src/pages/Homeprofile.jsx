@@ -176,7 +176,7 @@ export default function Homeprofile() {
 				) : selectedMenuCategory === 'mostlyListened' ? (
 					<>
 					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Album</p>
+						<p className={trackSubtitle}>Followers</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem.followers}</p>
 					</div>
 					<div className={trackSubtitleGroup}>
@@ -200,6 +200,32 @@ export default function Homeprofile() {
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Popularity</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
+					</div>
+						<Button
+							name={'Give a rating'}
+							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+						/>
+						<Button
+							name={'Play track preview'}
+							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+						/>
+						<span>Play </span>
+						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
+						<span>On Spotify</span>
+					</>
+				) : selectedMenuCategory === 'ratedTracks' ? (
+					<>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Album</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Artist</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Rating</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
 					</div>
 						<Button
 							name={'Give a rating'}
