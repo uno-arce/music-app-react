@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom'
 import Form from '../components/form'
 import Button from '../components/button'
 import useUserAuthStore from '../stores/userAuthStore'
@@ -13,7 +14,7 @@ export default function Login() {
 
 	return(
 		<div>
-			<h1>Login</h1>
+			<h1>Login your Account</h1>
 			<Form 
 				inputs = {loginInputs}
 				call = {login}
@@ -23,6 +24,9 @@ export default function Login() {
 				name = {"Login"}
 				isDisabled = {isLoginButtonDisabled}
 			/>
+			
+				<span>Don't have an account? </span>
+				<NavLink to='/register'>Register</NavLink>
 			</Form>
 		</div>
 	)
