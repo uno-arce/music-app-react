@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useLocation } from 'react-router'
 import useUserAuthStore from '../stores/userAuthStore'
 import useComponentStore from '../stores/componentStore'
 import userAuth from '../services/userAuth'
@@ -7,6 +7,7 @@ import useForm from '../hooks/formHooks'
 
 const useAuth = () => {
 	const navigate = useNavigate()
+	const location = useLocation()
 	const userAuthStore = useUserAuthStore()
 	const componentStore = useComponentStore()
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
@@ -174,6 +175,18 @@ const useAuth = () => {
 		const isPasswordVisible = userAuthStore.isPasswordVisible
 		userAuthStore.setIsPasswordVisible(!isPasswordVisible)
 	}
+
+	useEffect(() => {
+		const pathname = location.pathname
+		return () => {
+			if(pathname === '/login') {
+				userAuthStore.resetUserAuthState()
+			} else if (pathname === '/register') {
+				userAuthStore.resetUserRegistrationState()
+				componentStore.setCurrentFormStep('Username')
+			}
+		}
+	}, [location.pathname, userAuthStore.resetUserAuthState, userAuthStore.resetUserRegistrationState,componentStore.setCurrentFormStep])
 
 	return {
 		loginInputs,

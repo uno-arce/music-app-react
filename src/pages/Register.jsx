@@ -145,7 +145,7 @@ export default function Register() {
 			>
 				{renderFinalStepValidatorView()}
 			</Form>
-				<span>Already have an ccount? </span>
+				<span>Already have an account? </span>
 				<NavLink to='/login'>Login</NavLink>
 		</div>
 	)
