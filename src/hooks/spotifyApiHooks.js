@@ -105,7 +105,7 @@ const useSpotifyApi = () => {
 			items: spotifyStore.savedTracks || []
 		},
 		ratedTracks: {
-			items: spotifyStore.ratedTracks || []
+			items: spotifyStore.ratedTracks?.[componentStore.collectionSelectedGroup] || []
 		},
 		playlists: {
 			items: spotifyStore.userPlaylists || []
@@ -116,7 +116,7 @@ const useSpotifyApi = () => {
 
 	return {
 		isLoading: spotifyStore.isLoading,
-        recentlyPlayedTracks: spotifyStore.recentlyPlayedTracks,
+        ratedTracks: spotifyStore.ratedTracks,
         spotifyCollectionItems: collectionItems,
         selectedSpotifyItem: collectionItems[componentStore.collectionSelectedIndex],
         getTrackPreviewDetails,

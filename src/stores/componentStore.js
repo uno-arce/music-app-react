@@ -3,9 +3,11 @@ import { create } from 'zustand'
 const useComponentStore = create((set) => ({
 	// Collection
 	collectionItem: null,
+	collectionSelectedGroup: 1,
 	collectionSelectedIndex: 0,
 	isCollectionOpen: false,
 	setCollectionItem: (collectionItem) => set({ collectionItem: collectionItem }),
+	setCollectionSelectedGroup: (selectedGroup) => set({collectionSelectedGroup: selectedGroup}),
 	setCollectionSelectedIndex: (selectedIndex) => set({ collectionSelectedIndex: selectedIndex}),
 	setIsCollectionOpen: (isOpen) => set({ isCollectionOpen: isOpen }),
 
