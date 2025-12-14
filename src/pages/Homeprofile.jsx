@@ -25,8 +25,8 @@ import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertS
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
-	const { isLoading, spotifyCollectionItems, selectedSpotifyItem, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
-	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView } = useCollection()
+	const { isLoading, ratedTracks, spotifyCollectionItems, selectedSpotifyItem, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
+	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView, handlePreviousCollectionGroup, handleNextCollectionGroup } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
@@ -39,7 +39,7 @@ export default function Homeprofile() {
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 	const { menuCategoryName } = menuStyle()
-	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo } = collectionTrackStyle()
+	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup } = collectionTrackStyle()
 
 	const renderMenu = (category, index) => (
 		<div className={menuCategoryName}>
@@ -97,6 +97,8 @@ export default function Homeprofile() {
 			trackName={selectedSpotifyItem?.track}
 			artistName={selectedSpotifyItem?.artist}
 		/>
+		const next = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
 
 		return(
 		<>
@@ -215,6 +217,10 @@ export default function Homeprofile() {
 					</>
 				) : selectedMenuCategory === 'ratedTracks' ? (
 					<>
+					<div className={trackButtonGroup}>
+						<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
+						<Button call={() => handleNextCollectionGroup(ratedTracks)}>{next}</Button>
+					</div>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Album</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>

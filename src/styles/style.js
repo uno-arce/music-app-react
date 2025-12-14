@@ -93,11 +93,13 @@ export const collectionTrackStyle = () => {
 	const trackSubtitleGroup = 'grid grid-cols-2'
 	const trackSubtitle = 'text-left'
 	const trackSubtitleInfo = 'text-right'
+	const trackButtonGroup = 'flex justify-between'
 
 	return {
 		trackGroup,
 		trackSubtitleGroup,
 		trackSubtitle,
-		trackSubtitleInfo
+		trackSubtitleInfo,
+		trackButtonGroup
 	}
 } 
