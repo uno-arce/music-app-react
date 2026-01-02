@@ -20,12 +20,12 @@ import Track from '../components/track'
 import Alert from '../components/alert'
 import Menu from '../components/menu'
 
-import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, menuStyle, imageStyle, textStyle } from '../styles/style'
+import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
-	const { isLoading, ratedTracks, spotifyCollectionItems, selectedSpotifyItem, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
+	const { isLoading, likedTracks, ratedTracks, spotifyCollectionItems, selectedSpotifyItem, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
 	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView, handlePreviousCollectionGroup, handleNextCollectionGroup } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { isTrackOpen, handleOpenTrackView } = useTrack()
@@ -38,23 +38,18 @@ export default function Homeprofile() {
 	const textClasses = textStyle()
 	const { popoverBackground, popoverDefault, popoverButton } = popoverStyle()
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
-	const { menuCategoryName } = menuStyle()
-	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup } = collectionTrackStyle()
+	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
 	const renderMenu = (category, index) => (
-		<div className={menuCategoryName}>
-			{category.label}
-		</div>
+		<Button name={category.label}/>
 	)
 	
 	const renderTracks = (item, index) => {
 	    return (
-	        <div>
-	            <img 
-	                className={imageClasses} 
-	                src={item.image} 
-	            />
-	        </div>
+	        <img 
+	            className={imageClasses} 
+	            src={item.image} 
+	        />
 	    );
 	}
 
@@ -101,39 +96,27 @@ export default function Homeprofile() {
 		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
 
 		return(
-		<>
-			{selectedSpotifyItem && (
-				selectedMenuCategory === 'mostlyListened' ? (
-					<div className={flex}>
-						<p>{collectionSelectedIndex + 1}</p>
-						<p>{selectedSpotifyItem.artist}</p>
-					</div>
-				) : selectedMenuCategory === 'playlists' ? (
-					<>
-					{track}
-					<div className={flex}>
-						<p>{collectionSelectedIndex + 1}</p>
-						<p>{selectedSpotifyItem.playlist}</p>
-					</div>
-					</>
-				) : (
-					<>
-					{track}
-					<div className={flex}>
-						<p>{collectionSelectedIndex + 1}</p>
-						<p>{selectedSpotifyItem.track}</p>
-					</div>
-					</>
-				)
-			)}
+		<div>
+			<div className='h-32'>
+				{selectedSpotifyItem && (
+					selectedMenuCategory === 'mostlyListened' ? (
+						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.artist}</h1>
+					) : selectedMenuCategory === 'playlists' ? (
+						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.playlist}</h1>
+					) : (
+						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.track}</h1>
+					)
+				)}
+			</div>
 
-			<div className={trackGroup}>
+			<div className={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} h-[337px] border-b border-solid border-accent-light rounded-xs`}>
 				<Collection 
 					items={spotifyCollectionItems}
 					isSelectable={true}
 					openCollection={handleOpenCollectionView}
 					isOpen={isPopoverOpen}
 					renderItem={renderTracks}
+					structure={'grid grid-cols-5'}
 				>
 					<Popover 
 						renderPopover={renderPopoverRatingView}
@@ -148,143 +131,180 @@ export default function Homeprofile() {
 				</Collection>
 			</div>
 
-			{selectedSpotifyItem && (
-				selectedMenuCategory === 'recentlyPlayed' || selectedMenuCategory === 'likedTracks' ? (
-					<>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Album</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Artist</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Release Date</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
-					</div>
-						<Button
-							name={'Give a rating'}
-							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-						/>
-						<Button
-							name={'Play track preview'}
-							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-						/>
-						<span>Play </span>
-						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-						<span>On Spotify</span>
-					</>
-				) : selectedMenuCategory === 'mostlyListened' ? (
-					<>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Followers</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.followers}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Popularity</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
-					</div>
-						<span>Visit </span>
-						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a>
-						<span>On Spotify</span>
-					</>
-				) : selectedMenuCategory === 'mostlyPlayed' ? (
-					<>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Album</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Artist</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Popularity</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
-					</div>
-						<Button
-							name={'Give a rating'}
-							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-						/>
-						<Button
-							name={'Play track preview'}
-							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-						/>
-						<span>Play </span>
-						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-						<span>On Spotify</span>
-					</>
-				) : selectedMenuCategory === 'ratedTracks' ? (
-					<>
-					<div className={trackButtonGroup}>
-						<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
-						<Button call={() => handleNextCollectionGroup(ratedTracks)}>{next}</Button>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Album</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Artist</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Rating</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
-					</div>
-						<Button
-							name={'Give a rating'}
-							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-						/>
-						<Button
-							name={'Play track preview'}
-							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-						/>
-						<span>Play </span>
-						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-						<span>On Spotify</span>
-					</>
-				) : selectedMenuCategory === 'playlists' ? (
-					<div>
-						<p className={textClasses}>{selectedSpotifyItem.track}</p>
-						<Button
-							name={'Give a rating'}
-							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-						/>
-						<Button
-							name={'Play track preview'}
-							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-						/>
-						<span>Visit </span>
-						<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a>
-						<span>On Spotify</span>
-					</div>
-				) : null
-			)}
-		</>
+			{selectedMenuCategory === 'likedTracks' ? (
+				<div className={trackButtonGroup}>
+					<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
+					<Button call={() => handleNextCollectionGroup(likedTracks)}>{next}</Button>
+				</div>
+			) : selectedMenuCategory === 'ratedTracks' ? (
+				<div className={trackButtonGroup}>
+					<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
+					<Button call={() => handleNextCollectionGroup(ratedTracks)}>{next}</Button>
+				</div>
+			) : null }
+
+			<div className=''>
+				{selectedSpotifyItem && (
+					selectedMenuCategory === 'recentlyPlayed' ? (
+						<>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Album</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Artist</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Release Date</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
+						</div>
+						<div className={trackSubtitleButtonGroup}>
+							<Button
+								name={'Give a Rating'}
+								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							/>
+							<Button
+								name={'Play Track Preview'}
+								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							/>
+							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+						</div>
+						</>
+					) : selectedMenuCategory === 'likedTracks' ? (
+						<>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Album</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Artist</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Release Date</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
+						</div>
+						<div>
+							<Button
+								name={'Give a Rating'}
+								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							/>
+							<Button
+								name={'Play Track Preview'}
+								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							/>
+							<span>Play </span>
+							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
+							<span>On Spotify</span>
+						</div>
+						</>
+					) : selectedMenuCategory === 'mostlyListened' ? (
+						<>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Followers</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.followers}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Popularity</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
+						</div>
+							<span>Visit </span>
+							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a>
+							<span>On Spotify</span>
+						</>
+					) : selectedMenuCategory === 'mostlyPlayed' ? (
+						<>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Album</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Artist</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Popularity</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
+						</div>
+						<div>
+							<Button
+								name={'Give a Rating'}
+								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							/>
+							<Button
+								name={'Play Track Preview'}
+								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							/>
+							<span>Play </span>
+							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
+							<span>On Spotify</span>
+						</div>
+						</>
+					) : selectedMenuCategory === 'ratedTracks' ? (
+						<>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Album</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Artist</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						</div>
+						<div className={trackSubtitleGroup}>
+							<p className={trackSubtitle}>Rating</p>
+							<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
+						</div>
+						<div>
+							<Button
+								name={'Give a Rating'}
+								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							/>
+							<Button
+								name={'Play Track Preview'}
+								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							/>
+							<span>Play </span>
+							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
+							<span>On Spotify</span>
+						</div>
+						</>
+					) : selectedMenuCategory === 'playlists' ? (
+						<div>
+							<span>Visit </span>
+							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a>
+							<span>On Spotify</span>
+						</div>
+					) : null
+				)}
+			</div>
+		</div>
 		)
 	}
 
 	return(
 		<div>
+{/*			<Track
+			trackName={selectedSpotifyItem?.track}
+			artistName={selectedSpotifyItem?.artist}
+			/>*/}
 			<Button
 				name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 				call={authenticate}
 				isDisabled={isAuthorized}
 			/>	
+
+			<div className='grid grid-cols-2'>
+				{renderTracksView()}
+				<Menu 
+					menuList={trackMenuList}
+					renderMenu={renderMenu}
+				/>
+			</div>
+
 			<Button
 				name={"Logout"}
 				call={logout}
-			/>
-
-			<Placeholder isLoading={isLoading}>
-				{renderTracksView()}
-			</Placeholder>
-
-			<Menu 
-				menuList={trackMenuList}
-				renderMenu={renderMenu}
 			/>
 
 		</div>

@@ -13,8 +13,8 @@ export default function Login() {
 	const userAuthStore = useUserAuthStore()
 
 	return(
-		<div>
-			<h1>Login your Account</h1>
+		<div className='flex flex-col items-center'>
+			<h1 className='my-4'>Login your Account</h1>
 			<Form 
 				inputs = {loginInputs}
 				call = {login}
@@ -25,8 +25,11 @@ export default function Login() {
 				isDisabled = {isLoginButtonDisabled}
 			/>
 			
+			<div className='my-4'>
 				<span>Don't have an account? </span>
 				<NavLink to='/register'>Register</NavLink>
+			</div>
+
 			</Form>
 		</div>
 	)

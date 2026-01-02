@@ -18,7 +18,7 @@ export const containerStyle = () => {
 
 // Images
 export const imageStyle = () => {
-	const imgDefault = 'w-64 h-64'
+	const imgDefault = 'w-42 h-42'
 	return imgDefault
 }
 
@@ -74,7 +74,7 @@ export const alertStyle = (status) => {
 
 // Menu
 export const menuStyle = () => {
-	const menuCategoryName = 'cursor-pointer select-none'
+	const menuCategoryName = 'text-6xl mt-6 cursor-pointer select-none'
 
 	return{
 		menuCategoryName
@@ -90,16 +90,18 @@ export const textStyle = () => {
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
-	const trackSubtitleGroup = 'grid grid-cols-2'
-	const trackSubtitle = 'text-left'
-	const trackSubtitleInfo = 'text-right'
-	const trackButtonGroup = 'flex justify-between'
+	const trackSubtitleGroup = 'grid grid-cols-[auto_1fr] gap-8 text-3xl mb-3'
+	const trackSubtitle = 'text-left text-accent-light'
+	const trackSubtitleInfo = 'text-right text-accent'
+	const trackButtonGroup = 'flex justify-between mb-4'
+	const trackSubtitleButtonGroup = 'grid grid-rows-3 gap-3 justify-items-start text-3xl mt-6'
 
 	return {
 		trackGroup,
 		trackSubtitleGroup,
 		trackSubtitle,
 		trackSubtitleInfo,
-		trackButtonGroup
+		trackButtonGroup,
+		trackSubtitleButtonGroup
 	}
 } 
