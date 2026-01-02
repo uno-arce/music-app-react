@@ -1,41 +1,65 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Tuffy:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bitcount Grid Double", sans-serif;
+  --font-body: "Tuffy", sans-serif;
+
+  --color-base: #566B5D;
+  --color-base-light: #9AB6A3;
+  --color-accent: #E12AFB;
+  --color-accent-light: #C49CCA;
+  --color-interactive: #ED6AFF;
+  --color-background-light: #DCFCE7;
+  --color-background-dark: #222623;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@layer base {
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
   }
-  to {
-    transform: rotate(360deg);
+
+  #root {
+    width: 100%;
+    max-width: 1600px;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  a {
+    color: var(--color-accent);
+
+    &:hover {
+      color: var(--color-interactive);
+    }
   }
-}
 
-.card {
-  padding: 2em;
-}
+  h1 {
+    color: var(--color-accent);
+    font-size: var(--text-5xl);
+    line-height: var(--leading-tight);
+    text-wrap: wrap;
+  }
 
-.read-the-docs {
-  color: #888;
+  h2 {
+    font-family: var(--font-display-header);
+  }
+
+  button {
+    color: var(--color-base-light);
+
+    &:hover {
+      color: var(--color-accent);
+    }
+
+    &:focus {
+      color: var(--color-accent);
+    }
+  }
 }
