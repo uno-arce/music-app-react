@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Collection({ items, isSelectable, openCollection, isOpen, renderItem, children }) {
+export default function Collection({ items, isSelectable, openCollection, isOpen, renderItem, structure, children }) {
 
 	const dataCollection = items.map((item, index) => {
 		return(
@@ -13,9 +13,9 @@ export default function Collection({ items, isSelectable, openCollection, isOpen
 		)
 	})
 	return(
-		<>
+		<div className={structure}>
 			{dataCollection}
 			{isOpen && children}
-		</>
+		</div>
 	)
 }
