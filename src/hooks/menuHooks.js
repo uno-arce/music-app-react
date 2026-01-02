@@ -33,6 +33,7 @@ const useMenu = () => {
 	const handleSelectMenuCategory = (category) => {
 		componentStore.setSelectedMenuCategory(category.activeCategoryKey)
 		componentStore.setCollectionSelectedIndex(0)
+		componentStore.setCollectionSelectedGroup(1)
 
 		console.log('Active category: ', category.activeCategoryKey)
 	}
