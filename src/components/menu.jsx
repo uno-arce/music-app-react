@@ -2,7 +2,7 @@ import React from 'react'
 import useMenu from '../hooks/menuHooks'
 import {menuStyle} from '../styles/style'
 
-export default function Menu({menuList, renderMenu}) {
+export default function Menu({menuList, renderMenu, structure}) {
 	const { handleSelectMenuCategory } = useMenu()
 	const { menuCategoryName } = menuStyle()
 
@@ -19,7 +19,7 @@ export default function Menu({menuList, renderMenu}) {
 	})
 
 	return(
-		<div>
+		<div className={structure}>
 			{menu}
 		</div>
 	)
