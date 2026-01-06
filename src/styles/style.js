@@ -18,7 +18,7 @@ export const containerStyle = () => {
 
 // Images
 export const imageStyle = () => {
-	const imgDefault = 'w-42 h-42'
+	const imgDefault = 'aspect-square object-cover'
 	return imgDefault
 }
 
@@ -74,7 +74,7 @@ export const alertStyle = (status) => {
 
 // Menu
 export const menuStyle = () => {
-	const menuCategoryName = 'text-6xl mt-6 cursor-pointer select-none'
+	const menuCategoryName = 'text-6xl text-left cursor-pointer select-none'
 
 	return{
 		menuCategoryName
@@ -87,14 +87,32 @@ export const textStyle = () => {
 	return textDefault
 }
 
+// Tracks
+export const trackStyle = () => {
+	const trackControlGroup = 'flex gap-4'
+	const trackInfoGroup = 'flex flex-col items-center text-sm text-base-light'
+	const trackInfoName = 'text-accent'
+	const trackInfoArtist = 'text-accent-light'
+	const trackVolumeGroup = 'flex gap-4'
+	const trackButton = 'text-accent hover:'
+
+	return {
+		trackControlGroup,
+		trackInfoGroup,
+		trackInfoName,
+		trackInfoArtist,
+		trackVolumeGroup
+	}
+}
+
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
-	const trackSubtitleGroup = 'grid grid-cols-[auto_1fr] gap-8 text-3xl mb-3'
+	const trackSubtitleGroup = 'grid grid-cols-[auto_1fr] gap-8 text-2xl mb-3'
 	const trackSubtitle = 'text-left text-accent-light'
 	const trackSubtitleInfo = 'text-right text-accent'
 	const trackButtonGroup = 'flex justify-between mb-4'
-	const trackSubtitleButtonGroup = 'grid grid-rows-3 gap-3 justify-items-start text-3xl mt-6'
+	const trackSubtitleButtonGroup = 'text-2xl mt-12'
 
 	return {
 		trackGroup,
