@@ -96,20 +96,20 @@ export default function Homeprofile() {
 		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
 
 		return(
-		<div>
+		<div className='col-span-1'>
 			<div className='h-32'>
 				{selectedSpotifyItem && (
 					selectedMenuCategory === 'mostlyListened' ? (
-						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.artist}</h1>
+						<h1>{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}</h1>
 					) : selectedMenuCategory === 'playlists' ? (
-						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.playlist}</h1>
+						<h1>{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}</h1>
 					) : (
-						<h1>{collectionSelectedIndex + 1} {selectedSpotifyItem.track}</h1>
+						<h1>{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}</h1>
 					)
 				)}
 			</div>
 
-			<div className={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} h-[337px] border-b border-solid border-accent-light rounded-xs`}>
+			<div className={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} h-[324px] border-b border-solid border-accent-light rounded-xs`}>
 				<Collection 
 					items={spotifyCollectionItems}
 					isSelectable={true}
@@ -143,7 +143,7 @@ export default function Homeprofile() {
 				</div>
 			) : null }
 
-			<div className=''>
+			<div>
 				{selectedSpotifyItem && (
 					selectedMenuCategory === 'recentlyPlayed' ? (
 						<>
@@ -160,14 +160,6 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<Button
-								name={'Give a Rating'}
-								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							/>
-							<Button
-								name={'Play Track Preview'}
-								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-							/>
 							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
 						</div>
 						</>
@@ -185,18 +177,8 @@ export default function Homeprofile() {
 							<p className={trackSubtitle}>Release Date</p>
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
 						</div>
-						<div>
-							<Button
-								name={'Give a Rating'}
-								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							/>
-							<Button
-								name={'Play Track Preview'}
-								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-							/>
-							<span>Play </span>
-							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-							<span>On Spotify</span>
+						<div className={trackSubtitleButtonGroup}>
+							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
 						</div>
 						</>
 					) : selectedMenuCategory === 'mostlyListened' ? (
@@ -209,9 +191,9 @@ export default function Homeprofile() {
 							<p className={trackSubtitle}>Popularity</p>
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
 						</div>
-							<span>Visit </span>
-							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a>
-							<span>On Spotify</span>
+						<div className={trackSubtitleButtonGroup}>
+							<span>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a> On Spotify</span>
+						</div>
 						</>
 					) : selectedMenuCategory === 'mostlyPlayed' ? (
 						<>
@@ -227,18 +209,8 @@ export default function Homeprofile() {
 							<p className={trackSubtitle}>Popularity</p>
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
 						</div>
-						<div>
-							<Button
-								name={'Give a Rating'}
-								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							/>
-							<Button
-								name={'Play Track Preview'}
-								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-							/>
-							<span>Play </span>
-							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-							<span>On Spotify</span>
+						<div className={trackSubtitleButtonGroup}>
+							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
 						</div>
 						</>
 					) : selectedMenuCategory === 'ratedTracks' ? (
@@ -255,25 +227,13 @@ export default function Homeprofile() {
 							<p className={trackSubtitle}>Rating</p>
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
 						</div>
-						<div>
-							<Button
-								name={'Give a Rating'}
-								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							/>
-							<Button
-								name={'Play Track Preview'}
-								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-							/>
-							<span>Play </span>
-							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track} </a>
-							<span>On Spotify</span>
+						<div className={trackSubtitleButtonGroup}>
+							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
 						</div>
 						</>
 					) : selectedMenuCategory === 'playlists' ? (
-						<div>
-							<span>Visit </span>
-							<a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a>
-							<span>On Spotify</span>
+						<div className={trackSubtitleButtonGroup}>
+							<span>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</span>
 						</div>
 					) : null
 				)}
@@ -283,29 +243,51 @@ export default function Homeprofile() {
 	}
 
 	return(
-		<div>
-{/*			<Track
-			trackName={selectedSpotifyItem?.track}
-			artistName={selectedSpotifyItem?.artist}
-			/>*/}
-			<Button
-				name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
-				call={authenticate}
-				isDisabled={isAuthorized}
-			/>	
+		<div className='grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 h-screen'>
+			<div className='col-span-2 row-span-1 h-22 flex justify-between'>
+				<Track
+				trackName={selectedSpotifyItem?.track}
+				artistName={selectedSpotifyItem?.artist}
+				structure='grid grid-cols-[1fr_2fr_1fr] grow items-center justify-items-center'
+				/>
+				<Button
+					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
+					call={authenticate}
+					isDisabled={isAuthorized}
+				/>	
+			</div>
 
-			<div className='grid grid-cols-2'>
-				{renderTracksView()}
+			{renderTracksView()}
+
+			<div className='col-span-1 flex flex-col gap-18'>
+				<div className='h-8 flex gap-4 justify-end'>
+					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
+						<>
+						<Button
+							name={'Give a Rating'}
+							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+						/>
+						<Button
+							name={'Play Track Preview'}
+							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+						/>
+						</>
+					)}
+				</div>
+
 				<Menu 
 					menuList={trackMenuList}
 					renderMenu={renderMenu}
+					structure='flex flex-col gap-8 self-center'
 				/>
 			</div>
 
-			<Button
-				name={"Logout"}
-				call={logout}
-			/>
+			<div className='col-span-2 h-22 flex grow justify-end'>
+				<Button
+					name={"Logout"}
+					call={logout}
+				/>
+			</div>
 
 		</div>
 	)
