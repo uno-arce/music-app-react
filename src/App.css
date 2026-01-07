@@ -63,4 +63,46 @@
       color: var(--color-accent);
     }
   }
+
+  img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    max-width: 100%;
+  }
 }
+
+@layer components {
+  .button {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .button-primary {
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent-light);
+    border-radius: 3px;
+    padding: 4px 6px 4px 6px;
+
+    &:hover, &:focus {
+      color: var(--color-accent);
+      border: 1px solid var(--color-interactive);
+    }
+  }
+
+  .button-secondary {
+    font-size: var(--text-sm);
+    color: var(--color-base-light);
+    border: 1px solid var(--color-base-light);
+    border-radius: 3px;
+    padding: 4px 6px 4px 6px;
+
+    &:hover, &:focus {
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent-light);
+    }
+  }
+}
+
