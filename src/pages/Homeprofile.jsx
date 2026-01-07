@@ -47,7 +47,6 @@ export default function Homeprofile() {
 	const renderTracks = (item, index) => {
 	    return (
 	        <img 
-	            className={imageClasses} 
 	            src={item.image} 
 	        />
 	    );
@@ -76,7 +75,7 @@ export default function Homeprofile() {
 
 	const renderRatingView = (item, ratingButton) => (
 		<div className={flex}>
-			<img className={imageClasses} src={item.image}/>
+			<img src={item.image}/>
 			<div className={ratingGroup}>
 				<p className={ratingTitle}>Your rating to {item.track} by {item.artist}</p>
 				<div className={ratingDefault}>
@@ -244,7 +243,7 @@ export default function Homeprofile() {
 
 	return(
 		<div className='grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 h-screen'>
-			<div className='col-span-2 row-span-1 h-22 flex justify-between'>
+			<div className='col-span-2 row-span-1 h-22 flex justify-between items-center'>
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
@@ -254,22 +253,25 @@ export default function Homeprofile() {
 					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 					call={authenticate}
 					isDisabled={isAuthorized}
+					variant={'button button-primary'}
 				/>	
 			</div>
 
 			{renderTracksView()}
 
 			<div className='col-span-1 flex flex-col gap-18'>
-				<div className='h-8 flex gap-4 justify-end'>
+				<div className='h-10 flex gap-4 justify-end items-center'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<>
 						<Button
 							name={'Give a Rating'}
 							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							variant={'button button-secondary'}
 						/>
 						<Button
 							name={'Play Track Preview'}
 							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							variant={'button button-secondary'}
 						/>
 						</>
 					)}
