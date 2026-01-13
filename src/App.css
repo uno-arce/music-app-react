@@ -49,10 +49,18 @@
   }
 
   h2 {
-    font-family: var(--font-display);
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: var(--text-3xl);
+  }
+
+  h3 {
+    color: var(--color-base);
+    font-size: var(--text-sm);
   }
 
   button {
+    font-size: var(--text-normal);
     color: var(--color-base-light);
 
     &:hover {
@@ -70,6 +78,12 @@
     display: block;
     max-width: 100%;
   }
+
+  label {
+    font-size: var(--text-sm);
+    font-weight: bold;
+  }
+
 }
 
 @layer components {
@@ -81,6 +95,7 @@
   }
 
   .button-primary {
+    font-size: var(--text-normal);
     color: var(--color-accent);
     border: 1px solid var(--color-accent-light);
     border-radius: 3px;
@@ -112,6 +127,17 @@
 
     &:hover {
       color: var(--color-accent-light);
+    }
+  }
+
+  .input {
+    color: var();
+    border-bottom: 1px solid var(--color-base-light);
+    padding: 4px 0 4px 0;
+
+    &:focus {
+      outline: none;
+      border-bottom: 1px solid var(--color-base);
     }
   }
 }
