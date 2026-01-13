@@ -70,11 +70,11 @@ const useAuth = () => {
 
 	const isRegisterButtonDisabled = !userAuthStore.isUsernameLengthCorrect || !userAuthStore.isUsernameCharactersCorrect || !userAuthStore.isEmailFormatCorrect || !userAuthStore.isEmailAvailable || !userAuthStore.isPasswordCharactersCorrect || !userAuthStore.isPasswordTextCaseCorrect || !userAuthStore.isPasswordLengthCorrect
 
-	const isUsernameCorrect = !userAuthStore.isUsernameLengthCorrect && !userAuthStore.isUsernameCharactersCorrect
+	const isUsernameIncorrect = !userAuthStore.isUsernameLengthCorrect || !userAuthStore.isUsernameCharactersCorrect
 
-	const isEmailCorrect = !userAuthStore.isEmailFormatCorrect && !userAuthStore.isEmailAvailable
+	const isEmailIncorrect = !userAuthStore.isEmailFormatCorrect || !userAuthStore.isEmailAvailable
 
-	const isPasswordCorrect = !userAuthStore.isPasswordCharactersCorrect && !userAuthStore.isPasswordTextCaseCorrect && !userAuthStore.isPasswordLengthCorrect
+	const isPasswordIncorrect = !userAuthStore.isPasswordCharactersCorrect || !userAuthStore.isPasswordTextCaseCorrect && !userAuthStore.isPasswordLengthCorrect
 
 	const register = () => {
 		userAuthStore.setIsFormDisabled(true)
@@ -193,9 +193,9 @@ const useAuth = () => {
 		registerInputs,
 		isLoginButtonDisabled,
 		isRegisterButtonDisabled,
-		isUsernameCorrect,
-		isEmailCorrect,
-		isPasswordCorrect,
+		isUsernameIncorrect,
+		isEmailIncorrect,
+		isPasswordIncorrect,
 		login,
 		register,
 		logout,
