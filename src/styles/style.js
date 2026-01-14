@@ -25,7 +25,7 @@ export const imageStyle = () => {
 // Popover
 export const popoverStyle = () => {
 	const popoverBackground = 'fixed w-screen h-screen inset-0 backdrop-blur-xs flex flex-col justify-center items-center'
-	const popoverButton = 'fill-neutral-200 hover:fill-neutral-300'
+	const popoverButton = 'fill-neutral-400 hover:fill-accent-light'
 	const popoverDefault = 'relative min-h-fit min-w-fit p-4 bg-neutral-100'
 	return {
 		popoverBackground,
@@ -36,14 +36,14 @@ export const popoverStyle = () => {
 
 // Rating
 export const ratingStyle = (clickedIndex) => {
-	const ratingSymbolFifth= `peer/fifth ${clickedIndex >= 5 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 transition-all`
-	const ratingSymbolFourth= `peer/fourth ${clickedIndex >= 4 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 transition-all`
-	const ratingSymbolThird= `peer/third ${clickedIndex >= 3 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 transition-all`
-	const ratingSymbolSecond= `peer/second ${clickedIndex >= 2 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 transition-all`
-	const ratingSymbolFirst= `peer/first ${clickedIndex >= 1 ? 'fill-blue-200' : 'fill-blue-100'} hover:fill-blue-200 peer-hover/fifth:fill-blue-200 peer-hover/fourth:fill-blue-200 peer-hover/third:fill-blue-200 peer-hover/second:fill-blue-200 transition-all`
-	const ratingGroup = 'flex flex-col items-start w-2xs'
-	const ratingTitle = 'grow text-left text-pretty'
-	const ratingSubtitle = 'text-left'
+	const ratingSymbolFifth= `peer/fifth ${clickedIndex >= 5 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent transition-all`
+	const ratingSymbolFourth= `peer/fourth ${clickedIndex >= 4 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent transition-all`
+	const ratingSymbolThird= `peer/third ${clickedIndex >= 3 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent transition-all`
+	const ratingSymbolSecond= `peer/second ${clickedIndex >= 2 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent transition-all`
+	const ratingSymbolFirst= `peer/first ${clickedIndex >= 1 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent peer-hover/second:fill-accent transition-all`
+	const ratingGroup = 'flex flex-col items-start bg-[#DCFCE7] p-2'
+	const ratingTitle = 'text-2xl text-left text-pretty grow'
+	const ratingSubtitle = 'text-sm text-base-light'
 	const ratingDefault = 'flex flex-row-reverse'
 	return {
 		ratingGroup,

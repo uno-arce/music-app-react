@@ -43,10 +43,9 @@ export default function Rating({ item, call, renderRating }) {
 				key={symbol.index}
 				className={symbol.style} 
 				xmlns="http://www.w3.org/2000/svg" 
-				height="48px"
+				height="36px"
 				viewBox="0 -960 960 960"
-				width="48px" 
-				fill="currentColor"
+				width="36px" 
 				onMouseEnter={() => handleHoverRating(symbol.index)}
 				onMouseLeave={() => handleLeaveRating()}
 				onClick={() => handleRatingSubmit(symbol.index, call)}

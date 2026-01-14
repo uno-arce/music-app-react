@@ -74,10 +74,10 @@ export default function Homeprofile() {
 	)
 
 	const renderRatingView = (item, ratingButton) => (
-		<div className={flex}>
+		<div className='grid grid-cols-[auto_400px] gap-4'>
 			<img src={item.image}/>
 			<div className={ratingGroup}>
-				<p className={ratingTitle}>Your rating to {item.track} by {item.artist}</p>
+				<p className={ratingTitle}>Your rating to <span>{item.track}</span> by <span>{item.artist}</span> </p>
 				<div className={ratingDefault}>
 					{ratingButton}
 				</div>
@@ -91,8 +91,8 @@ export default function Homeprofile() {
 			trackName={selectedSpotifyItem?.track}
 			artistName={selectedSpotifyItem?.artist}
 		/>
-		const next = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
-		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+		const next = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
 
 		return(
 		<div className='col-span-1'>
@@ -132,13 +132,13 @@ export default function Homeprofile() {
 
 			{selectedMenuCategory === 'likedTracks' ? (
 				<div className={trackButtonGroup}>
-					<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
-					<Button call={() => handleNextCollectionGroup(likedTracks)}>{next}</Button>
+					<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>{back}</Button>
+					<Button call={() => handleNextCollectionGroup(likedTracks)} variant='button button-tertiary'>{next}</Button>
 				</div>
 			) : selectedMenuCategory === 'ratedTracks' ? (
 				<div className={trackButtonGroup}>
-					<Button call={() => handlePreviousCollectionGroup()}>{back}</Button>
-					<Button call={() => handleNextCollectionGroup(ratedTracks)}>{next}</Button>
+					<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>{back}</Button>
+					<Button call={() => handleNextCollectionGroup(ratedTracks)} variant='button button-tertiary'>{next}</Button>
 				</div>
 			) : null }
 
@@ -159,7 +159,7 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
 						</div>
 						</>
 					) : selectedMenuCategory === 'likedTracks' ? (
@@ -177,7 +177,7 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
 						</div>
 						</>
 					) : selectedMenuCategory === 'mostlyListened' ? (
@@ -191,7 +191,7 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<span>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a> On Spotify</span>
+							<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a> On Spotify</p>
 						</div>
 						</>
 					) : selectedMenuCategory === 'mostlyPlayed' ? (
@@ -209,7 +209,7 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
 						</div>
 						</>
 					) : selectedMenuCategory === 'ratedTracks' ? (
@@ -227,12 +227,12 @@ export default function Homeprofile() {
 							<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
 						</div>
 						<div className={trackSubtitleButtonGroup}>
-							<span>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
 						</div>
 						</>
 					) : selectedMenuCategory === 'playlists' ? (
 						<div className={trackSubtitleButtonGroup}>
-							<span>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</span>
+							<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</p>
 						</div>
 					) : null
 				)}
