@@ -41,7 +41,7 @@ export const ratingStyle = (clickedIndex) => {
 	const ratingSymbolThird= `peer/third ${clickedIndex >= 3 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent transition-all`
 	const ratingSymbolSecond= `peer/second ${clickedIndex >= 2 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent transition-all`
 	const ratingSymbolFirst= `peer/first ${clickedIndex >= 1 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent peer-hover/second:fill-accent transition-all`
-	const ratingGroup = 'flex flex-col items-start bg-[#DCFCE7] p-2'
+	const ratingGroup = 'flex flex-col items-start bg-[url(src/assets/clean-gray-paper.png)] p-2'
 	const ratingTitle = 'text-2xl text-left text-pretty grow'
 	const ratingSubtitle = 'text-sm text-base-light'
 	const ratingDefault = 'flex flex-row-reverse'
@@ -112,7 +112,7 @@ export const collectionTrackStyle = () => {
 	const trackSubtitle = 'text-left text-accent-light'
 	const trackSubtitleInfo = 'text-right text-accent'
 	const trackButtonGroup = 'flex justify-between mb-4'
-	const trackSubtitleButtonGroup = 'text-2xl mt-12'
+	const trackSubtitleButtonGroup = 'flex gap-2 items-center text-2xl mt-12'
 
 	return {
 		trackGroup,
