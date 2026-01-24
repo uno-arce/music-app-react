@@ -73,8 +73,9 @@ export const alertStyle = (status) => {
 }
 
 // Menu
-export const menuStyle = () => {
-	const menuCategoryName = 'text-6xl text-left cursor-pointer select-none'
+export const menuStyle = (isActive) => {
+	const menuCategoryName = `text-6xl text-left cursor-pointer select-none hover:text-accent
+		${isActive ? 'text-accent' : 'text-base-light'}`
 
 	return{
 		menuCategoryName
@@ -91,8 +92,8 @@ export const textStyle = () => {
 export const trackStyle = () => {
 	const trackControlGroup = 'flex gap-4'
 	const trackInfoGroup = 'flex flex-col items-center text-sm text-base-light'
-	const trackInfoName = 'text-accent'
-	const trackInfoArtist = 'text-accent-light'
+	const trackInfoName = 'text-base'
+	const trackInfoArtist = 'text-base-light'
 	const trackVolumeGroup = 'flex gap-4'
 	const trackButton = 'text-accent hover:'
 
