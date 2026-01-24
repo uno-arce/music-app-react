@@ -3,10 +3,10 @@ import useMenu from '../hooks/menuHooks'
 import {menuStyle} from '../styles/style'
 
 export default function Menu({menuList, renderMenu, structure}) {
-	const { handleSelectMenuCategory } = useMenu()
-	const { menuCategoryName } = menuStyle()
+	const { handleSelectMenuCategory, selectedMenuCategory } = useMenu()
 
 	const menu = menuList.map((category, index) => {
+		const { menuCategoryName } = menuStyle(selectedMenuCategory === category.activeCategoryKey)
 		return (
 			<div
 				className={menuCategoryName} 

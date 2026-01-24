@@ -41,7 +41,7 @@ export default function Homeprofile() {
 	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
 	const renderMenu = (category, index) => (
-		<Button name={category.label}/>
+		<>{category.label}</>
 	)
 	
 	const renderTracks = (item, index) => {
