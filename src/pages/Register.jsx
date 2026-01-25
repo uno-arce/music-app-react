@@ -12,6 +12,8 @@ export default function Register() {
 
 	const { handleNextStepForm, currentFormStep } = useForm()
 
+	const letterDisplay = 'font-display text-white text-[128px] max-xl:text-[88px]'
+
 	const renderRegisterFormValidatorView = (field) => {
 		const validSymbol = <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" className='fill-interactive'><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
 		const invalidSymbol = <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" className='fill-base-light'><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
@@ -136,33 +138,33 @@ export default function Register() {
 	}
 
 	return(
-		<div className='grid grid-cols-[350px_1fr] grid-rows-[auto_600px] gap-8 content-center h-screen'>
-			<h2 className='col-span-2'>Register an Account</h2>
-			<div className='flex flex-col'>
+		<div className='max-lg:flex max-lg:flex-col grid grid-cols-[1fr_3fr] grid-rows-[auto_600px] gap-8 content-center justify-center h-dvh'>
+			<h2 className='col-span-2 max-lg:text-center'>Register an Account</h2>
+			<div className='flex flex-col max-lg:items-center'>
 				<Form
 					inputs={registerInputs}
 					call={register}
 					isDisabled={isFormDisabled}
 					isStepForm={true}
 					formValidator={renderRegisterFormValidatorView}
-					structure='grid gap-6'
+					structure='grid gap-6 w-[350px]'
 				>
 					{renderFinalStepValidatorView()}
 				</Form>
-				<div className='mt-auto self-center'>
+				<div className='mt-auto self-center max-lg:mt-6'>
 					<span>Already have an account? </span>
 					<NavLink to='/login'>Login</NavLink>
 				</div>
 			</div>
 
-			<div className='flex flex-col justify-center bg-accent'>
+			<div className='flex flex-col justify-center bg-accent max-lg:hidden'>
 				<div className='grid grid-cols-6 grow items-end justify-items-center'>
-					<h1 className='font-display text-white text-[128px]'>M</h1>
-					<h1 className='font-display text-white text-[128px]'>U</h1>
-					<h1 className='font-display text-white text-[128px]'>S</h1>
-					<h1 className='font-display text-white text-[128px]'>I</h1>
-					<h1 className='font-display text-white text-[128px]'>C</h1>
-					<svg className='self-center' width="118" height="118" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+					<h1 className={letterDisplay}>M</h1>
+					<h1 className={letterDisplay}>U</h1>
+					<h1 className={letterDisplay}>S</h1>
+					<h1 className={letterDisplay}>I</h1>
+					<h1 className={letterDisplay}>C</h1>
+					<svg className='self-center w-[118px] h-[118px] max-xl:w-[88px] max-xl:h-[88px]'  viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
 					<rect width="128" height="128" fill="url(#pattern0_69_37)"/>
 					<defs>
 					<pattern id="pattern0_69_37" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -173,12 +175,12 @@ export default function Register() {
 					</svg>
 				</div>
 				<div className='grid grid-cols-6 grow justify-items-center bg-[#00D492]'>
-					<h1 className='font-display text-white text-[128px]'></h1>
-					<h1 className='font-display text-white text-[128px]'></h1>
-					<h1 className='font-display text-white text-[128px]'>L</h1>
-					<h1 className='font-display text-white text-[128px]'>A</h1>
-					<h1 className='font-display text-white text-[128px]'>N</h1>
-					<h1 className='font-display text-white text-[128px]'>E</h1>
+					<h1></h1>
+					<h1></h1>
+					<h1 className={letterDisplay}>L</h1>
+					<h1 className={letterDisplay}>A</h1>
+					<h1 className={letterDisplay}>N</h1>
+					<h1 className={letterDisplay}>E</h1>
 				</div>
 			</div>
 		</div>
