@@ -9,6 +9,7 @@ import useCollection from '../hooks/collectionHooks'
 import useTrack from '../hooks/trackHooks'
 import useMenu from '../hooks/menuHooks'
 import useAlert from '../hooks/alertHooks'
+import useSidebar from '../hooks/sidebarHooks'
 
 import Form from '../components/form'
 import Button from '../components/button'
@@ -19,6 +20,7 @@ import Rating from '../components/rating'
 import Track from '../components/track'
 import Alert from '../components/alert'
 import Menu from '../components/menu'
+import Sidebar from '../components/sidebar'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
 
@@ -30,7 +32,8 @@ export default function Homeprofile() {
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
-	const { trackMenuList, selectedMenuCategory } = useMenu()
+	const { trackMenuList, selectedMenuCategory, selectedMenuLabel } = useMenu()
+	const { handleOpenSidebarView} = useSidebar()
 	const { alertStatus } = useAlert()
 
 	const { flex, flexColumn } = containerStyle()
@@ -93,7 +96,7 @@ export default function Homeprofile() {
 		const outbound = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m356-300 204-204v90h80v-226H414v80h89L300-357l56 57ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
 
 		return(
-		<div className='col-span-1'>
+		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
 			<div className='relative h-32'>
 				<img
 					src='/src/assets/star-pink.png'
@@ -110,27 +113,25 @@ export default function Homeprofile() {
 				)}
 			</div>
 
-			<div className={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} h-[324px] border-b border-solid border-accent-light rounded-xs z-1 relative`}>
-				<Collection 
-					items={spotifyCollectionItems}
-					isSelectable={true}
-					openCollection={handleOpenCollectionView}
-					isOpen={isPopoverOpen}
-					renderItem={renderTracks}
-					structure={'grid grid-cols-5'}
+			<Collection 
+				items={spotifyCollectionItems}
+				isSelectable={true}
+				openCollection={handleOpenCollectionView}
+				isOpen={isPopoverOpen}
+				renderItem={renderTracks}
+				structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
+			>
+				<Popover 
+					renderPopover={renderPopoverRatingView}
 				>
-					<Popover 
-						renderPopover={renderPopoverRatingView}
-					>
-						<Rating 
-							item={popoverItem}
-							call={rateTrack}
-							renderRating={renderRatingView}
-						/>
-					</Popover>
-					<Alert/>
-				</Collection>
-			</div>
+					<Rating 
+						item={popoverItem}
+						call={rateTrack}
+						renderRating={renderRatingView}
+					/>
+				</Popover>
+				<Alert/>
+			</Collection>
 
 			{selectedMenuCategory === 'likedTracks' ? (
 				<div className={trackButtonGroup}>
@@ -250,8 +251,8 @@ export default function Homeprofile() {
 	}
 
 	return(
-		<div className='grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 h-screen'>
-			<div className='col-span-2 row-span-1 h-22 flex justify-between items-center'>
+		<div className='max-xl:flex max-xl:flex-col grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 min-h-dvh'>
+			<div className='order-1 col-span-2 row-span-1 h-22 flex justify-between items-center'>
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
@@ -267,7 +268,7 @@ export default function Homeprofile() {
 
 			{renderTracksView()}
 
-			<div className='col-span-1 flex flex-col gap-18'>
+			<div className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 order-3 col-span-1 flex flex-col gap-18'>
 				<div className='h-10 flex gap-4 justify-end items-center'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<>
@@ -288,11 +289,29 @@ export default function Homeprofile() {
 				<Menu 
 					menuList={trackMenuList}
 					renderMenu={renderMenu}
-					structure='flex flex-col gap-8 self-center'
+					structure='max-xl:hidden flex flex-col gap-8 self-center'
 				/>
+
+				<Button
+					name={selectedMenuLabel}
+					call={() => handleOpenSidebarView()}
+					variant='xl:hidden relative button button-secondary self-center gap-1'
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+				</Button>
+				<Sidebar structure='sidebar xl:hidden fixed flex flex-col'>
+					<h3>Navigation</h3>
+					<hr/>
+					<Menu 
+						menuList={trackMenuList}
+						renderMenu={renderMenu}
+						structure='flex flex-col gap-2 mt-2'
+					/>
+				</Sidebar>
+
 			</div>
 
-			<div className='col-span-2 h-22 flex gap-4 justify-between items-center'>
+			<div className='order-4 col-span-2 h-22 flex gap-4 justify-between items-center mt-auto'>
 				<hr className='border-accent-light grow'/>
 				<Button
 					name={"Logout"}
