@@ -46,7 +46,13 @@ const useComponentStore = create((set) => ({
 
 	// Menu
 	selectedMenuCategory: 'recentlyPlayed',
+	selectedMenuLabel: 'Recently Played',
 	setSelectedMenuCategory: (category) => set({ selectedMenuCategory: category }),
+	setSelectedMenuLabel: (label) => set({  selectedMenuLabel: label }),
+
+	// Sidebar
+	isSidebarOpen: false,
+	setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
 
 	// Track
 	trackPreviewDetails: null,
