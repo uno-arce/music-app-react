@@ -24,7 +24,7 @@ export const imageStyle = () => {
 
 // Popover
 export const popoverStyle = () => {
-	const popoverBackground = 'fixed w-screen h-screen inset-0 backdrop-blur-xs flex flex-col justify-center items-center'
+	const popoverBackground = 'fixed w-screen h-screen inset-0 backdrop-blur-xs flex flex-col justify-center items-center z-5'
 	const popoverButton = 'fill-neutral-400 hover:fill-accent-light'
 	const popoverDefault = 'relative min-h-fit min-w-fit p-4 bg-neutral-100'
 	return {
@@ -74,7 +74,7 @@ export const alertStyle = (status) => {
 
 // Menu
 export const menuStyle = (isActive) => {
-	const menuCategoryName = `text-6xl text-left cursor-pointer select-none hover:text-accent
+	const menuCategoryName = `max-xl:text-lg max-2xl:text-5xl text-6xl text-left whitespace-nowrap cursor-pointer select-none hover:text-accent
 		${isActive ? 'text-accent' : 'text-base-light'}`
 
 	return{
@@ -92,8 +92,8 @@ export const textStyle = () => {
 export const trackStyle = () => {
 	const trackControlGroup = 'flex gap-4'
 	const trackInfoGroup = 'flex flex-col items-center text-sm text-base-light'
-	const trackInfoName = 'text-base'
-	const trackInfoArtist = 'text-base-light'
+	const trackInfoName = 'text-base text-center'
+	const trackInfoArtist = 'text-base-light text-center'
 	const trackVolumeGroup = 'flex gap-4'
 	const trackButton = 'text-accent hover:'
 
