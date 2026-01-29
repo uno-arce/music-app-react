@@ -164,5 +164,15 @@
       border-bottom: 1px solid var(--color-base);
     }
   }
+
+  .sidebar {
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 150px;
+    padding: 1rem;
+    background-image: url('./src/assets/clean-gray-paper.png');
+    z-index: 5;
+  }
 }
 
