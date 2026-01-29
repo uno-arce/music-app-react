@@ -32,6 +32,7 @@ const useMenu = () => {
 
 	const handleSelectMenuCategory = (category) => {
 		componentStore.setSelectedMenuCategory(category.activeCategoryKey)
+		componentStore.setSelectedMenuLabel(category.label)
 		componentStore.setCollectionSelectedIndex(0)
 		componentStore.setCollectionSelectedGroup(1)
 
@@ -41,7 +42,8 @@ const useMenu = () => {
 	return {
 		trackMenuList,
 		handleSelectMenuCategory,
-		selectedMenuCategory: componentStore.selectedMenuCategory
+		selectedMenuCategory: componentStore.selectedMenuCategory,
+		selectedMenuLabel: componentStore.selectedMenuLabel
 	}
 }
 
