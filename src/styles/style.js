@@ -90,8 +90,8 @@ export const textStyle = () => {
 
 // Tracks
 export const trackStyle = () => {
-	const trackControlGroup = 'flex gap-4'
-	const trackInfoGroup = 'flex flex-col items-center text-sm text-base-light'
+	const trackControlGroup = 'max-sm:order-2 flex gap-4'
+	const trackInfoGroup = 'max-sm:order-1 flex flex-col items-center text-sm text-base-light'
 	const trackInfoName = 'text-base text-center'
 	const trackInfoArtist = 'text-base-light text-center'
 	const trackVolumeGroup = 'flex gap-4'
@@ -109,11 +109,11 @@ export const trackStyle = () => {
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
-	const trackSubtitleGroup = 'grid grid-cols-[auto_1fr] gap-8 text-2xl mb-3'
+	const trackSubtitleGroup = 'max-sm:text-lg grid grid-cols-[auto_1fr] gap-8 text-2xl mb-3'
 	const trackSubtitle = 'text-left text-accent-light'
 	const trackSubtitleInfo = 'text-right text-accent'
 	const trackButtonGroup = 'flex justify-between mb-4'
-	const trackSubtitleButtonGroup = 'flex gap-2 items-center text-2xl mt-12'
+	const trackSubtitleButtonGroup = 'max-sm:text-lg max-sm:items-start flex gap-2 items-center text-2xl mt-12'
 
 	return {
 		trackGroup,
