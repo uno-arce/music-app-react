@@ -60,7 +60,7 @@ export default function Track({ trackName, artistName, structure }) {
 				</div>
 			</div>
 
-			<div className='flex gap-1 group'>
+			<div className='max-sm:hidden flex gap-1 group'>
 				<button
 					className='button button-tertiary group-hover:text-accent-light'
 				>
