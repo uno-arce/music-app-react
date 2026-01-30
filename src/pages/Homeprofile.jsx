@@ -78,7 +78,7 @@ export default function Homeprofile() {
 	)
 
 	const renderRatingView = (item, ratingButton) => (
-		<div className='grid grid-cols-[auto_400px]'>
+		<div className='max-md:flex max-md:flex-col grid grid-cols-[auto_400px]'>
 			<img src={item.image}/>
 			<div className={ratingGroup}>
 				<p className={ratingTitle}>Your rating to <span>{item.track}</span> by <span>{item.artist}</span> </p>
@@ -97,18 +97,18 @@ export default function Homeprofile() {
 
 		return(
 		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
-			<div className='relative h-32'>
+			<div className='max-sm:h-24 relative h-32'>
 				<img
 					src='/src/assets/star-pink.png'
 					className='absolute w-48 left-4 bottom-[-20px] z-0'
 				/>
 				{selectedSpotifyItem && (
 					selectedMenuCategory === 'mostlyListened' ? (
-						<h1 className='relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}</h1>
+						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}</h1>
 					) : selectedMenuCategory === 'playlists' ? (
-						<h1 className='relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}</h1>
+						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}</h1>
 					) : (
-						<h1 className='relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}</h1>
+						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}</h1>
 					)
 				)}
 			</div>
@@ -119,7 +119,7 @@ export default function Homeprofile() {
 				openCollection={handleOpenCollectionView}
 				isOpen={isPopoverOpen}
 				renderItem={renderTracks}
-				structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
+				structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
 			>
 				<Popover 
 					renderPopover={renderPopoverRatingView}
@@ -256,32 +256,36 @@ export default function Homeprofile() {
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
-				structure='grid grid-cols-[1fr_2fr_1fr] grow items-center justify-items-center'
+				structure='max-sm:grid-cols-[1fr_auto] grid grid-cols-[1fr_2fr_1fr] grow items-center justify-items-center'
 				/>
 				<Button
 					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 					call={authenticate}
 					isDisabled={isAuthorized}
-					variant={'button button-primary'}
+					variant={'max-lg:hidden button button-primary'}
 				/>	
 			</div>
 
 			{renderTracksView()}
 
 			<div className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 order-3 col-span-1 flex flex-col gap-18'>
-				<div className='h-10 flex gap-4 justify-end items-center'>
+				<div className='max-sm:gap-2 h-10 flex gap-4 justify-end items-center'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<>
 						<Button
-							name={'Give a Rating'}
 							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							variant={'button button-secondary'}
-						/>
+							variant={'button button-secondary'}>
+							<span className='max-md:hidden text-inherit'>Give a Rating</span>
+							<svg className='md:hidden'xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+						</Button>
 						<Button
-							name={'Play Track Preview'}
 							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
 							variant={'button button-secondary'}
-						/>
+						>
+							<span className='max-md:hidden text-inherit'>Play Track Preview</span>
+							<svg className='md:hidden' xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
+							<span className='md:hidden text-inherit'>Preview</span>
+						</Button>
 						</>
 					)}
 				</div>
