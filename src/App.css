@@ -5,6 +5,9 @@
   --font-display: "Bitcount Grid Double", sans-serif;
   --font-body: "Tuffy", sans-serif;
 
+  --background-main: url('/src/assets/clean-gray-paper.png');
+  --asset-star: url('/src/assets/star-pink.png');
+
   --color-base: #566B5D;
   --color-base-light: #9AB6A3;
   --color-accent: #E12AFB;
@@ -12,14 +15,29 @@
   --color-interactive: #ED6AFF;
   --color-background-light: #DCFCE7;
   --color-background-dark: #222623;
+  --color-background-body: var(--color-neutral-200)
 }
 
 @layer base {
+  .dark {
+    --background-main: url('/src/assets/black-paper.png');
+    --asset-star: url('/src/assets/star-dark.png');
+
+    --color-base: #DCFCE7;
+    --color-base-light: #778D7E;
+    --color-accent: #F9CDFF;
+    --color-accent-light: #9C859F;
+    --color-interactive: #F39FFF;
+    --color-background-light: #DCFCE7;
+    --color-background-dark: #222623;
+    --color-background-body: var(--color-neutral-600)
+  }
+
   body {
     font-family: var(--font-body);
     font-size: var(--text-lg);
     color: var(--color-base);
-    background-color: var(--color-neutral-200);
+    background-color: var(--color-background-body);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +52,7 @@
     max-width: 1600px;
     padding: 0 2rem 0 2rem;
     background-color: #DCFCE7;
-    background-image: url('./src/assets/clean-gray-paper.png');
+    background-image: var(--background-main)
   }
 
   a {
