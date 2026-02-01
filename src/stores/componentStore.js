@@ -54,6 +54,10 @@ const useComponentStore = create((set) => ({
 	isSidebarOpen: false,
 	setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
 
+	// ThemeToggle
+	isDarkMode: localStorage.getItem('theme') === 'dark',
+	setIsDarkMode: (mode) => set({ isDarkMode: mode }),
+
 	// Track
 	trackPreviewDetails: null,
 	trackCurrentTime: 0,

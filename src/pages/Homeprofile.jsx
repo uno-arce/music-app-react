@@ -21,6 +21,7 @@ import Track from '../components/track'
 import Alert from '../components/alert'
 import Menu from '../components/menu'
 import Sidebar from '../components/sidebar'
+import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
 
@@ -98,10 +99,7 @@ export default function Homeprofile() {
 		return(
 		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
 			<div className='max-sm:h-24 relative h-32'>
-				<img
-					src='/src/assets/star-pink.png'
-					className='absolute w-48 left-4 bottom-[-20px] z-0'
-				/>
+				<div className='absolute w-48 left-4 bottom-[-20px] z-0 bg-[image:var(--asset-star)] bg-cover aspect-square'></div>
 				{selectedSpotifyItem && (
 					selectedMenuCategory === 'mostlyListened' ? (
 						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}</h1>
@@ -316,12 +314,14 @@ export default function Homeprofile() {
 			</div>
 
 			<div className='order-4 col-span-2 h-22 flex gap-4 justify-between items-center mt-auto'>
+				<ThemeToggle/>
 				<hr className='border-accent-light grow'/>
 				<Button
-					name={"Logout"}
 					call={logout}
-					variant='button'
-				/>
+					variant='button button-secondary'
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+				</Button>
 			</div>
 
 		</div>
