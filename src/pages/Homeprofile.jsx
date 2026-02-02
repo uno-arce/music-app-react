@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 import useAuth from '../hooks/authHooks'
 import useSpotifyAuth from '../hooks/spotifyAuthHooks'
@@ -24,6 +25,7 @@ import Sidebar from '../components/sidebar'
 import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
+import { staggerContainer, fadeInLeft, fadeInRight, slideInRight } from '../styles/motion'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -266,31 +268,39 @@ export default function Homeprofile() {
 
 			{renderTracksView()}
 
-			<div className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 order-3 col-span-1 flex flex-col gap-18'>
-				<div className='max-sm:gap-2 h-10 flex gap-4 justify-end items-center'>
+			<div 
+				className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 order-3 col-span-1 flex flex-col gap-18'
+			>
+				<div 
+					className='h-10 flex justify-end items-center'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
-						<>
-						<Button
-							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-							variant={'button button-secondary'}>
-							<span className='max-md:hidden text-inherit'>Give a Rating</span>
-							<svg className='md:hidden'xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
-						</Button>
-						<Button
-							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-							variant={'button button-secondary'}
-						>
-							<span className='max-md:hidden text-inherit'>Play Track Preview</span>
-							<svg className='md:hidden' xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
-							<span className='md:hidden text-inherit'>Preview</span>
-						</Button>
-						</>
+						<motion.div
+						className='flex gap-1'
+						variants={staggerContainer}
+						initial='hidden'
+						animate='show'>
+							<Button
+								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+								variants={fadeInRight}
+								variant={'button button-secondary'}>
+								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+							</Button>
+							<Button
+								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+								variants={fadeInRight}
+								variant={'button button-secondary'}
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
+								<span className='text-inherit'>Preview</span>
+							</Button>
+						</motion.div>
 					)}
 				</div>
 
 				<Menu 
 					menuList={trackMenuList}
 					renderMenu={renderMenu}
+					itemVariants={slideInRight}
 					structure='max-xl:hidden flex flex-col gap-8 self-center'
 				/>
 
