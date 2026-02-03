@@ -1,9 +1,10 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import useTrack from '../hooks/trackHooks'
 
 import { trackStyle  } from '../styles/style'
 
-export default function Track({ trackName, artistName, structure }) {
+export default function Track({ trackName, artistName, structure, itemVariants, ...motionProps }) {
 	const { trackRef, trackPreviewDetails, trackDuration, trackCurrentTime, isTrackPlaying, isTrackMuted, isTrackButtonDisabled, handleTrackDuration, handleTrackCurrentTime, handleTrackTime, handleTimeSeek, togglePlayPause, toggleVolumeOnOff, handleReplay, handleVolumeChange, handleTrackEnd } = useTrack()
 
 	const { trackControlGroup, trackInfoGroup, trackInfoName, trackInfoArtist, trackVolumeGroup } = trackStyle()
@@ -26,7 +27,12 @@ export default function Track({ trackName, artistName, structure }) {
 				preload='metadata'
 			/>
 
-			<div className={trackControlGroup}>
+			<motion.div 
+				className={trackControlGroup}
+				variants={itemVariants}
+				initial='hidden'
+				animate='show'
+				>
 				<button
 					className='button button-tertiary'
 					onClick={togglePlayPause}
@@ -40,9 +46,13 @@ export default function Track({ trackName, artistName, structure }) {
 				>
 					{replayButton}
 				</button>
-			</div>
+			</motion.div>
 
-			<div className={trackInfoGroup}>
+			<motion.div 
+				className={trackInfoGroup}
+				variants={itemVariants}
+				initial='hidden'
+				animate='show'>
 				<p className={trackInfoName}>{trackName}</p>
 				<p className={trackInfoArtist}>{artistName}</p>
 				<div className='flex gap-4'>
@@ -58,9 +68,13 @@ export default function Track({ trackName, artistName, structure }) {
 					/>
 					<p>{trackPreviewDetails ? handleTrackTime(trackDuration) : ''}</p>
 				</div>
-			</div>
+			</motion.div>
 
-			<div className='max-sm:hidden flex gap-1 group'>
+			<motion.div 
+				className='max-sm:hidden flex gap-1 group'
+				variants={itemVariants}
+				initial='hidden'
+				animate='show'>
 				<button
 					className='button button-tertiary group-hover:text-accent-light'
 				>
@@ -75,7 +89,7 @@ export default function Track({ trackName, artistName, structure }) {
 					onChange={handleVolumeChange}
 					className='accent-base-light group-hover:accent-accent-light'
 				/>
-			</div>
+			</motion.div>
 
 		</div>
 	)
