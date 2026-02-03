@@ -25,7 +25,7 @@ import Sidebar from '../components/sidebar'
 import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
-import { staggerContainer, fadeInLeft, fadeInRight, slideInRight } from '../styles/motion'
+import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop } from '../styles/motion'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -101,14 +101,40 @@ export default function Homeprofile() {
 		return(
 		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
 			<div className='max-sm:h-24 relative h-32'>
-				<div className='absolute w-48 left-4 bottom-[-20px] z-0 bg-[image:var(--asset-star)] bg-cover aspect-square'></div>
+				<motion.div className='absolute w-48 left-4 bottom-[-20px] z-0 bg-[image:var(--asset-star)] bg-cover aspect-square'
+					variants={fadeInLeft}
+					initial='hidden'
+					animate='show'>
+				</motion.div>
 				{selectedSpotifyItem && (
 					selectedMenuCategory === 'mostlyListened' ? (
-						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}</h1>
+						<motion.h1 
+							className='max-sm:text-3xl relative z-1'
+							key={[selectedMenuCategory, selectedSpotifyItem.artist]}
+							variants={slideInLeft}
+							initial='hidden'
+							animate='show'>
+							{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}
+						</motion.h1>
 					) : selectedMenuCategory === 'playlists' ? (
-						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}</h1>
+						<motion.h1 
+							className='max-sm:text-3xl relative z-1'
+							key={[selectedMenuCategory, selectedSpotifyItem.playlist]}
+							variants={slideInLeft}
+							initial='hidden'
+							animate='show'>
+							{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}
+						</motion.h1>
 					) : (
-						<h1 className='max-sm:text-3xl relative z-1'>{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}</h1>
+						<motion.h1 
+							className='max-sm:text-3xl relative z-1'
+							key={[selectedMenuCategory, selectedSpotifyItem.track]}
+							variants={slideInLeft}
+							initial='hidden'
+							animate='show'
+							>
+						{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}
+						</motion.h1>
 					)
 				)}
 			</div>
@@ -120,6 +146,11 @@ export default function Homeprofile() {
 				isOpen={isPopoverOpen}
 				renderItem={renderTracks}
 				structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
+				key={selectedMenuCategory}
+				itemVariants={slideInLeft}
+				// variants={staggerContainer}
+				// initial='hidden'
+				// animate='show'
 			>
 				<Popover 
 					renderPopover={renderPopoverRatingView}
@@ -252,19 +283,27 @@ export default function Homeprofile() {
 
 	return(
 		<div className='max-xl:flex max-xl:flex-col grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 min-h-dvh'>
-			<div className='order-1 col-span-2 row-span-1 h-22 flex justify-between items-center'>
+			<motion.div 
+				className='order-1 col-span-2 row-span-1 h-22 flex justify-between items-center border-b border-base-light shadow-[0_3px_3px_-3px_var(--color-base-light)]'
+				variants={slideInTop}
+				initial='hidden'
+				animate='show'
+				>
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
 				structure='max-sm:grid-cols-[1fr_auto] grid grid-cols-[1fr_2fr_1fr] grow items-center justify-items-center'
-				/>
+				itemVariants={fadeInTop}/>
 				<Button
 					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 					call={authenticate}
 					isDisabled={isAuthorized}
 					variant={'max-lg:hidden button button-primary'}
+					variants={fadeInTop}
+					initial='hidden'
+					animate='show'
 				/>	
-			</div>
+			</motion.div>
 
 			{renderTracksView()}
 
@@ -323,16 +362,27 @@ export default function Homeprofile() {
 
 			</div>
 
-			<div className='order-4 col-span-2 h-22 flex gap-4 justify-between items-center mt-auto'>
-				<ThemeToggle/>
-				<hr className='border-accent-light grow'/>
+			<motion.div 
+				className='order-4 col-span-2 h-22 flex gap-4 justify-between items-center mt-auto border-t border-base-light shadow-[0_-3px_3px_-3px_var(--color-base-light)]'
+				variants={slideInBottom}
+				initial='hidden'
+				animate='show'>
+				<ThemeToggle
+					variants={fadeInBottom}
+					initial='hidden'
+					animate='show'
+				/>
+
 				<Button
 					call={logout}
 					variant='button button-secondary'
+					variants={fadeInBottom}
+					initial='hidden'
+					animate='show'
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
 				</Button>
-			</div>
+			</motion.div>
 
 		</div>
 	)
