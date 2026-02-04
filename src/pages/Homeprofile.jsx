@@ -25,13 +25,13 @@ import Sidebar from '../components/sidebar'
 import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
-import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop } from '../styles/motion'
+import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop, scaleIn } from '../styles/motion'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
 	const { authenticate, isAuthorized, isAuthLoading } = useSpotifyAuth()
 	const { isLoading, likedTracks, ratedTracks, spotifyCollectionItems, selectedSpotifyItem, rateTrack, getTrackPreviewDetails } = useSpotifyApi()
-	const { collectionItem, collectionSelectedIndex, isCollectionOpen, handleOpenCollectionView, handlePreviousCollectionGroup, handleNextCollectionGroup } = useCollection()
+	const { collectionItem, collectionSelectedIndex, collectionSelectedGroup, isCollectionOpen, handleOpenCollectionView, handlePreviousCollectionGroup, handleNextCollectionGroup } = useCollection()
 	const { handleOpenPopoverView, handleClosePopoverView, isPopoverOpen, popoverItem } = usePopover()
 	const { isTrackOpen, handleOpenTrackView } = useTrack()
 	const { handleCloseRating } = useRating()
@@ -61,7 +61,12 @@ export default function Homeprofile() {
 
 	const renderPopoverRatingView = (children) => (
 		<div className={popoverBackground}>
-			<div className={flexColumn}>
+			<motion.div 
+				className={flexColumn}
+				variants={scaleIn}
+				initial='hidden'
+				animate='show'
+				exit='exit'>
 				<svg
 					className={popoverButton}
 					xmlns="http://www.w3.org/2000/svg" 
@@ -76,7 +81,7 @@ export default function Homeprofile() {
 				<div className={popoverDefault}>
 					{children}
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	)
 
@@ -139,30 +144,39 @@ export default function Homeprofile() {
 				)}
 			</div>
 
-			<Collection 
-				items={spotifyCollectionItems}
-				isSelectable={true}
-				openCollection={handleOpenCollectionView}
-				isOpen={isPopoverOpen}
-				renderItem={renderTracks}
-				structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
-				key={selectedMenuCategory}
-				itemVariants={slideInLeft}
-				// variants={staggerContainer}
-				// initial='hidden'
-				// animate='show'
-			>
-				<Popover 
-					renderPopover={renderPopoverRatingView}
+			<Placeholder
+				isLoading={isLoading}
+				skeletonNumbers={10}
+				structure={{
+					parent: `${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 gap-1 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`,
+					skeleton: 'aspect-square bg-base-light/40'
+				}}
 				>
-					<Rating 
-						item={popoverItem}
-						call={rateTrack}
-						renderRating={renderRatingView}
-					/>
-				</Popover>
-				<Alert/>
-			</Collection>
+				<Collection 
+					items={spotifyCollectionItems}
+					isSelectable={true}
+					openCollection={handleOpenCollectionView}
+					isOpen={isPopoverOpen}
+					renderItem={renderTracks}
+					structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
+					key={`${selectedMenuCategory}-${collectionSelectedGroup}`}
+					itemVariants={slideInLeft}
+					variants={staggerContainer}
+					initial='hidden'
+					animate='show'
+				>
+					<Popover 
+						renderPopover={renderPopoverRatingView}
+					>
+						<Rating 
+							item={popoverItem}
+							call={rateTrack}
+							renderRating={renderRatingView}
+						/>
+					</Popover>
+					<Alert/>
+				</Collection>
+			</Placeholder>
 
 			{selectedMenuCategory === 'likedTracks' ? (
 				<div className={trackButtonGroup}>

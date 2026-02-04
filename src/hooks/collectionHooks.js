@@ -39,7 +39,8 @@ const useCollection = () => {
 		handlePreviousCollectionGroup,
 		handleNextCollectionGroup,
 		isCollectionOpen: componentStore.isCollectionOpen,
-		collectionSelectedIndex: componentStore.collectionSelectedIndex
+		collectionSelectedIndex: componentStore.collectionSelectedIndex,
+		collectionSelectedGroup: componentStore.collectionSelectedGroup
 	}
 }
 
