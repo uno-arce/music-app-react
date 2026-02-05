@@ -1,10 +1,8 @@
 import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 
-export default function Popover({ renderPopover, close, children }) {
+export default function Popover({ isOpen, renderPopover, children }) {
 	return(
-		<AnimatePresence>
-			{renderPopover(children)}
-		</AnimatePresence>
+		isOpen && renderPopover(children)
 	)
 }
