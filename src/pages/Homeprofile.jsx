@@ -25,7 +25,7 @@ import Sidebar from '../components/sidebar'
 import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
-import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop, scaleIn } from '../styles/motion'
+import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop, scaleIn, scaleOut } from '../styles/motion'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -60,13 +60,13 @@ export default function Homeprofile() {
 	}
 
 	const renderPopoverRatingView = (children) => (
-		<div className={popoverBackground}>
-			<motion.div 
-				className={flexColumn}
-				variants={scaleIn}
-				initial='hidden'
-				animate='show'
-				exit='exit'>
+		<motion.div 
+			className={popoverBackground}
+			variants={scaleOut}
+			initial='hidden'
+			animate='show'
+			exit='exit'>
+			<div className={flexColumn}>
 				<svg
 					className={popoverButton}
 					xmlns="http://www.w3.org/2000/svg" 
@@ -81,8 +81,8 @@ export default function Homeprofile() {
 				<div className={popoverDefault}>
 					{children}
 				</div>
-			</motion.div>
-		</div>
+			</div>
+		</motion.div>
 	)
 
 	const renderRatingView = (item, ratingButton) => (
@@ -111,37 +111,43 @@ export default function Homeprofile() {
 					initial='hidden'
 					animate='show'>
 				</motion.div>
-				{selectedSpotifyItem && (
-					selectedMenuCategory === 'mostlyListened' ? (
-						<motion.h1 
-							className='max-sm:text-3xl relative z-1'
-							key={[selectedMenuCategory, selectedSpotifyItem.artist]}
-							variants={slideInLeft}
-							initial='hidden'
-							animate='show'>
-							{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}
-						</motion.h1>
-					) : selectedMenuCategory === 'playlists' ? (
-						<motion.h1 
-							className='max-sm:text-3xl relative z-1'
-							key={[selectedMenuCategory, selectedSpotifyItem.playlist]}
-							variants={slideInLeft}
-							initial='hidden'
-							animate='show'>
-							{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}
-						</motion.h1>
-					) : (
-						<motion.h1 
-							className='max-sm:text-3xl relative z-1'
-							key={[selectedMenuCategory, selectedSpotifyItem.track]}
-							variants={slideInLeft}
-							initial='hidden'
-							animate='show'
-							>
-						{collectionSelectedIndex + 1}. {selectedSpotifyItem.track}
-						</motion.h1>
-					)
-				)}
+				<Placeholder
+					isLoading={isLoading || !selectedSpotifyItem}
+					skeletonNumbers={1}
+					structure={{
+						skeleton: 'w-80 h-15 bg-base-light/40'
+					}}>
+					{selectedMenuCategory === 'mostlyListened' ? (
+							<motion.h1 
+								className='max-sm:text-3xl relative z-1'
+								key={[selectedMenuCategory, selectedSpotifyItem.artist]}
+								variants={slideInLeft}
+								initial='hidden'
+								animate='show'>
+								{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}
+							</motion.h1>
+						) : selectedMenuCategory === 'playlists' ? (
+							<motion.h1 
+								className='max-sm:text-3xl relative z-1'
+								key={[selectedMenuCategory, selectedSpotifyItem.playlist]}
+								variants={slideInLeft}
+								initial='hidden'
+								animate='show'>
+								{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}
+							</motion.h1>
+						) : (
+							<motion.h1 
+								className='max-sm:text-3xl relative z-1'
+								key={[selectedMenuCategory, selectedSpotifyItem?.track]}
+								variants={slideInLeft}
+								initial='hidden'
+								animate='show'
+								>
+							{collectionSelectedIndex + 1}. {selectedSpotifyItem?.track}
+							</motion.h1>
+						)
+					}
+				</Placeholder>
 			</div>
 
 			<Placeholder
@@ -166,8 +172,9 @@ export default function Homeprofile() {
 					animate='show'
 				>
 					<Popover 
+						isOpen={isPopoverOpen}
 						renderPopover={renderPopoverRatingView}
-					>
+						key='track-popover'>
 						<Rating 
 							item={popoverItem}
 							call={rateTrack}
@@ -190,107 +197,119 @@ export default function Homeprofile() {
 				</div>
 			) : null }
 
-			<div>
-				{selectedSpotifyItem && (
-					selectedMenuCategory === 'recentlyPlayed' ? (
-						<>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Album</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Artist</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Release Date</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
-						</div>
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-						</div>
-						</>
-					) : selectedMenuCategory === 'likedTracks' ? (
-						<>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Album</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Artist</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Release Date</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.releaseDate}</p>
-						</div>
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-						</div>
-						</>
-					) : selectedMenuCategory === 'mostlyListened' ? (
-						<>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Followers</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.followers}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Popularity</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
-						</div>
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.artist} </a> On Spotify</p>
-						</div>
-						</>
-					) : selectedMenuCategory === 'mostlyPlayed' ? (
-						<>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Album</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Artist</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Popularity</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
-						</div>
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-						</div>
-						</>
-					) : selectedMenuCategory === 'ratedTracks' ? (
-						<>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Album</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Artist</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
-						</div>
-						<div className={trackSubtitleGroup}>
-							<p className={trackSubtitle}>Rating</p>
-							<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
-						</div>
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-						</div>
-						</>
-					) : selectedMenuCategory === 'playlists' ? (
-						<div className={trackSubtitleButtonGroup}>
-							{outbound}
-							<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</p>
-						</div>
-					) : null
-				)}
-			</div>
+
+			<Placeholder
+				isLoading={isLoading || !selectedSpotifyItem}
+				skeletonNumbers={7}
+				structure={{
+					parent: 'grid grid-cols-[auto_1fr] gap-8 grow justify-items-end',
+					skeleton: 'w-20 h-4 bg-base-light/40 justify-center'
+				}}
+				variants={fadeInTop}
+				initial='hidden'
+				animate='show'>
+				{['recentlyPlayed', 'likedTracks'].includes(selectedMenuCategory) ? (
+					<div 
+						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
+						variants={fadeInTop}
+						initial='hidden'
+						animate='show'>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Album</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.album}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Artist</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.artist}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Release Date</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.releaseDate}</p>
+					</div>
+					<div className={trackSubtitleButtonGroup}>
+						{outbound}
+						<p>Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</p>
+					</div>
+					</div>
+				) : selectedMenuCategory === 'mostlyListened' ? (
+					<div
+						key={`${selectedMenuCategory}-${selectedSpotifyItem?.artist}`}
+						variants={fadeInTop}
+						initial='hidden'
+						animate='show'>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Followers</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.followers}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Popularity</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
+					</div>
+					<div className={trackSubtitleButtonGroup}>
+						{outbound}
+						<p>Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</p>
+					</div>
+					</div>
+				) : selectedMenuCategory === 'mostlyPlayed' ? (
+					<div
+						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
+						variants={fadeInTop}
+						initial='hidden'
+						animate='show'>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Album</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Artist</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Popularity</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
+					</div>
+					<div className={trackSubtitleButtonGroup}>
+						{outbound}
+						<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
+					</div>
+					</div>
+				) : selectedMenuCategory === 'ratedTracks' ? (
+					<div
+						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
+						variants={fadeInTop}
+						initial='hidden'
+						animate='show'>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Album</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Artist</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+					</div>
+					<div className={trackSubtitleGroup}>
+						<p className={trackSubtitle}>Rating</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
+					</div>
+					<div className={trackSubtitleButtonGroup}>
+						{outbound}
+						<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
+					</div>
+					</div>
+				) : selectedMenuCategory === 'playlists' ? (
+					<div
+						key={`${selectedMenuCategory}-${selectedSpotifyItem?.playlist}`}
+						variants={fadeInTop}
+						initial='hidden'
+						animate='show'>
+					<div className={trackSubtitleButtonGroup}>
+						{outbound}
+						<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</p>
+					</div>
+					</div>
+				) : null}
+				
+			</Placeholder>
 		</div>
 		)
 	}
