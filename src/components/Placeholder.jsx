@@ -2,7 +2,7 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeOut } from '../styles/motion'
 
-export default function Placeholder({ isLoading, skeletonNumbers, structure, children }) {
+export default function Placeholder({ isLoading, skeletonNumbers, structure, children, ...motionProps}) {
 	const skeleton = [...Array(skeletonNumbers)].map((_, index) => (
 		<div key={index} className={`${structure.skeleton} animate-pulse`}/>
 	))
@@ -19,7 +19,9 @@ export default function Placeholder({ isLoading, skeletonNumbers, structure, chi
 					{skeleton}
 				</motion.div>
 			) : (
-				children
+				<motion.div {...motionProps}>
+					{children}
+				</motion.div>
 			)}
 		</AnimatePresence>
 	)
