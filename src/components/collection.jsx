@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import useCollection from '../hooks/collectionHooks'
 
 export default function Collection({ items, isSelectable, openCollection, isOpen, renderItem, structure, itemVariants, children, ...motionProps }) {
@@ -19,11 +19,11 @@ export default function Collection({ items, isSelectable, openCollection, isOpen
 		)
 	})
 	return(
-		<motion.div 
-			className={structure} 
-			{...motionProps}>
+		<motion.div className={structure} {...motionProps}>
 			{dataCollection}
-			{isOpen && children}
+			<AnimatePresence>
+				{isOpen && children}
+			</AnimatePresence>
 		</motion.div>
 	)
 }
