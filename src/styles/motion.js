@@ -101,11 +101,28 @@ export const scaleIn = {
 			stiffness: 300,
 			damping: 25
 		}
+	}
+}
+
+export const scaleOut = {
+	hidden: { opacity: 0, scale: 0.5 },
+	show: {
+		opacity: 1,
+		scale: 1,
+		transition: {
+			type: 'spring',
+			stiffness: 200,
+			damping: 25,
+		}
 	},
 	exit: {
 		opacity: 0,
-		scale: 0.5,
-		transition: { duration: 0.5 }
+		scale: 1,
+		transition: {
+			type: 'spring',
+			stiffness: 150,
+			damping: 25
+		}
 	}
 }
 
