@@ -7,6 +7,7 @@
 
   --background-main: url('/src/assets/clean-gray-paper.png');
   --asset-star: url('/src/assets/star-pink.png');
+  --asset-star2: url('/src/assets/star2-pink.png');
 
   --color-base: #566B5D;
   --color-base-light: #9AB6A3;
@@ -49,8 +50,8 @@
 
   #root {
     width: 100%;
-    max-width: 1600px;
-    padding: 0 2rem 0 2rem;
+    max-width: 1920px;
+    padding: 0 3rem 0 3rem;
     background-color: #DCFCE7;
     background-image: var(--background-main)
   }
@@ -107,7 +108,10 @@
   }
 
   span {
-    color: var(--color-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-accent-light);
   }
 
 }
@@ -121,7 +125,7 @@
   }
 
   .button-primary {
-    font-size: 16px;
+    font-size: 14px;
     color: var(--color-accent);
     border: 1px solid var(--color-accent-light);
     border-radius: 3px;
