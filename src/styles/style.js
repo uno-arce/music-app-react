@@ -74,7 +74,7 @@ export const alertStyle = (status) => {
 
 // Menu
 export const menuStyle = (isActive) => {
-	const menuCategoryName = `max-xl:text-lg max-2xl:text-5xl text-6xl text-left whitespace-nowrap cursor-pointer select-none hover:text-accent
+	const menuCategoryName = `max-xl:text-lg max-2xl:text-5xl text-3xl text-left whitespace-nowrap cursor-pointer select-none hover:text-accent
 		${isActive ? 'text-accent' : 'text-base-light'}`
 
 	return{
@@ -90,7 +90,7 @@ export const textStyle = () => {
 
 // Tracks
 export const trackStyle = () => {
-	const trackControlGroup = 'max-sm:order-2 flex gap-4'
+	const trackControlGroup = 'max-sm:order-2 flex gap-2'
 	const trackInfoGroup = 'max-sm:order-1 flex flex-col items-center text-sm text-base-light'
 	const trackInfoName = 'text-base text-center'
 	const trackInfoArtist = 'text-base-light text-center'
@@ -109,11 +109,11 @@ export const trackStyle = () => {
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
-	const trackSubtitleGroup = 'max-sm:text-lg grid grid-cols-[auto_1fr] gap-8 text-2xl mb-3'
+	const trackSubtitleGroup = 'max-sm:text-lg grid grid-cols-[auto_1fr] gap-8 text-2xl mb-5'
 	const trackSubtitle = 'text-left text-accent-light'
 	const trackSubtitleInfo = 'text-right text-accent'
-	const trackButtonGroup = 'flex justify-between mb-4'
-	const trackSubtitleButtonGroup = 'max-sm:text-lg max-sm:items-start flex gap-2 items-center text-2xl mt-12'
+	const trackButtonGroup = 'flex justify-between'
+	const trackSubtitleButtonGroup = 'max-sm:text-lg max-sm:items-start text-2xl mt-26'
 
 	return {
 		trackGroup,

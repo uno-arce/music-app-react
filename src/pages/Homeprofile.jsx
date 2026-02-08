@@ -47,13 +47,15 @@ export default function Homeprofile() {
 	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
 	const renderMenu = (category, index) => (
-		<>{category.label}</>
+		category.activeCategoryKey === selectedMenuCategory && (
+			<>{category.label}</>
+		)
 	)
 	
 	const renderTracks = (item, index) => {
 	    return (
 	        <img 
-	        	className='image image-item'
+	        	className='image image-item h-26 w-26'
 	            src={item.image} 
 	        />
 	    );
@@ -99,14 +101,12 @@ export default function Homeprofile() {
 	) 
 
 	const renderTracksView = () => {
-		const next = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
-		const back = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
 		const outbound = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m356-300 204-204v90h80v-226H414v80h89L300-357l56 57ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
 
 		return(
 		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
-			<div className='max-sm:h-24 relative h-32'>
-				<motion.div className='absolute w-48 left-4 bottom-[-20px] z-0 bg-[image:var(--asset-star)] bg-cover aspect-square'
+			<div className='max-sm:h-24 relative h-32 mt-14'>
+				<motion.div className='absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
 					variants={fadeInLeft}
 					initial='hidden'
 					animate='show'>
@@ -151,54 +151,6 @@ export default function Homeprofile() {
 			</div>
 
 			<Placeholder
-				isLoading={isLoading}
-				skeletonNumbers={10}
-				structure={{
-					parent: `${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 gap-1 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`,
-					skeleton: 'aspect-square bg-base-light/40'
-				}}
-				>
-				<Collection 
-					items={spotifyCollectionItems}
-					isSelectable={true}
-					openCollection={handleOpenCollectionView}
-					isOpen={isPopoverOpen}
-					renderItem={renderTracks}
-					structure={`${['ratedTracks', 'likedTracks'].includes(selectedMenuCategory) ? 'mb-2' : 'mb-12'} z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start h-[324px] border-b border-solid border-accent-light rounded-xs`}
-					key={`${selectedMenuCategory}-${collectionSelectedGroup}`}
-					itemVariants={slideInLeft}
-					variants={staggerContainer}
-					initial='hidden'
-					animate='show'
-				>
-					<Popover 
-						isOpen={isPopoverOpen}
-						renderPopover={renderPopoverRatingView}
-						key='track-popover'>
-						<Rating 
-							item={popoverItem}
-							call={rateTrack}
-							renderRating={renderRatingView}
-						/>
-					</Popover>
-					<Alert/>
-				</Collection>
-			</Placeholder>
-
-			{selectedMenuCategory === 'likedTracks' ? (
-				<div className={trackButtonGroup}>
-					<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>{back}</Button>
-					<Button call={() => handleNextCollectionGroup(likedTracks)} variant='button button-tertiary'>{next}</Button>
-				</div>
-			) : selectedMenuCategory === 'ratedTracks' ? (
-				<div className={trackButtonGroup}>
-					<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>{back}</Button>
-					<Button call={() => handleNextCollectionGroup(ratedTracks)} variant='button button-tertiary'>{next}</Button>
-				</div>
-			) : null }
-
-
-			<Placeholder
 				isLoading={isLoading || !selectedSpotifyItem}
 				skeletonNumbers={7}
 				structure={{
@@ -209,7 +161,8 @@ export default function Homeprofile() {
 				initial='hidden'
 				animate='show'>
 				{['recentlyPlayed', 'likedTracks'].includes(selectedMenuCategory) ? (
-					<div 
+					<motion.div 
+						className='mt-10'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -226,13 +179,11 @@ export default function Homeprofile() {
 						<p className={trackSubtitle}>Release Date</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.releaseDate}</p>
 					</div>
-					<div className={trackSubtitleButtonGroup}>
-						{outbound}
-						<p>Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</p>
-					</div>
-					</div>
+					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
+					</motion.div>
 				) : selectedMenuCategory === 'mostlyListened' ? (
-					<div
+					<motion.div
+						className='mt-18'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.artist}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -245,13 +196,11 @@ export default function Homeprofile() {
 						<p className={trackSubtitle}>Popularity</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
 					</div>
-					<div className={trackSubtitleButtonGroup}>
-						{outbound}
-						<p>Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</p>
-					</div>
-					</div>
+					<span className='trackSubtitleButtonGroup'>{outbound} Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</span>
+					</motion.div>
 				) : selectedMenuCategory === 'mostlyPlayed' ? (
-					<div
+					<motion.div
+						className='mt-18'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -268,13 +217,11 @@ export default function Homeprofile() {
 						<p className={trackSubtitle}>Popularity</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
 					</div>
-					<div className={trackSubtitleButtonGroup}>
-						{outbound}
-						<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-					</div>
-					</div>
+					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+					</motion.div>
 				) : selectedMenuCategory === 'ratedTracks' ? (
-					<div
+					<motion.div
+						className='mt-18'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -291,22 +238,17 @@ export default function Homeprofile() {
 						<p className={trackSubtitle}>Rating</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
 					</div>
-					<div className={trackSubtitleButtonGroup}>
-						{outbound}
-						<p>Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</p>
-					</div>
-					</div>
+					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+					</motion.div>
 				) : selectedMenuCategory === 'playlists' ? (
-					<div
+					<motion.div
+						className='mt-18'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.playlist}`}
 						variants={fadeInTop}
 						initial='hidden'
 						animate='show'>
-					<div className={trackSubtitleButtonGroup}>
-						{outbound}
-						<p>Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</p>
-					</div>
-					</div>
+					<span className={trackSubtitleButtonGroup}>{outbound} Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</span>
+					</motion.div>
 				) : null}
 				
 			</Placeholder>
@@ -315,9 +257,9 @@ export default function Homeprofile() {
 	}
 
 	return(
-		<div className='max-xl:flex max-xl:flex-col grid grid-cols-[800px_1fr] grid-rows-[auto_1fr_auto] gap-4 min-h-dvh'>
+		<div className='max-xl:flex max-xl:flex-col grid grid-cols-[1.8fr_2fr] grid-rows-[auto_1fr_auto] gap-4 min-h-dvh'>
 			<motion.div 
-				className='order-1 col-span-2 row-span-1 h-22 flex justify-between items-center border-b border-base-light shadow-[0_3px_3px_-3px_var(--color-base-light)]'
+				className='order-1 col-span-2 row-span-1 h-20 flex items-center'
 				variants={slideInTop}
 				initial='hidden'
 				animate='show'
@@ -325,13 +267,13 @@ export default function Homeprofile() {
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
-				structure='max-sm:grid-cols-[1fr_auto] grid grid-cols-[1fr_2fr_1fr] grow items-center justify-items-center'
+				structure='max-sm:grid-cols-[1fr_auto] grid grid-cols-[1fr_3.5fr_1fr] items-center justify-items-center'
 				itemVariants={fadeInTop}/>
 				<Button
 					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 					call={authenticate}
 					isDisabled={isAuthorized}
-					variant={'max-lg:hidden button button-primary'}
+					variant={'max-lg:hidden button button-primary ms-auto'}
 					variants={fadeInTop}
 					initial='hidden'
 					animate='show'
@@ -341,13 +283,13 @@ export default function Homeprofile() {
 			{renderTracksView()}
 
 			<div 
-				className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 order-3 col-span-1 flex flex-col gap-18'
-			>
-				<div 
-					className='h-10 flex justify-end items-center'>
+				className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 relative order-3 col-span-1 flex flex-col'
+			>	
+				<div className='absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-60'/>
+				<div className='relative flex gap-4 self-end'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<motion.div
-						className='flex gap-1'
+						className='flex flex-col gap-1 justify-center'
 						variants={staggerContainer}
 						initial='hidden'
 						animate='show'>
@@ -355,26 +297,22 @@ export default function Homeprofile() {
 								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
 								variants={fadeInRight}
 								variant={'button button-secondary'}>
-								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
 							</Button>
 							<Button
 								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
 								variants={fadeInRight}
 								variant={'button button-secondary'}
 							>
-								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
-								<span className='text-inherit'>Preview</span>
+								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
 							</Button>
 						</motion.div>
 					)}
+					<img 
+						className='w-[550px] h-[550px] rounded-sm'
+						src={selectedSpotifyItem?.image}
+					/>
 				</div>
-
-				<Menu 
-					menuList={trackMenuList}
-					renderMenu={renderMenu}
-					itemVariants={slideInRight}
-					structure='max-xl:hidden flex flex-col gap-8 self-center'
-				/>
 
 				<Button
 					name={selectedMenuLabel}
@@ -396,25 +334,88 @@ export default function Homeprofile() {
 			</div>
 
 			<motion.div 
-				className='order-4 col-span-2 h-22 flex gap-4 justify-between items-center mt-auto border-t border-base-light shadow-[0_-3px_3px_-3px_var(--color-base-light)]'
+				className='order-4 col-span-2 flex gap-4 justify-between items-end mb-4'
 				variants={slideInBottom}
 				initial='hidden'
 				animate='show'>
-				<ThemeToggle
-					variants={fadeInBottom}
-					initial='hidden'
-					animate='show'
-				/>
+				<Placeholder
+					isLoading={isLoading || !selectedSpotifyItem}
+					skeletonNumbers={10}
+					structure={{
+						parent: 'z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 gap-1 content-start',
+						skeleton: 'aspect-square bg-base-light/40'
+					}}
+					>
+					<Collection 
+						items={spotifyCollectionItems}
+						isSelectable={true}
+						openCollection={handleOpenCollectionView}
+						isOpen={isPopoverOpen}
+						renderItem={renderTracks}
+						structure='z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start'
+						key={`${selectedMenuCategory}-${collectionSelectedGroup}`}
+						itemVariants={slideInLeft}
+						variants={staggerContainer}
+						initial='hidden'
+						animate='show'
+					>
+						<Popover 
+							isOpen={isPopoverOpen}
+							renderPopover={renderPopoverRatingView}
+							key='track-popover'>
+							<Rating 
+								item={popoverItem}
+								call={rateTrack}
+								renderRating={renderRatingView}
+							/>
+						</Popover>
+						<Alert/>
+					</Collection>
+					{selectedMenuCategory === 'likedTracks' ? (
+						<div className={trackButtonGroup}>
+							<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+							</Button>
+							<Button call={() => handleNextCollectionGroup(likedTracks)} variant='button button-tertiary'>
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+							</Button>
+						</div>
+					) : selectedMenuCategory === 'ratedTracks' ? (
+						<div className={trackButtonGroup}>
+							<Button call={() => handlePreviousCollectionGroup()} variant='button button-tertiary'>
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+							</Button>
+							<Button call={() => handleNextCollectionGroup(ratedTracks)} variant='button button-tertiary'>
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+							</Button>
+						</div>
+					) : null }
+				</Placeholder>
 
-				<Button
-					call={logout}
-					variant='button button-secondary'
-					variants={fadeInBottom}
-					initial='hidden'
-					animate='show'
-				>
-					<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
-				</Button>
+				<div className='relative z-1 flex flex-col'>
+					<Menu 
+						menuList={trackMenuList}
+						renderMenu={renderMenu}
+						itemVariants={slideInRight}
+						structure='max-xl:hidden flex flex-col gap-8 self-center'
+					/>
+					<div className='flex gap-4 self-end'>
+						<ThemeToggle
+							variants={fadeInBottom}
+							initial='hidden'
+							animate='show'
+						/>
+						<Button
+							call={logout}
+							variant='button button-secondary'
+							variants={fadeInBottom}
+							initial='hidden'
+							animate='show'
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+						</Button>
+					</div>
+				</div>
 			</motion.div>
 
 		</div>
