@@ -19,6 +19,15 @@ export const slideInLeft = {
 		opacity: 1,
 		x: 0,
 		transition: { type: 'spring', stiffness: 260, damping: 20 }
+	},
+	exit: {
+		opacity: 0,
+		x: -20,
+		transition: {
+			type: 'spring',
+			stiffness: 200,
+			damping: 25
+		}
 	}
 }
 
@@ -47,6 +56,11 @@ export const slideInBottom = {
 		y: 0,
 		transition: { type: 'spring', stiffness: 260, damping: 20 }
 	}
+}
+
+export const fadeIn = {
+	hidden: { opacity: 0 },
+	show: { opacity: 1 }
 }
 
 export const fadeOut = {
