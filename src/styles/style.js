@@ -74,7 +74,7 @@ export const alertStyle = (status) => {
 
 // Menu
 export const menuStyle = (isActive) => {
-	const menuCategoryName = `max-xl:text-lg max-2xl:text-5xl text-3xl text-left whitespace-nowrap cursor-pointer select-none hover:text-accent
+	const menuCategoryName = `max-md:text-2xl text-5xl text-left whitespace-nowrap cursor-pointer select-none hover:text-accent
 		${isActive ? 'text-accent' : 'text-base-light'}`
 
 	return{
