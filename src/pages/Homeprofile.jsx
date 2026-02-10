@@ -25,7 +25,7 @@ import Sidebar from '../components/sidebar'
 import ThemeToggle from '../components/toggleTheme'
 
 import { containerStyle, popoverStyle, ratingStyle, collectionTrackStyle, alertStyle, imageStyle, textStyle } from '../styles/style'
-import { staggerContainer, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop, scaleIn, scaleOut } from '../styles/motion'
+import { staggerContainer, fadeIn, fadeInLeft, fadeInRight, fadeInTop, fadeInBottom, slideInLeft, slideInRight, slideInBottom, slideInTop, scaleIn, scaleOut } from '../styles/motion'
 
 export default function Homeprofile() {
 	const { logout } = useAuth()
@@ -46,10 +46,8 @@ export default function Homeprofile() {
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
-	const renderMenu = (category, index) => (
-		category.activeCategoryKey === selectedMenuCategory && (
-			<>{category.label}</>
-		)
+	const renderSidebarMenu = (category) => (
+		<div>{category.label}</div>
 	)
 	
 	const renderTracks = (item, index) => {
@@ -183,7 +181,7 @@ export default function Homeprofile() {
 					</motion.div>
 				) : selectedMenuCategory === 'mostlyListened' ? (
 					<motion.div
-						className='mt-18'
+						className='mt-10'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.artist}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -196,11 +194,11 @@ export default function Homeprofile() {
 						<p className={trackSubtitle}>Popularity</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
 					</div>
-					<span className='trackSubtitleButtonGroup'>{outbound} Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</span>
+					<span className={trackSubtitleButtonGroup}>{outbound} Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</span>
 					</motion.div>
 				) : selectedMenuCategory === 'mostlyPlayed' ? (
 					<motion.div
-						className='mt-18'
+						className='mt-10'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -221,7 +219,7 @@ export default function Homeprofile() {
 					</motion.div>
 				) : selectedMenuCategory === 'ratedTracks' ? (
 					<motion.div
-						className='mt-18'
+						className='mt-10'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.track}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -242,7 +240,7 @@ export default function Homeprofile() {
 					</motion.div>
 				) : selectedMenuCategory === 'playlists' ? (
 					<motion.div
-						className='mt-18'
+						className='mt-10'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.playlist}`}
 						variants={fadeInTop}
 						initial='hidden'
@@ -285,7 +283,7 @@ export default function Homeprofile() {
 			<div 
 				className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 relative order-3 col-span-1 flex flex-col'
 			>	
-				<div className='absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-60'/>
+				<div className='absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-30'/>
 				<div className='relative flex gap-4 self-end'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<motion.div
@@ -296,22 +294,30 @@ export default function Homeprofile() {
 							<Button
 								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
 								variants={fadeInRight}
-								variant={'button button-secondary'}>
+								variant={'button button-primary'}>
 								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
 							</Button>
 							<Button
 								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
 								variants={fadeInRight}
-								variant={'button button-secondary'}
+								variant={'button button-primary'}
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
 							</Button>
 						</motion.div>
 					)}
-					<img 
-						className='w-[550px] h-[550px] rounded-sm'
-						src={selectedSpotifyItem?.image}
-					/>
+					<Placeholder
+						isLoading={isLoading || !selectedSpotifyItem}
+						skeletonNumbers={1}
+						structure={{
+							skeleton: 'w-[550px] h-[550px] rounded-sm bg-base-light/40'}}>
+						<motion.img 
+							className='w-[550px] h-[550px] rounded-sm'
+							src={selectedSpotifyItem?.image}
+							variants={fadeIn}
+							initial='hidden'
+							animate='show'/>
+					</Placeholder>
 				</div>
 
 				<Button
@@ -321,20 +327,25 @@ export default function Homeprofile() {
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
 				</Button>
-				<Sidebar structure='sidebar xl:hidden fixed flex flex-col'>
-					<h3>Navigation</h3>
-					<hr/>
+				<Sidebar 
+					structure='max-md:w-fit sidebar fixed flex flex-col gap-4 w-[600px]'
+					variants={slideInLeft}
+					initial='hidden'
+					animate='show'
+					exit='exit'>
+					<h2>Navigation</h2>
 					<Menu 
 						menuList={trackMenuList}
-						renderMenu={renderMenu}
-						structure='flex flex-col gap-2 mt-2'
+						renderMenu={renderSidebarMenu}
+						itemVariants={slideInLeft}
+						structure='flex flex-col gap-6 mt-2'
 					/>
 				</Sidebar>
 
 			</div>
 
 			<motion.div 
-				className='order-4 col-span-2 flex gap-4 justify-between items-end mb-4'
+				className='order-4 col-span-2 flex gap-4 justify-between items-stretch mb-4'
 				variants={slideInBottom}
 				initial='hidden'
 				animate='show'>
@@ -343,7 +354,7 @@ export default function Homeprofile() {
 					skeletonNumbers={10}
 					structure={{
 						parent: 'z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 gap-1 content-start',
-						skeleton: 'aspect-square bg-base-light/40'
+						skeleton: 'h-26 w-26 bg-base-light/40'
 					}}
 					>
 					<Collection 
@@ -354,8 +365,7 @@ export default function Homeprofile() {
 						renderItem={renderTracks}
 						structure='z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start'
 						key={`${selectedMenuCategory}-${collectionSelectedGroup}`}
-						itemVariants={slideInLeft}
-						variants={staggerContainer}
+						variants={slideInLeft}
 						initial='hidden'
 						animate='show'
 					>
@@ -393,12 +403,18 @@ export default function Homeprofile() {
 				</Placeholder>
 
 				<div className='relative z-1 flex flex-col'>
-					<Menu 
-						menuList={trackMenuList}
-						renderMenu={renderMenu}
-						itemVariants={slideInRight}
-						structure='max-xl:hidden flex flex-col gap-8 self-center'
-					/>
+					<div 
+						className='grow content-center'>
+						<Button
+							call={() => handleOpenSidebarView()}
+							onMouseEnter={() => handleOpenSidebarView()}
+							className='button flex gap-3 items-center'>
+							<svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M9.23144 1.39047C9.57511 -0.463453 12.2315 -0.463454 12.5752 1.39046C12.821 2.71663 14.4391 3.24237 15.4175 2.31398C16.7852 1.01614 18.9343 2.57754 18.1227 4.2794C17.542 5.49679 18.5421 6.87319 19.8793 6.69719C21.7487 6.45115 22.5695 8.97756 20.9126 9.8773C19.7273 10.5209 19.7273 12.2222 20.9126 12.8659C22.5695 13.7656 21.7487 16.292 19.8793 16.046C18.5421 15.87 17.542 17.2464 18.1227 18.4638C18.9343 20.1656 16.7852 21.727 15.4175 20.4292C14.4391 19.5008 12.821 20.0265 12.5752 21.3527C12.2315 23.2066 9.57511 23.2066 9.23144 21.3527C8.9856 20.0265 7.36754 19.5008 6.38915 20.4292C5.02141 21.727 2.87232 20.1656 3.68399 18.4638C4.2646 17.2464 3.26458 15.87 1.92735 16.046C0.057972 16.292 -0.762907 13.7656 0.894074 12.8659C2.07936 12.2222 2.07936 10.5209 0.894074 9.8773C-0.762907 8.97756 0.057972 6.45115 1.92735 6.69719C3.26458 6.87319 4.2646 5.49679 3.68399 4.2794C2.87232 2.57754 5.02141 1.01613 6.38915 2.31398C7.36754 3.24237 8.9856 2.71663 9.23144 1.39047Z" fill="#C49CCA"/>
+							</svg>
+							<h2>{selectedMenuLabel}</h2>
+						</Button>
+					</div>
 					<div className='flex gap-4 self-end'>
 						<ThemeToggle
 							variants={fadeInBottom}
