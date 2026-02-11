@@ -53,7 +53,7 @@ export default function Homeprofile() {
 	const renderTracks = (item, index) => {
 	    return (
 	        <img 
-	        	className='image image-item h-26 w-26'
+	        	className='max-sm:h-fit image image-item h-26 w-26'
 	            src={item.image} 
 	        />
 	    );
@@ -102,9 +102,9 @@ export default function Homeprofile() {
 		const outbound = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m356-300 204-204v90h80v-226H414v80h89L300-357l56 57ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
 
 		return(
-		<div className='max-xl: max-xl:order-3 order-2 col-span-1'>
+		<div className='max-2xl:order-3 order-2 col-span-1'>
 			<div className='max-sm:h-24 relative h-32 mt-14'>
-				<motion.div className='absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
+				<motion.div className='max-sm:h-44 max-sm:w-44 absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
 					variants={fadeInLeft}
 					initial='hidden'
 					animate='show'>
@@ -255,7 +255,7 @@ export default function Homeprofile() {
 	}
 
 	return(
-		<div className='max-xl:flex max-xl:flex-col grid grid-cols-[1.8fr_2fr] grid-rows-[auto_1fr_auto] gap-4 min-h-dvh'>
+		<div className='max-2xl:flex max-2xl:flex-col max-lg:p-[0_1rem] grid grid-cols-[1.8fr_2fr] grid-rows-[auto_1fr_auto] gap-4 p-[0_3rem] min-h-dvh overflow-y-clip'>
 			<motion.div 
 				className='order-1 col-span-2 row-span-1 h-20 flex items-center'
 				variants={slideInTop}
@@ -265,13 +265,13 @@ export default function Homeprofile() {
 				<Track
 				trackName={selectedSpotifyItem?.track}
 				artistName={selectedSpotifyItem?.artist}
-				structure='max-sm:grid-cols-[1fr_auto] grid grid-cols-[1fr_3.5fr_1fr] items-center justify-items-center'
+				structure='max-sm:grid-cols-[1fr_auto] max-2xl:grow grid grid-cols-[1fr_3.5fr_1fr] items-center '
 				itemVariants={fadeInTop}/>
 				<Button
 					name={isAuthorized ? "Connected to Spotify" : "Connect to spotify"}
 					call={authenticate}
 					isDisabled={isAuthorized}
-					variant={'max-lg:hidden button button-primary ms-auto'}
+					variant={'max-2xl:hidden button button-primary ms-auto'}
 					variants={fadeInTop}
 					initial='hidden'
 					animate='show'
@@ -281,13 +281,13 @@ export default function Homeprofile() {
 			{renderTracksView()}
 
 			<div 
-				className='max-xl:flex-row-reverse max-xl:justify-between max-xl:order-2 max-xl:gap-4 relative order-3 col-span-1 flex flex-col'
+				className='max-2xl:justify-between max-2xl:order-2 max-xl:gap-4 relative order-3 col-span-1 flex flex-col'
 			>	
-				<div className='absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-30'/>
-				<div className='relative flex gap-4 self-end'>
+				<div className='max-2xl:hidden absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-30'/>
+				<div className='max-2xl:flex-col-reverse max-2xl:self-center relative flex gap-4 self-end'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<motion.div
-						className='flex flex-col gap-1 justify-center'
+						className='max-2xl:flex max-2xl:flex-row flex flex-col gap-1 justify-center'
 						variants={staggerContainer}
 						initial='hidden'
 						animate='show'>
@@ -304,29 +304,27 @@ export default function Homeprofile() {
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
 							</Button>
+							<Button
+								call={() => handleOpenSidebarView()}
+								variant='xl:hidden relative button button-primary self-center gap-1'
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+							</Button>
 						</motion.div>
 					)}
 					<Placeholder
 						isLoading={isLoading || !selectedSpotifyItem}
 						skeletonNumbers={1}
 						structure={{
-							skeleton: 'w-[550px] h-[550px] rounded-sm bg-base-light/40'}}>
+							skeleton: 'max-sm:h-fit max-2xl:h-100 max-2xl:w-100 w-[550px] h-[550px] rounded-sm bg-base-light/40'}}>
 						<motion.img 
-							className='w-[550px] h-[550px] rounded-sm'
+							className='max-sm:h-fit max-2xl:h-100 max-2xl:w-100 w-[550px] h-[550px] rounded-sm'
 							src={selectedSpotifyItem?.image}
 							variants={fadeIn}
 							initial='hidden'
 							animate='show'/>
 					</Placeholder>
 				</div>
-
-				<Button
-					name={selectedMenuLabel}
-					call={() => handleOpenSidebarView()}
-					variant='xl:hidden relative button button-secondary self-center gap-1'
-				>
-					<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-				</Button>
 				<Sidebar 
 					structure='max-md:w-fit sidebar fixed flex flex-col gap-4 w-[600px]'
 					variants={slideInLeft}
@@ -341,11 +339,10 @@ export default function Homeprofile() {
 						structure='flex flex-col gap-6 mt-2'
 					/>
 				</Sidebar>
-
 			</div>
 
 			<motion.div 
-				className='order-4 col-span-2 flex gap-4 justify-between items-stretch mb-4'
+				className='order-4 col-span-2 flex gap-4 justify-between items-stretch mb-1'
 				variants={slideInBottom}
 				initial='hidden'
 				animate='show'>
@@ -363,7 +360,7 @@ export default function Homeprofile() {
 						openCollection={handleOpenCollectionView}
 						isOpen={isPopoverOpen}
 						renderItem={renderTracks}
-						structure='z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 content-start'
+						structure='z-1 relative max-xl:h-auto grid grid-cols-5 content-start'
 						key={`${selectedMenuCategory}-${collectionSelectedGroup}`}
 						variants={slideInLeft}
 						initial='hidden'
@@ -408,7 +405,7 @@ export default function Homeprofile() {
 						<Button
 							call={() => handleOpenSidebarView()}
 							onMouseEnter={() => handleOpenSidebarView()}
-							className='button flex gap-3 items-center'>
+							className='max-xl:hidden button flex gap-3 items-center'>
 							<svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M9.23144 1.39047C9.57511 -0.463453 12.2315 -0.463454 12.5752 1.39046C12.821 2.71663 14.4391 3.24237 15.4175 2.31398C16.7852 1.01614 18.9343 2.57754 18.1227 4.2794C17.542 5.49679 18.5421 6.87319 19.8793 6.69719C21.7487 6.45115 22.5695 8.97756 20.9126 9.8773C19.7273 10.5209 19.7273 12.2222 20.9126 12.8659C22.5695 13.7656 21.7487 16.292 19.8793 16.046C18.5421 15.87 17.542 17.2464 18.1227 18.4638C18.9343 20.1656 16.7852 21.727 15.4175 20.4292C14.4391 19.5008 12.821 20.0265 12.5752 21.3527C12.2315 23.2066 9.57511 23.2066 9.23144 21.3527C8.9856 20.0265 7.36754 19.5008 6.38915 20.4292C5.02141 21.727 2.87232 20.1656 3.68399 18.4638C4.2646 17.2464 3.26458 15.87 1.92735 16.046C0.057972 16.292 -0.762907 13.7656 0.894074 12.8659C2.07936 12.2222 2.07936 10.5209 0.894074 9.8773C-0.762907 8.97756 0.057972 6.45115 1.92735 6.69719C3.26458 6.87319 4.2646 5.49679 3.68399 4.2794C2.87232 2.57754 5.02141 1.01613 6.38915 2.31398C7.36754 3.24237 8.9856 2.71663 9.23144 1.39047Z" fill="#C49CCA"/>
 							</svg>
