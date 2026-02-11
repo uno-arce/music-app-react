@@ -56,7 +56,7 @@ export default function Track({ trackName, artistName, structure, itemVariants, 
 				<p className={trackInfoName}>{trackName}</p>
 				<p className={trackInfoArtist}>{artistName}</p>
 				<div className='flex gap-4'>
-					<p>{handleTrackTime(trackCurrentTime)}</p>
+					<p>{trackPreviewDetails ? handleTrackTime(trackCurrentTime) : '0:00'}</p>
 					<input
 						type='range'
 						min='0'
@@ -66,7 +66,7 @@ export default function Track({ trackName, artistName, structure, itemVariants, 
 						onChange={handleTimeSeek}
 						className='accent-base-light hover:accent-accent-light'
 					/>
-					<p>{trackPreviewDetails ? handleTrackTime(trackDuration) : ''}</p>
+					<p>{trackPreviewDetails ? handleTrackTime(trackDuration) : '0:00'}</p>
 				</div>
 			</motion.div>
 
