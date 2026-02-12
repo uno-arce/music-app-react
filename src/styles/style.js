@@ -109,11 +109,11 @@ export const trackStyle = () => {
 // Collection - Tracks
 export const collectionTrackStyle = () => {
 	const trackGroup = 'grid grid-cols-5'
-	const trackSubtitleGroup = 'max-sm:text-lg grid grid-cols-[auto_1fr] gap-8 text-2xl mb-5'
+	const trackSubtitleGroup = 'max-lg:grid-cols-1 max-lg:gap-1 max-sm:text-lg grid grid-cols-[auto_1fr] gap-8 text-2xl mb-5'
 	const trackSubtitle = 'text-left text-accent-light'
-	const trackSubtitleInfo = 'text-right text-accent'
+	const trackSubtitleInfo = 'max-lg:text-start text-right text-accent'
 	const trackButtonGroup = 'flex justify-between'
-	const trackSubtitleButtonGroup = 'max-sm:text-lg max-sm:whitespace-nowrap max-lg:mt-15 text-2xl mt-26'
+	const trackSubtitleButtonGroup = 'max-sm:text-lg max-md:my-4 max-lg:mt-15 text-2xl mt-26'
 
 	return {
 		trackGroup,
