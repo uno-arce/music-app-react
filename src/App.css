@@ -108,10 +108,16 @@
   }
 
   span {
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
     gap: 0.5rem;
     color: var(--color-accent-light);
+  }
+
+  span svg {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -5px;
   }
 
 }
@@ -193,7 +199,7 @@
     height: 100dvh;
     min-width: 150px;
     padding: 2rem  3rem 0 3rem;
-    background-image: url('./src/assets/clean-gray-paper.png');
+    background-image: var(--background-main);
     z-index: 5;
   }
 }
