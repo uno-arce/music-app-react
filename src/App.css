@@ -8,6 +8,7 @@
   --background-main: url('/src/assets/clean-gray-paper.png');
   --asset-star: url('/src/assets/star-pink.png');
   --asset-star2: url('/src/assets/star2-pink.png');
+  --asset-logo-backdrop: url('/src/assets/logo-backdrop.png');
 
   --color-base: #566B5D;
   --color-base-light: #9AB6A3;
@@ -175,6 +176,7 @@
     object-fit: cover;
     display: block;
     max-width: 100%;
+    background-repeat: no-repeat;
   }
 
   .image-item {
