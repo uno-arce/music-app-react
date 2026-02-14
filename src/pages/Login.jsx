@@ -12,55 +12,32 @@ export default function Login() {
 	const { validate } = useForm()
 	const userAuthStore = useUserAuthStore()
 
-	const letterDisplay = 'font-display text-white text-[128px] max-xl:text-[88px]'
-
 	return(
-		<div className='max-lg:flex max-lg:flex-col grid grid-cols-[1fr_3fr] grid-rows-[auto_600px] gap-8 content-center justify-center h-dvh'>
-			<h2 className='col-span-2 max-lg:text-center'>Login your Account</h2>
-			<div className='flex flex-col max-lg:items-center'>
+		<div className='max-xl:flex max-xl:flex-col max-xl:gap-4 max-xl:p-[0.5rem] max-2xl:grid-cols-[1fr_1fr] grid grid-cols-[1.5fr_3fr] grid-rows-[2] gap-8 p-[0_12rem] content-center justify-center min-h-dvh'>
+			<div className='max-xl:order-2 max-xl:self-center max-xl:border-none flex flex-col gap-10 row-span-2 border-r border-base-light'>
+				<h2 className='max-sm: text-center'>Login your Account</h2>
 				<Form 
-					inputs = {loginInputs}
-					call = {login}
-					isDisabled = {userAuthStore.isFormDisabled}
-					structure='grid gap-6 w-[350px]'
-				>
-					<Button
-						name = {"Login"}
-						isDisabled = {isLoginButtonDisabled}
-						variant='button button-secondary justify-self-end'
-					/>
-				</Form>
-				<div className='mt-auto self-center max-lg:mt-6'>
-					<span>Don't have an account? </span>
-					<NavLink to='/register'>Register</NavLink>
-				</div>
+					id='loginForm'
+					inputs={loginInputs}
+					call={login}
+					isDisabled={userAuthStore.isFormDisabled}
+					structure='grid gap-6 max-w-[350px] min-w-[330px]'
+				/>
 			</div>
 
-			<div className='flex flex-col justify-center bg-accent max-lg:hidden'>
-				<div className='grid grid-cols-6 grow items-end justify-items-center'>
-					<h1 className={letterDisplay}>M</h1>
-					<h1 className={letterDisplay}>U</h1>
-					<h1 className={letterDisplay}>S</h1>
-					<h1 className={letterDisplay}>I</h1>
-					<h1 className={letterDisplay}>C</h1>
-					<svg className='self-center w-[118px] h-[118px] max-xl:w-[88px] max-xl:h-[88px]'  viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-					<rect width="128" height="128" fill="url(#pattern0_69_37)"/>
-					<defs>
-					<pattern id="pattern0_69_37" patternContentUnits="objectBoundingBox" width="1" height="1">
-					<use href="#image0_69_37" transform="scale(0.015625)"/>
-					</pattern>
-					<image id="image0_69_37" width="64" height="64" preserveAspectRatio="none" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO3QsRHAQAzDMO6/tFK7dpHTmxgBIEmSJP0iS7SLATu0iwE7tIsBO7SLARPXxICJa2LAxDUxYOKaGDBxTQyYuCYGTFwTAyauiQET18SAiWvyWkCWaBcDdmgXA3ZoFwN2aBcDdmgXA3ZoFwN2aBcDdmiX6wGSJEmiwwcoXjkqBfGE5gAAAABJRU5ErkJggg=="/>
-					</defs>
-					</svg>
-				</div>
-				<div className='grid grid-cols-6 grow justify-items-center bg-[#00D492]'>
-					<h1></h1>
-					<h1></h1>
-					<h1 className={letterDisplay}>L</h1>
-					<h1 className={letterDisplay}>A</h1>
-					<h1 className={letterDisplay}>N</h1>
-					<h1 className={letterDisplay}>E</h1>
-				</div>
+			<div className='max-xl:order-1 max-xl:self-center max-xl:h-40 max-xl:w-40 flex flex-col items-start justify-self-end image bg-[image:var(--asset-logo-backdrop)] bg-contain h-90 w-90'>
+				<h1 className='max-xl:text-2xl max-xl:top-6 relative top-12 right-12 font-display bg-accent text-7xl text-white tracking-[1rem] p-[3px_0_3px_1rem] rounded-sm'>MUSIC</h1>
+				<h1 className='max-xl:text-2xl max-xl:top-12 max-xl:left-12 relative top-24 left-24 font-display bg-base text-7xl text-white tracking-[1rem] p-[3px_0_3px_1rem] rounded-sm'>LANE</h1>
+			</div>
+
+			<div className='max-xl:order-3 max-xl:self-center flex flex-col gap-4 justify-self-end max-xl:mt-6'>
+				<Button
+					name='Login'
+					form='loginForm'
+					isDisabled = {isLoginButtonDisabled}
+					variant='max-xl:text-[14px] button button-primary text-2xl self-start max-xl:self-center'
+				/>
+				<span>Don't have an account? <NavLink to='/register'> Register</NavLink> </span>
 			</div>
 		</div>
 	)
