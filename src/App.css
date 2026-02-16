@@ -7,7 +7,6 @@
 
   --background-main: url('/src/assets/clean-gray-paper.png');
   --asset-star: url('/src/assets/star-pink.png');
-  --asset-star2: url('/src/assets/star2-pink.png');
   --asset-logo-backdrop: url('/src/assets/logo-backdrop.png');
 
   --color-base: #566B5D;
@@ -25,11 +24,11 @@
     --background-main: url('/src/assets/black-paper.png');
     --asset-star: url('/src/assets/star-dark.png');
 
-    --color-base: #DCFCE7;
-    --color-base-light: #778D7E;
-    --color-accent: #F9CDFF;
-    --color-accent-light: #9C859F;
-    --color-interactive: #F39FFF;
+    --color-base: #89998F;
+    --color-base-light: #6E7670;
+    --color-accent: #E967FB;
+    --color-accent-light: #B99DBD;
+    --color-interactive: #C75FD5;
     --color-background-light: #DCFCE7;
     --color-background-dark: #222623;
     --color-background-body: var(--color-neutral-600)
