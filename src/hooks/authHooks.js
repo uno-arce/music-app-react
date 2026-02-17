@@ -2,15 +2,19 @@ import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import useUserAuthStore from '../stores/userAuthStore'
 import useComponentStore from '../stores/componentStore'
+import useSpotifyAuthStore from '../stores/spotifyAuthStore'
 import userAuth from '../services/userAuth'
 import useForm from '../hooks/formHooks'
+import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 
 const useAuth = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const userAuthStore = useUserAuthStore()
 	const componentStore = useComponentStore()
+	const spotifyAuthStore = useSpotifyAuthStore()
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
+	const { authenticate } = useSpotifyAuth()
 
 	useEffect(() => {
 		if(userAuthStore.isLoading) {
@@ -59,9 +63,13 @@ const useAuth = () => {
         		return
         	} 
 
+        	if(!spotifyAuthStore.isAuthorized) {
+        		authenticate()
+        	}
+
+        	navigate('/homeprofile', { replace: true })
         	userAuthStore.setIsAuthenticated(true)
         	userAuthStore.resetUserAuthState()
-        	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
 			console.log(error)
 			userAuthStore.resetUserAuthState()
