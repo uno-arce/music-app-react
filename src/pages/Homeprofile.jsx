@@ -46,6 +46,11 @@ export default function Homeprofile() {
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
+	console.log('Selected spotify item: ', selectedSpotifyItem)
+	console.log('Is spotify collection items empty? : ', spotifyCollectionItems.length === 0)
+	console.log('Is collection loading? : ', isLoading)
+	console.log('Is empty: ', !isLoading && spotifyCollectionItems.length === 0)
+
 	const renderSidebarMenu = (category) => (
 		<div>{category.label}</div>
 	)
@@ -110,11 +115,15 @@ export default function Homeprofile() {
 					animate='show'>
 				</motion.div>
 				<Placeholder
-					isLoading={isLoading || !selectedSpotifyItem}
+					isLoading={isLoading}
+					isEmpty={isLoading === false && spotifyCollectionItems.length === 0}
 					skeletonNumbers={1}
 					structure={{
 						skeleton: 'w-80 h-15 bg-base-light/40'
-					}}>
+					}}
+					emptyView={
+						<h2 className='text-center'>Your Rated Tracks is Empty</h2>
+					}>
 					{selectedMenuCategory === 'mostlyListened' ? (
 							<motion.h1 
 								className='max-sm:text-3xl relative z-1'
@@ -149,7 +158,8 @@ export default function Homeprofile() {
 			</div>
 
 			<Placeholder
-				isLoading={isLoading || !selectedSpotifyItem}
+				isLoading={isLoading}
+				isEmpty={isLoading === false && spotifyCollectionItems.length === 0}
 				skeletonNumbers={7}
 				structure={{
 					parent: 'grid grid-cols-[auto_1fr] gap-8 grow justify-items-end',
@@ -226,17 +236,17 @@ export default function Homeprofile() {
 						animate='show'>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Album</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.album}</p>
 					</div>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Artist</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.artist}</p>
 					</div>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Rating</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.rating}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.rating}</p>
 					</div>
-					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
 					</motion.div>
 				) : selectedMenuCategory === 'playlists' ? (
 					<motion.div
@@ -253,7 +263,8 @@ export default function Homeprofile() {
 
 			<div className='flex mt-auto'>
 				<Placeholder
-					isLoading={isLoading || !selectedSpotifyItem}
+					isLoading={isLoading}
+					isEmpty={isLoading === false && spotifyCollectionItems.length === 0}
 					skeletonNumbers={10}
 					structure={{
 						parent: 'z-1 relative max-xl:h-auto max-lg:grid-cols-4 max-sm:grid-cols-3 grid grid-cols-5 gap-1 content-start',
@@ -349,13 +360,13 @@ export default function Homeprofile() {
 							<Button
 								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
 								variants={fadeInRight}
-								variant={'button button-primary'}>
+								variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}>
 								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
 							</Button>
 							<Button
 								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
 								variants={fadeInRight}
-								variant={'button button-primary'}
+								variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
 							</Button>
@@ -382,7 +393,8 @@ export default function Homeprofile() {
 						</motion.div>
 					)}
 					<Placeholder
-						isLoading={isLoading || !selectedSpotifyItem}
+						isLoading={isLoading}
+						isEmpty={isLoading === false && spotifyCollectionItems.length === 0}
 						skeletonNumbers={1}
 						structure={{
 							skeleton: 'max-sm:w-full max-sm:h-full max-2xl:h-100 max-2xl:w-100 w-[550px] h-[550px] rounded-sm bg-base-light/40'}}>
