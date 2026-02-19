@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
-import useUserAuthStore from '../stores/userAuthStore'
+import { useShallow } from 'zustand/react/shallow'
+import { useUserAuthData, useUserAuthActions } from '../stores/userAuthStore'
 import useComponentStore from '../stores/componentStore'
 import useSpotifyAuthStore from '../stores/spotifyAuthStore'
 import userAuth from '../services/userAuth'
@@ -10,91 +11,85 @@ import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 const useAuth = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
-	const userAuthStore = useUserAuthStore()
+	const userAuthData = useUserAuthData()
+	const actionsUserAuth = userUserAuthActions()
 	const componentStore = useComponentStore()
 	const spotifyAuthStore = useSpotifyAuthStore()
+
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
 	const { authenticate } = useSpotifyAuth()
 
 	useEffect(() => {
-		if(userAuthStore.isLoading) {
+		if(userAuthData.isLoading) {
 			userAuth.verify()
 			.then(response => {
 				if(response.status !== 200) {
-					userAuthStore.setIsLoading(false)
+					actionsUserAuth.setIsLoading(false)
 					return
 				}
-				userAuthStore.setIsLoading(false)
-				userAuthStore.setIsAuthenticated(true)
+				actionsUserAuth.setIsLoading(false)
+				actionsUserAuth.setIsAuthenticated(true)
 			}).catch(error => {
-				userAuthStore.setIsLoading(false)
-				userAuthStore.setIsAuthenticated(false)
+				actionsUserAuth.setIsLoading(false)
+				actionsUserAuth.setIsAuthenticated(false)
 			})
 		}
-	}, [userAuthStore.isLoading])
+	}, [userAuthData.isLoading])
 
 	const loginInputs = [
 		{
 			name: 'Email',
-			value: userAuthStore.email,
+			value: userAuthData.email,
 			updateState: (value) => {
-				userAuthStore.setEmail(value)
+				actionsUserAuth.setEmail(value)
 			} 
 		},
 		{
 			name: 'Password',
-			value: userAuthStore.password,
+			value: userAuthData.password,
 			type: 'password',
 			updateState: (value) => {
-				userAuthStore.setPassword(value)
+				actionsUserAuth.setPassword(value)
 			}
 		}
 	]
 
-	const isLoginButtonDisabled = !userAuthStore.email || !userAuthStore.password
+	
 
 	const login = () => {
-		userAuthStore.setIsFormDisabled(true)
+		actionsUserAuth.setIsFormDisabled(true)
 
-		userAuth.login(userAuthStore.email, userAuthStore.password)
+		userAuth.login(userAuthData.email, userAuthData.password)
 		.then(response => {
 			if(response.status !== 200) {
-				userAuthStore.resetUserAuthState()
+				actionsUserAuth.resetUserAuthState()
         		return
         	} 
 
-        	if(!spotifyAuthStore.isAuthorized) {
+        	if(!spotifyAuthData.isAuthorized) {
         		authenticate()
         	}
 
         	navigate('/homeprofile', { replace: true })
-        	userAuthStore.setIsAuthenticated(true)
-        	userAuthStore.resetUserAuthState()
+        	actionsUserAuth.setIsAuthenticated(true)
+        	actionsUserAuth.resetUserAuthState()
 		}).catch(error => {
 			console.log(error)
-			userAuthStore.resetUserAuthState()
+			actionsUserAuth.resetUserAuthState()
 		})
 	}
 
-	const isRegisterButtonDisabled = !userAuthStore.isUsernameLengthCorrect || !userAuthStore.isUsernameCharactersCorrect || !userAuthStore.isEmailFormatCorrect || !userAuthStore.isEmailAvailable || !userAuthStore.isPasswordCharactersCorrect || !userAuthStore.isPasswordTextCaseCorrect || !userAuthStore.isPasswordLengthCorrect
-
-	const isUsernameIncorrect = !userAuthStore.isUsernameLengthCorrect || !userAuthStore.isUsernameCharactersCorrect
-
-	const isEmailIncorrect = !userAuthStore.isEmailFormatCorrect || !userAuthStore.isEmailAvailable
-
-	const isPasswordIncorrect = !userAuthStore.isPasswordCharactersCorrect || !userAuthStore.isPasswordTextCaseCorrect && !userAuthStore.isPasswordLengthCorrect
-
 	const register = () => {
-		userAuthStore.setIsFormDisabled(true)
+		actionsUserAuth.setIsFormDisabled(true)
 
-		userAuth.register(userAuthStore.username, userAuthStore.email, userAuthStore.password)
+		userAuth.register(userAuthData.username, userAuthData.email, userAuthData.password)
 		.then(response => {
 			if(response.status !== 200) {
 				return
 			}
 
-			userAuthStore.resetUserRegistrationState()
-			componentStore.setCurrentFormStep('Username')
+			actionsUserAuth.resetUserRegistrationState()
+			actionsComponentStore.setCurrentFormStep('Username')
 			navigate('/login', { replace: true })
 		}).catch(error => {
 			console.log(error)
@@ -106,14 +101,14 @@ const useAuth = () => {
 		userAuth.checkEmailAvailability(email)
 		.then(response => {
 			if (response.status !== 200) {
-				userAuthStore.setIsEmailAvailable(false)
+				actionsUserAuth.setIsEmailAvailable(false)
 				return
 			}
 
-			userAuthStore.setIsEmailAvailable(true)
+			actionsUserAuth.setIsEmailAvailable(true)
 		}).catch(error => {
 			console.log(error)
-			userAuthStore.setIsEmailAvailable(false)
+			actionsUserAuth.setIsEmailAvailable(false)
 			return
 		})
 	}
@@ -121,46 +116,46 @@ const useAuth = () => {
 	const registerInputs = [
 		{
 			name: 'Username',
-			value: userAuthStore.username,
+			value: userAuthData.username,
 			updateState: (value) => {
-				userAuthStore.setUsername(value.toLowerCase())
+				actionsUserAuth.setUsername(value.toLowerCase())
 			},
 			validateState: (value) => {
 				const isUsernameLengthCorrect = validateTextLength(value, 6, 20)
 				const isUsernameCharactersCorrect = validateMixedCharacters(value)
 
-				userAuthStore.setIsUsernameLengthCorrect(isUsernameLengthCorrect)
-				userAuthStore.setIsUsernameCharactersCorrect(isUsernameCharactersCorrect)
+				actionsUserAuth.setIsUsernameLengthCorrect(isUsernameLengthCorrect)
+				actionsUserAuth.setIsUsernameCharactersCorrect(isUsernameCharactersCorrect)
 			}
 		},
 		{
 			name: 'Email',
-			value: userAuthStore.email,
+			value: userAuthData.email,
 			updateState: (value) => {
-				userAuthStore.setEmail(value)
+				actionsUserAuth.setEmail(value)
 			},
 			validateState: (value) => {
 				const isEmailFormatCorrect = validateEmailFormat(value)
-				const isEmailUnique = isEmailFormatCorrect ? validateUniqueness(value, checkEmailAvailability) : userAuthStore.setIsEmailAvailable(false)
+				const isEmailUnique = isEmailFormatCorrect ? validateUniqueness(value, checkEmailAvailability) : actionsUserAuth.setIsEmailAvailable(false)
 
-				userAuthStore.setIsEmailFormatCorrect(isEmailFormatCorrect)
+				actionsUserAuth.setIsEmailFormatCorrect(isEmailFormatCorrect)
 			}
 		},
 		{
 			name: 'Password',
-			value: userAuthStore.password,
-			type: userAuthStore.isPasswordVisible ? 'text' : 'password',
+			value: userAuthData.password,
+			type: userAuthData.isPasswordVisible ? 'text' : 'password',
 			updateState: (value) => {
-				userAuthStore.setPassword(value)
+				actionsUserAuth.setPassword(value)
 			},
 			validateState: (value) => {
 				const isPasswordCharactersCorrect = validatePassword(value)
 				const isPasswordTextCaseCorrect = validateTextCase(value)
 				const isPasswordLengthCorrect = validateTextLength(value, 6, 20)
 
-				userAuthStore.setIsPasswordCharactersCorrect(isPasswordCharactersCorrect)
-				userAuthStore.setIsPasswordTextCaseCorrect(isPasswordTextCaseCorrect)
-				userAuthStore.setIsPasswordLengthCorrect(isPasswordLengthCorrect)
+				actionsUserAuth.setIsPasswordCharactersCorrect(isPasswordCharactersCorrect)
+				actionsUserAuth.setIsPasswordTextCaseCorrect(isPasswordTextCaseCorrect)
+				actionsUserAuth.setIsPasswordLengthCorrect(isPasswordLengthCorrect)
 			}
 		}
 	]
@@ -172,7 +167,7 @@ const useAuth = () => {
 				return
 			}
 
-			userAuthStore.setIsAuthenticated(false)
+			actionsUserAuth.setIsAuthenticated(false)
 		}).catch(error => {
 			console.log(error)
 			return
@@ -180,47 +175,47 @@ const useAuth = () => {
 	}
 
 	const toggleShowPassword = () => {
-		const isPasswordVisible = userAuthStore.isPasswordVisible
-		userAuthStore.setIsPasswordVisible(!isPasswordVisible)
+		const isPasswordVisible = userAuthData.isPasswordVisible
+		actionsUserAuth.setIsPasswordVisible(!isPasswordVisible)
 	}
 
 	useEffect(() => {
 		const pathname = location.pathname
 		return () => {
 			if(pathname === '/login') {
-				userAuthStore.resetUserAuthState()
+				actionsUserAuth.resetUserAuthState()
 			} else if (pathname === '/register') {
-				userAuthStore.resetUserRegistrationState()
-				componentStore.setCurrentFormStep('Username')
+				actionsUserAuth.resetUserRegistrationState()
+				actionsComponentStore.setCurrentFormStep('Username')
 			}
 		}
-	}, [location.pathname, userAuthStore.resetUserAuthState, userAuthStore.resetUserRegistrationState,componentStore.setCurrentFormStep])
+	}, [location.pathname, actionsUserAuth.resetUserAuthState, actionsUserAuth.resetUserRegistrationState,actionsComponentStore.setCurrentFormStep])
 
 	return {
 		loginInputs,
 		registerInputs,
+		login,
+		register,
+		logout,
+		toggleShowPassword,
+		username: userAuthData.username,
+		email: userAuthData.email,
+		isLoading: userAuthData.isLoading,
+		isAuthenticated: userAuthData.isAuthenticated,
+		isFormDisabled: userAuthData.isFormDisabled,
+		isUsernameLengthCorrect: userAuthData.isUsernameLengthCorrect,
+		isUsernameCharactersCorrect: userAuthData.isUsernameCharactersCorrect,
+		isEmailFormatCorrect: userAuthData.isEmailFormatCorrect,
+		isEmailAvailable: userAuthData.isEmailAvailable,
+		isPasswordCharactersCorrect: userAuthData.isPasswordCharactersCorrect,
+		isPasswordTextCaseCorrect: userAuthData.isPasswordTextCaseCorrect,
+		isPasswordLengthCorrect: userAuthData.isPasswordLengthCorrect,
+		isPasswordVisible: userAuthData.isPasswordVisible,
 		isLoginButtonDisabled,
 		isRegisterButtonDisabled,
 		isUsernameIncorrect,
 		isEmailIncorrect,
 		isPasswordIncorrect,
-		login,
-		register,
-		logout,
-		toggleShowPassword,
-		username: userAuthStore.username,
-		email: userAuthStore.email,
-		isLoading: userAuthStore.isLoading,
-		isAuthenticated: userAuthStore.isAuthenticated,
-		isFormDisabled: userAuthStore.isFormDisabled,
-		isUsernameLengthCorrect: userAuthStore.isUsernameLengthCorrect,
-		isUsernameCharactersCorrect: userAuthStore.isUsernameCharactersCorrect,
-		isEmailFormatCorrect: userAuthStore.isEmailFormatCorrect,
-		isEmailAvailable: userAuthStore.isEmailAvailable,
-		isPasswordCharactersCorrect: userAuthStore.isPasswordCharactersCorrect,
-		isPasswordTextCaseCorrect: userAuthStore.isPasswordTextCaseCorrect,
-		isPasswordLengthCorrect: userAuthStore.isPasswordLengthCorrect,
-		isPasswordVisible: userAuthStore.isPasswordVisible
 	}
 }
 
