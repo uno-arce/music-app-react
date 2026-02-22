@@ -1,32 +1,34 @@
 import { useEffect } from 'react'
-import useSpotifyAuthStore from '../stores/spotifyAuthStore'
+import { useSpotifyAuthData, useSpotifyAuthActions } from '../stores/spotifyAuthStore'
+import { useUserAuthData } from '../stores/userAuthStore'
 import spotifyApi from '../services/spotifyApi'
 
 const useSpotifyAuth = () => {
-	const spotifyAuthStore = useSpotifyAuthStore()
+	const spotifyAuthData = useSpotifyAuthData()
+	const actionsSpotifyAuth = useSpotifyAuthActions()
+	const userAuthData = useUserAuthData()
+
+	const authenticate = () => {
+		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
+	}
 
 	useEffect(() => {
-		if(!spotifyAuthStore.isAuthorized) {
+		if(!spotifyAuthData.isAuthorized && userAuthData.isAuthenticated) {
 			spotifyApi.verifyAuthorization()
 			.then(response => {
 				if(response.status !== 200) {
 					return
 				}
 
-				spotifyAuthStore.setIsAuthorized(true)
-				spotifyAuthStore.setIsAuthLoading(false)
+				authenticate()
+				actionsSpotifyAuth.setIsAuthorized(true)
+				actionsSpotifyAuth.setIsAuthLoading(false)
 			}).catch(error => {
 				console.log(error)
 				return error
 			})
 		}
-	}, [spotifyAuthStore.isAuthorized, spotifyAuthStore])
-
-	// console.log('User authorized to spotify:' + spotifyAuthStore.isAuthorized)
-
-	const authenticate = () => {
-		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
-	}
+	}, [spotifyAuthData.isAuthorized, spotifyAuthData, userAuthData.isAuthenticated, userAuthData])
 
 	const saveSpotifyTokens = (accessToken, refreshToken, expiresIn) => {
 		spotifyApi.saveSpotifyTokens(accessToken, refreshToken, expiresIn)
@@ -35,7 +37,7 @@ const useSpotifyAuth = () => {
 				return
 			}
 
-			spotifyAuthStore.setIsAuthorized(true)
+			actionsSpotifyAuth.setIsAuthorized(true)
 		}).catch(error => {
 			console.log(error)
 			return error
@@ -45,8 +47,8 @@ const useSpotifyAuth = () => {
 	return{
 		authenticate,
 		saveSpotifyTokens,
-		isAuthorized: spotifyAuthStore.isAuthorized,
-		isAuthLoading: spotifyAuthStore.isAuthLoading
+		isAuthorized: spotifyAuthData.isAuthorized,
+		isAuthLoading: spotifyAuthData.isAuthLoading
 	}
 }
 
