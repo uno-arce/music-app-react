@@ -10,7 +10,7 @@ const useComponentStore = create((set) => ({
 		setIsAlertOpen: (isOpen) => set({ isAlertOpen: isOpen }),
 		setAlertStatus: (status) => set({ alertStatus: status }),
 		setAlertMessage: (alertMessage) => set({ alertMessage: alertMessage }),
-	}
+	},
 
 	// Collection
 	collectionItem: null,
@@ -22,13 +22,13 @@ const useComponentStore = create((set) => ({
 		setCollectionSelectedGroup: (selectedGroup) => set({collectionSelectedGroup: selectedGroup}),
 		setCollectionSelectedIndex: (selectedIndex) => set({ collectionSelectedIndex: selectedIndex}),
 		setIsCollectionOpen: (isOpen) => set({ isCollectionOpen: isOpen }),
-	}
+	},
 
 	// Form
 	currentFormStep: 'Username',
 	actionsForm: {
 		setCurrentFormStep: (currentFormStep) => set({ currentFormStep: currentFormStep }),
-	}
+	},
 
 	// Menu
 	selectedMenuCategory: 'recentlyPlayed',
@@ -36,7 +36,7 @@ const useComponentStore = create((set) => ({
 	actionsMenu: {
 		setSelectedMenuCategory: (category) => set({ selectedMenuCategory: category }),
 		setSelectedMenuLabel: (label) => set({  selectedMenuLabel: label }),
-	}
+	},
 
 	// Popover
 	popoverItem: null,
@@ -44,7 +44,7 @@ const useComponentStore = create((set) => ({
 	actionsPopover: {
 		setPopoverItem: (popoverItem) => set({ popoverItem: popoverItem }),
 		setIsPopoverOpen: (isOpen) => set({ isPopoverOpen: isOpen }),
-	}
+	},
 
 	//Rating
 	hoveredIndex: 0,
@@ -61,19 +61,19 @@ const useComponentStore = create((set) => ({
 				lastClickedIndex: -1
 			})
 		},
-	}
+	},
 
 	// Sidebar
 	isSidebarOpen: false,
 	actionsSidebar: {
 		setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
-	}
+	},
 
 	// ThemeToggle
 	isDarkMode: localStorage.getItem('theme') === 'dark',
 	actionsThemeToggle: {
 		setIsDarkMode: (mode) => set({ isDarkMode: mode }),
-	}
+	},
 
 	// Track
 	trackPreviewDetails: null,
@@ -143,7 +143,7 @@ export const useFormActions = () => useComponentStore((state) => state.actionsFo
 export const useMenuData = () => useComponentStore(useShallow((state) => {
 	return {
 		selectedMenuCategory: state.selectedMenuCategory,
-		selectedMenuLabel state.selectedMenuLabel
+		selectedMenuLabel: state.selectedMenuLabel
 	}
 }))
 export const useMenuActions = () => useComponentStore((state) => state.actionsMenu)
@@ -152,7 +152,7 @@ export const useMenuActions = () => useComponentStore((state) => state.actionsMe
 export const usePopoverData = () => useComponentStore(useShallow((state) => {
 	return {
 		popoverItem: state.popoverItem,
-		isPopoverOpen state.isPopoverOpen
+		isPopoverOpen: state.isPopoverOpen
 	}
 }))
 export const usePopoverActions = () => useComponentStore((state) => state.actionsPopover)
@@ -162,7 +162,7 @@ export const useRatingData = () => useComponentStore(useShallow((state) => {
 	return {
 		hoveredIndex: state.hoveredIndex,
 		clickedIndex: state.clickedIndex,
-		lastClickedIndex state.lastClickedIndex
+		lastClickedIndex: state.lastClickedIndex
 	}
 }))
 export const useRatingActions = () => useComponentStore((state) => state.actionsRating)

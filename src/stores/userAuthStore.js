@@ -8,7 +8,7 @@ const useUserAuthStore = create((set) => ({
 
 	isAuthenticated: false,
 	isFormDisabled: false,
-	isLoading: true,
+	isLoading: false,
 
 	isUsernameLengthCorrect: false,
 	isUsernameCharactersCorrect: false,
