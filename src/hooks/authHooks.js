@@ -2,22 +2,18 @@ import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { useShallow } from 'zustand/react/shallow'
 import { useUserAuthData, useUserAuthActions } from '../stores/userAuthStore'
-import useComponentStore from '../stores/componentStore'
-import useSpotifyAuthStore from '../stores/spotifyAuthStore'
+import { useFormActions } from '../stores/componentStore'
 import userAuth from '../services/userAuth'
 import useForm from '../hooks/formHooks'
-import useSpotifyAuth from '../hooks/spotifyAuthHooks'
 
 const useAuth = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const userAuthData = useUserAuthData()
-	const actionsUserAuth = userUserAuthActions()
-	const componentStore = useComponentStore()
-	const spotifyAuthStore = useSpotifyAuthStore()
+	const actionsUserAuth = useUserAuthActions()
+	const actionsForm = useFormActions()
 
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
-	const { authenticate } = useSpotifyAuth()
 
 	useEffect(() => {
 		if(userAuthData.isLoading) {
@@ -55,7 +51,6 @@ const useAuth = () => {
 	]
 
 	
-
 	const login = () => {
 		actionsUserAuth.setIsFormDisabled(true)
 
@@ -66,13 +61,9 @@ const useAuth = () => {
         		return
         	} 
 
-        	if(!spotifyAuthData.isAuthorized) {
-        		authenticate()
-        	}
-
-        	navigate('/homeprofile', { replace: true })
-        	actionsUserAuth.setIsAuthenticated(true)
+        	actionsUserAuth.setIsLoading(true)
         	actionsUserAuth.resetUserAuthState()
+        	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
 			console.log(error)
 			actionsUserAuth.resetUserAuthState()
@@ -89,7 +80,7 @@ const useAuth = () => {
 			}
 
 			actionsUserAuth.resetUserRegistrationState()
-			actionsComponentStore.setCurrentFormStep('Username')
+			actionsForm.setCurrentFormStep('Username')
 			navigate('/login', { replace: true })
 		}).catch(error => {
 			console.log(error)
@@ -186,10 +177,10 @@ const useAuth = () => {
 				actionsUserAuth.resetUserAuthState()
 			} else if (pathname === '/register') {
 				actionsUserAuth.resetUserRegistrationState()
-				actionsComponentStore.setCurrentFormStep('Username')
+				actionsForm.setCurrentFormStep('Username')
 			}
 		}
-	}, [location.pathname, actionsUserAuth.resetUserAuthState, actionsUserAuth.resetUserRegistrationState,actionsComponentStore.setCurrentFormStep])
+	}, [location.pathname, actionsUserAuth.resetUserAuthState, actionsUserAuth.resetUserRegistrationState,actionsForm.setCurrentFormStep])
 
 	return {
 		loginInputs,
@@ -211,11 +202,11 @@ const useAuth = () => {
 		isPasswordTextCaseCorrect: userAuthData.isPasswordTextCaseCorrect,
 		isPasswordLengthCorrect: userAuthData.isPasswordLengthCorrect,
 		isPasswordVisible: userAuthData.isPasswordVisible,
-		isLoginButtonDisabled,
-		isRegisterButtonDisabled,
-		isUsernameIncorrect,
-		isEmailIncorrect,
-		isPasswordIncorrect,
+		isLoginButtonDisabled: userAuthData.isLoginButtonDisabled,
+		isRegisterButtonDisabled: userAuthData.isRegisterButtonDisabled,
+		isUsernameIncorrect: userAuthData.isUsernameIncorrect,
+		isEmailIncorrect: userAuthData.isEmailIncorrect,
+		isPasswordIncorrect: userAuthData.isPasswordIncorrect
 	}
 }
 
