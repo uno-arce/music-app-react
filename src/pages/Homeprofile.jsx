@@ -46,11 +46,6 @@ export default function Homeprofile() {
 	const { ratingDefault, ratingGroup, ratingTitle, ratingSubtitle } = ratingStyle()
 	const { trackGroup, trackSubtitleGroup, trackSubtitle, trackSubtitleInfo, trackButtonGroup, trackSubtitleButtonGroup } = collectionTrackStyle()
 
-	console.log('Selected spotify item: ', selectedSpotifyItem)
-	console.log('Is spotify collection items empty? : ', spotifyCollectionItems.length === 0)
-	console.log('Is collection loading? : ', isLoading)
-	console.log('Is empty: ', !isLoading && spotifyCollectionItems.length === 0)
-
 	const renderSidebarMenu = (category) => (
 		<div>{category.label}</div>
 	)
@@ -127,20 +122,20 @@ export default function Homeprofile() {
 					{selectedMenuCategory === 'mostlyListened' ? (
 							<motion.h1 
 								className='max-sm:text-3xl relative z-1'
-								key={[selectedMenuCategory, selectedSpotifyItem.artist]}
+								key={[selectedMenuCategory, selectedSpotifyItem?.artist]}
 								variants={slideInLeft}
 								initial='hidden'
 								animate='show'>
-								{collectionSelectedIndex + 1}. {selectedSpotifyItem.artist}
+								{collectionSelectedIndex + 1}. {selectedSpotifyItem?.artist}
 							</motion.h1>
 						) : selectedMenuCategory === 'playlists' ? (
 							<motion.h1 
 								className='max-sm:text-3xl relative z-1'
-								key={[selectedMenuCategory, selectedSpotifyItem.playlist]}
+								key={[selectedMenuCategory, selectedSpotifyItem?.playlist]}
 								variants={slideInLeft}
 								initial='hidden'
 								animate='show'>
-								{collectionSelectedIndex + 1}. {selectedSpotifyItem.playlist}
+								{collectionSelectedIndex + 1}. {selectedSpotifyItem?.playlist}
 							</motion.h1>
 						) : (
 							<motion.h1 
@@ -215,17 +210,17 @@ export default function Homeprofile() {
 						animate='show'>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Album</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.album}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.album}</p>
 					</div>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Artist</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.artist}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.artist}</p>
 					</div>
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Popularity</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem.popularity}</p>
+						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
 					</div>
-					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.track}</a> On Spotify</span>
+					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
 					</motion.div>
 				) : selectedMenuCategory === 'ratedTracks' ? (
 					<motion.div
@@ -255,7 +250,7 @@ export default function Homeprofile() {
 						variants={fadeInTop}
 						initial='hidden'
 						animate='show'>
-					<span className={trackSubtitleButtonGroup}>{outbound} Visit <a href={selectedSpotifyItem.reference} target='_blank'>{selectedSpotifyItem.playlist} </a> On Spotify</span>
+					<span className={trackSubtitleButtonGroup}>{outbound} Visit <a href={selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.playlist} </a> On Spotify</span>
 					</motion.div>
 				) : null}
 				

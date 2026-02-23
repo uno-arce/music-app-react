@@ -7,8 +7,6 @@ export default function Placeholder({ isLoading, isEmpty, skeletonNumbers, struc
 		<div key={index} className={`${structure.skeleton} animate-pulse`}/>
 	))
 
-	console.log('Is Placeholder empty?: ', isEmpty)
-
 	return (
 		<AnimatePresence mode='wait'>
 			{isLoading ? (
