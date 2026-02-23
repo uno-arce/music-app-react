@@ -1,15 +1,18 @@
 import { useEffect } from 'react'
 import spotifyApi from '../services/spotifyApi'
-import useSpotifyAuth from '../hooks/spotifyAuthHooks'
-import useSpotifyStore from '../stores/spotifyStore'
-import useSpotifyAuthStore from '../stores/spotifyAuthStore'
-import useComponentStore from '../stores/componentStore'
+import { useSpotifyData, useSpotifyActions } from '../stores/spotifyStore'
+import { useSpotifyAuthData, useSpotifyAuthActions } from '../stores/spotifyAuthStore'
+import { useMenuData, useCollectionData, useTrackActions, useAlertActions } from '../stores/componentStore'
 
 const useSpotifyApi = () => {
-	const spotifyStore = useSpotifyStore()
-	const spotifyAuthStore = useSpotifyAuthStore()
-	const componentStore = useComponentStore()
-	const { isAuthorized } = useSpotifyAuth()
+	const spotifyData = useSpotifyData()
+	const actionsSpotify = useSpotifyActions()
+	const spotifyAuthData = useSpotifyAuthData()
+	const actionsSpotifyAuth = useSpotifyAuthActions()
+	const actionsTrack = useTrackActions()
+	const actionsAlert = useAlertActions()
+	const menuData = useMenuData()
+	const collectionData = useCollectionData()
 
 	// Get unique items and populate respective store
 	const getUniqueItems = (items, populateStore) => {
@@ -24,8 +27,8 @@ const useSpotifyApi = () => {
 	}
 
 	useEffect(() => {
-		if(isAuthorized) {
-			spotifyStore.setIsLoading(true)
+		if(spotifyAuthData.isAuthorized) {
+			actionsSpotify.setIsLoading(true)
 
 			Promise.all([
 				spotifyApi.getRecentlyPlayed(),
@@ -42,19 +45,19 @@ const useSpotifyApi = () => {
 				mostlyListenedResponse,
 				ratedTracksResponse
 			]) => {
-				getUniqueItems(recentlyPlayedResponse.data, spotifyStore.setRecentlyPlayedTracks)
-				spotifyStore.setSavedTracks(savedTracksResponse.data)
-				spotifyStore.setUserPlaylists(userPlaylistsResponse.data)
-				spotifyStore.setMostlyPlayed(mostlyPlayedResponse.data)
-				spotifyStore.setMostlyListened(mostlyListenedResponse.data)
-				spotifyStore.setRatedTracks(ratedTracksResponse.data)
+				getUniqueItems(recentlyPlayedResponse.data, actionsSpotify.setRecentlyPlayedTracks)
+				actionsSpotify.setSavedTracks(savedTracksResponse.data)
+				actionsSpotify.setUserPlaylists(userPlaylistsResponse.data)
+				actionsSpotify.setMostlyPlayed(mostlyPlayedResponse.data)
+				actionsSpotify.setMostlyListened(mostlyListenedResponse.data)
+				actionsSpotify.setRatedTracks(ratedTracksResponse.data)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
-				spotifyStore.setIsLoading(false)
+				actionsSpotify.setIsLoading(false)
 			}) 
 		}
-	}, [isAuthorized, spotifyAuthStore.setIsAuthorized])
+	}, [spotifyAuthData.isAuthorized, actionsSpotifyAuth.setIsAuthorized])
 
 	const getTrackPreviewDetails = (trackItem) => {
 		spotifyApi.getTrackPreviewDetails(trackItem)
@@ -62,7 +65,7 @@ const useSpotifyApi = () => {
 			if(response.status !== 200) {
 				return
 			}
-			componentStore.setTrackPreviewDetails(response.data)
+			actionsTrack.setTrackPreviewDetails(response.data)
 		}).catch(error => {
 			console.log(error)
 			return
@@ -73,53 +76,53 @@ const useSpotifyApi = () => {
 		spotifyApi.rateTrack(ratedSong)
 		.then(response => {
 			if(response.status !== 200)  {
-				componentStore.setIsAlertOpen(true)
-				componentStore.setAlertStatus('failed')
+				actionsAlert.setIsAlertOpen(true)
+				actionsAlert.setAlertStatus('failed')
 				return
 			}
 			console.log(response)
 
-			componentStore.setIsAlertOpen(true)
-			componentStore.setAlertStatus('success')
-			componentStore.setAlertMessage(response.data.message)
+			actionsAlert.setIsAlertOpen(true)
+			actionsAlert.setAlertStatus('success')
+			actionsAlert.setAlertMessage(response.data.message)
 
-			spotifyStore.setRatedTracks(response.data.updatedRatedTracks)
+			actionsSpotify.setRatedTracks(response.data.updatedRatedTracks)
 		}).catch(error => {
-			componentStore.setIsAlertOpen(true)
-			componentStore.setAlertStatus('failed')
+			actionsAlert.setIsAlertOpen(true)
+			actionsAlert.setAlertStatus('failed')
 			console.log(error)
 		})
 	}
 
 	const spotifyCollectionItemConfig = {
 		recentlyPlayed: {
-			items: spotifyStore.recentlyPlayedTracks || []
+			items: spotifyData.recentlyPlayedTracks || []
 		},
 		mostlyListened: {
-			items: spotifyStore.mostlyListened || []
+			items: spotifyData.mostlyListened || []
 		},
 		mostlyPlayed: {
-			items: spotifyStore.mostlyPlayed || []
+			items: spotifyData.mostlyPlayed || []
 		},
 		likedTracks: {
-			items: spotifyStore.savedTracks?.[componentStore.collectionSelectedGroup] || []
+			items: spotifyData.savedTracks?.[collectionData.collectionSelectedGroup] || []
 		},
 		ratedTracks: {
-			items: spotifyStore.ratedTracks?.[componentStore.collectionSelectedGroup] || []
+			items: spotifyData.ratedTracks?.[collectionData.collectionSelectedGroup] || []
 		},
 		playlists: {
-			items: spotifyStore.userPlaylists || []
+			items: spotifyData.userPlaylists || []
 		}
 	}
 
-	const collectionItems = spotifyCollectionItemConfig[componentStore.selectedMenuCategory].items
+	const collectionItems = spotifyCollectionItemConfig[menuData.selectedMenuCategory].items
 
 	return {
-		isLoading: spotifyStore.isLoading,
-		likedTracks: spotifyStore.savedTracks,
-        ratedTracks: spotifyStore.ratedTracks,
+		isLoading: spotifyData.isLoading,
+		likedTracks: spotifyData.savedTracks,
+        ratedTracks: spotifyData.ratedTracks,
         spotifyCollectionItems: collectionItems,
-        selectedSpotifyItem: collectionItems[componentStore.collectionSelectedIndex],
+        selectedSpotifyItem: collectionItems[collectionData.collectionSelectedIndex],
         getTrackPreviewDetails,
         rateTrack
 	}

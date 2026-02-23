@@ -1,18 +1,19 @@
-import useComponentStore from '../stores/componentStore'
+import { useCollectionData, useCollectionActions } from '../stores/componentStore'
 
 const useCollection = () => {
-	const componentStore = useComponentStore()
+	const collectionData = useCollectionData()
+	const actionsCollection = useCollectionActions()
 
-	let collectionSelectedGroup = componentStore.collectionSelectedGroup
+	let collectionSelectedGroup = collectionData.collectionSelectedGroup
 
 	const handleOpenCollectionView = (item, index, isSelectable) => {
 		if(!isSelectable) {
 			return
 		}
 
-		componentStore.setCollectionSelectedIndex(index)
-		componentStore.setCollectionItem(item)
-		componentStore.setIsCollectionOpen(true)
+		actionsCollection.setCollectionSelectedIndex(index)
+		actionsCollection.setCollectionItem(item)
+		actionsCollection.setIsCollectionOpen(true)
 	}
 
 	const handlePreviousCollectionGroup = () => {
@@ -20,8 +21,8 @@ const useCollection = () => {
 			return
 		}
 
-		componentStore.setCollectionSelectedGroup(collectionSelectedGroup - 1)
-		componentStore.setCollectionSelectedIndex(0)
+		actionsCollection.setCollectionSelectedGroup(collectionSelectedGroup - 1)
+		actionsCollection.setCollectionSelectedIndex(0)
 	}
 
 	const handleNextCollectionGroup = (collection) => {
@@ -30,17 +31,17 @@ const useCollection = () => {
 			return
 		}
 
-		componentStore.setCollectionSelectedGroup(collectionSelectedGroup + 1)
-		componentStore.setCollectionSelectedIndex(0)
+		actionsCollection.setCollectionSelectedGroup(collectionSelectedGroup + 1)
+		actionsCollection.setCollectionSelectedIndex(0)
 	}
 
 	return {
 		handleOpenCollectionView,
 		handlePreviousCollectionGroup,
 		handleNextCollectionGroup,
-		isCollectionOpen: componentStore.isCollectionOpen,
-		collectionSelectedIndex: componentStore.collectionSelectedIndex,
-		collectionSelectedGroup: componentStore.collectionSelectedGroup
+		isCollectionOpen: collectionData.isCollectionOpen,
+		collectionSelectedIndex: collectionData.collectionSelectedIndex,
+		collectionSelectedGroup: collectionData.collectionSelectedGroup
 	}
 }
 

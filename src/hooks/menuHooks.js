@@ -1,7 +1,9 @@
-import useComponentStore from '../stores/componentStore'
+import { useMenuData, useMenuActions, useCollectionActions } from '../stores/componentStore'
 
 const useMenu = () => {
-	const componentStore = useComponentStore()
+	const menuData = useMenuData()
+	const actionsMenu = useMenuActions()
+	const actionsCollection = useCollectionActions()
 
 	const trackMenuList = [
 		{
@@ -31,19 +33,17 @@ const useMenu = () => {
 	]
 
 	const handleSelectMenuCategory = (category) => {
-		componentStore.setSelectedMenuCategory(category.activeCategoryKey)
-		componentStore.setSelectedMenuLabel(category.label)
-		componentStore.setCollectionSelectedIndex(0)
-		componentStore.setCollectionSelectedGroup(1)
-
-		console.log('Active category: ', category.activeCategoryKey)
+		actionsMenu.setSelectedMenuCategory(category.activeCategoryKey)
+		actionsMenu.setSelectedMenuLabel(category.label)
+		actionsCollection.setCollectionSelectedIndex(0)
+		actionsCollection.setCollectionSelectedGroup(1)
 	}
 
 	return {
 		trackMenuList,
 		handleSelectMenuCategory,
-		selectedMenuCategory: componentStore.selectedMenuCategory,
-		selectedMenuLabel: componentStore.selectedMenuLabel
+		selectedMenuCategory: menuData.selectedMenuCategory,
+		selectedMenuLabel: menuData.selectedMenuLabel
 	}
 }
 

@@ -1,31 +1,32 @@
 import { useEffect } from 'react'
-import useComponentStore from '../stores/componentStore'
+import { useThemeToggleData, useThemeToggleActions} from '../stores/componentStore'
 
 const useTheme = () => {
-	const componentStore = useComponentStore()
+	const themeToggleData = useThemeToggleData()
+	const actionsThemeToggle = useThemeToggleActions()
 
 	useEffect(() => {
 		const root = window.document.documentElement
 
-		if(componentStore.isDarkMode) {
+		if(themeToggleData.isDarkMode) {
 			root.classList.add('dark')
 		} else {
 			root.classList.remove('dark')
 		}
-	}, [componentStore.isDarkMode])
+	}, [themeToggleData.isDarkMode])
 
 	const handleLightTheme = () => {
-		componentStore.setIsDarkMode(false)
+		actionsThemeToggle.setIsDarkMode(false)
 		localStorage.setItem('theme', 'light')
 	}
 
 	const handleDarkTheme = () => {
-		componentStore.setIsDarkMode(true)
+		actionsThemeToggle.setIsDarkMode(true)
 		localStorage.setItem('theme', 'dark')
 	}
 
 	return {
-		isDarkMode: componentStore.isDarkMode,
+		isDarkMode: themeToggleData.isDarkMode,
 		handleLightTheme,
 		handleDarkTheme
 	}

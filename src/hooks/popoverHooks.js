@@ -1,20 +1,21 @@
-import useComponentStore from '../stores/componentStore'
+import { usePopoverData, usePopoverActions } from '../stores/componentStore'
 
 const usePopover = () => {
-	const componentStore = useComponentStore()
+	const popoverData = usePopoverData()
+	const actionsPopover = usePopoverActions()
 
 	const handleOpenPopoverView = (item, isSelectable) => {
 		if(!isSelectable)  {
 			return
 		}
 
-		componentStore.setPopoverItem(item)
-		componentStore.setIsPopoverOpen(true)
+		actionsPopover.setPopoverItem(item)
+		actionsPopover.setIsPopoverOpen(true)
 	}
 
 	const handleClosePopoverView = (resetChildrenState) => {
-		componentStore.setPopoverItem(null)
-		componentStore.setIsPopoverOpen(false)
+		actionsPopover.setPopoverItem(null)
+		actionsPopover.setIsPopoverOpen(false)
 
 		resetChildrenState()
 	}
@@ -22,8 +23,8 @@ const usePopover = () => {
 	return {
 		handleOpenPopoverView,
 		handleClosePopoverView,
-		popoverItem: componentStore.popoverItem,
-		isPopoverOpen: componentStore.isPopoverOpen
+		popoverItem: popoverData.popoverItem,
+		isPopoverOpen: popoverData.isPopoverOpen
 	}
 }
 

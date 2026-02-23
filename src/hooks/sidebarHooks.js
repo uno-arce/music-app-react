@@ -1,20 +1,21 @@
-import useComponentStore from '../stores/componentStore'
+import { useSidebarData, useSidebarActions } from '../stores/componentStore'
 
 const useSidebar = () => {
-	const componentStore = useComponentStore()
+	const sidebarData = useSidebarData()
+	const actionsSidebar = useSidebarActions()
 
 	const handleOpenSidebarView = () => {
-		componentStore.setIsSidebarOpen(true)
+		actionsSidebar.setIsSidebarOpen(true)
 	}
 
 	const handleCloseSidebarView = () => {
-		componentStore.setIsSidebarOpen(false)
+		actionsSidebar.setIsSidebarOpen(false)
 	}
 
 	return {
 		handleOpenSidebarView,
 		handleCloseSidebarView,
-		isSidebarOpen: componentStore.isSidebarOpen
+		isSidebarOpen: sidebarData.isSidebarOpen
 	}
 }
 

@@ -1,9 +1,10 @@
 import { useRef, useEffect } from 'react'
-import useComponentStore from '../stores/componentStore'
+import { useTrackData, useTrackActions } from '../stores/componentStore'
 
 const useTrack = () => {
 	const trackRef = useRef(null)
-	const componentStore = useComponentStore()
+	const trackData = useTrackData()
+	const actionsTrack = useTrackActions()
 
 	const handleOpenTrackView = async (item, call) => {
 		const trackDetails= {
@@ -11,7 +12,7 @@ const useTrack = () => {
 			artist: item.artist
 		}
 
-		componentStore.setIsTrackOpen(true)
+		actionsTrack.setIsTrackOpen(true)
 
 		await call(trackDetails)
 	}
@@ -19,16 +20,16 @@ const useTrack = () => {
 	const playTrack = async () => {
 		if(trackRef.current) {
 			await trackRef.current.play()
-			componentStore.setIsTrackPlaying(true)
-			componentStore.setIsTrackPaused(false)
+			actionsTrack.setIsTrackPlaying(true)
+			actionsTrack.setIsTrackPaused(false)
 		}
 	}
 
 	const pauseTrack = () => {
 		if(trackRef.current) {
 			trackRef.current.pause()
-			componentStore.setIsTrackPlaying(false)
-			componentStore.setIsTrackPaused(true)
+			actionsTrack.setIsTrackPlaying(false)
+			actionsTrack.setIsTrackPaused(true)
 		}
 	}
 
@@ -38,12 +39,12 @@ const useTrack = () => {
 			trackRef.current.currentTime = 0
 			trackRef.current.src = ''
 			trackRef.current.load()
-			componentStore.resetTrackState()
+			actionsTrack.resetTrackState()
 		}
 	}
 
 	const togglePlayPause = () => {
-		if(componentStore.isTrackPlaying) {
+		if(trackData.isTrackPlaying) {
 			pauseTrack()
 		} else {
 			playTrack()
@@ -54,25 +55,25 @@ const useTrack = () => {
 		if(trackRef.current) {
 			trackRef.current.currentTime = 0
 			await trackRef.current.play()
-			componentStore.setIsTrackPlaying(true)
-			componentStore.setIsTrackPaused(false)
+			actionsTrack.setIsTrackPlaying(true)
+			actionsTrack.setIsTrackPaused(false)
 		}
 	}
 
 	const handleTrackCurrentTime = () => {
 		if(trackRef.current) {
-			componentStore.setTrackCurrentTime(trackRef.current.currentTime)
+			actionsTrack.setTrackCurrentTime(trackRef.current.currentTime)
 		}
 	}
 
 	const handleTrackDuration = () => {
 		if(trackRef.current) {
-			componentStore.setTrackDuration(trackRef.current.duration)
+			actionsTrack.setTrackDuration(trackRef.current.duration)
 		}
 	}
 
 	const handleTrackTime = (timeInSeconds) => {
-		if(componentStore.trackPreviewDetails) {
+		if(trackData.trackPreviewDetails) {
 			const minutes = Math.floor(timeInSeconds / 60)
 			const seconds = Math.floor(timeInSeconds % 60)
 
@@ -86,12 +87,12 @@ const useTrack = () => {
 		if(trackRef.current) {
 			const newTime = parseFloat(event.target.value)
 			if(!isNaN(newTime)) {
-				const wasPlaying = componentStore.isTrackPlaying
+				const wasPlaying = trackData.isTrackPlaying
 
 				pauseTrack()
 
 				trackRef.current.currentTime = newTime
-				componentStore.setTrackCurrentTime(newTime)
+				actionsTrack.setTrackCurrentTime(newTime)
 
 				wasPlaying ? playTrack() : null
 			}
@@ -107,7 +108,7 @@ const useTrack = () => {
 
 	const volumeOn = () => {
 		if(trackRef.current) {
-			componentStore.setIsTrackMuted(false)
+			actionsTrack.setIsTrackMuted(false)
 			
 		}
 
@@ -116,7 +117,7 @@ const useTrack = () => {
 
 	const volumeOff = () => {
 		if(trackRef.current) {
-			componentStore.setIsTrackMuted(true)
+			actionsTrack.setIsTrackMuted(true)
 			
 		}
 
@@ -124,7 +125,7 @@ const useTrack = () => {
 	}
 
 	const toggleVolumeOnOff = () => {
-		if(componentStore.isTrackMuted) {
+		if(trackData.isTrackMuted) {
 			volumeOn()
 		} else {
 			volumeOff()
@@ -135,31 +136,31 @@ const useTrack = () => {
 		if(trackRef.current) {
 			trackRef.current.currentTime = 0
 			trackRef.current.pause()
-			componentStore.setTrackCurrentTime(0)
+			actionsTrack.setTrackCurrentTime(0)
 		}
 	}
 
-	const isTrackButtonDisabled = !componentStore.trackPreviewDetails ? true : false
+	const isTrackButtonDisabled = !trackData.trackPreviewDetails ? true : false
 
 	useEffect(() => {
-		if(componentStore.selectedMenuCategory && componentStore.isTrackPlaying || componentStore.isTrackPaused) {
+		if(trackData.selectedMenuCategory && trackData.isTrackPlaying || trackData.isTrackPaused) {
 			removeTrackSource()
 		}
 
-		if(componentStore.collectionSelectedIndex && componentStore.isTrackPlaying) {
+		if(trackData.collectionSelectedIndex && trackData.isTrackPlaying) {
 			pauseTrack()
 			removeTrackSource()
 		}
 
-		if(componentStore.trackPreviewDetails && !componentStore.isTrackPlaying && !componentStore.isTrackPaused) {
+		if(trackData.trackPreviewDetails && !trackData.isTrackPlaying && !trackData.isTrackPaused) {
 			playTrack() 
 		}
 
-		if(componentStore.collectionSelectedIndex && componentStore.isTrackPaused && !componentStore.isTrackPlaying) {
+		if(trackData.collectionSelectedIndex && trackData.isTrackPaused && !trackData.isTrackPlaying) {
 			removeTrackSource()
 		}
 
-	}, [componentStore.trackPreviewDetails, componentStore.collectionSelectedIndex, componentStore.selectedMenuCategory])
+	}, [trackData.trackPreviewDetails, trackData.collectionSelectedIndex, trackData.selectedMenuCategory])
 
 	useEffect(() => {
 		if(trackRef.current) {
@@ -186,12 +187,12 @@ const useTrack = () => {
 		handleVolumeChange,
 		handleTrackEnd,
 		isTrackButtonDisabled,
-		trackPreviewDetails: componentStore.trackPreviewDetails,
-		isTrackOpen: componentStore.isTrackOpen,
-		isTrackPlaying: componentStore.isTrackPlaying,
-		isTrackMuted: componentStore.isTrackMuted,
-		trackDuration: componentStore.trackDuration,
-		trackCurrentTime: componentStore.trackCurrentTime
+		trackPreviewDetails: trackData.trackPreviewDetails,
+		isTrackOpen: trackData.isTrackOpen,
+		isTrackPlaying: trackData.isTrackPlaying,
+		isTrackMuted: trackData.isTrackMuted,
+		trackDuration: trackData.trackDuration,
+		trackCurrentTime: trackData.trackCurrentTime
 	}
 }
 

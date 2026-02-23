@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
-import useComponentStore from '../stores/componentStore'
+import { useAlertData, useAlertActions } from '../stores/componentStore'
 
 const useAlert = () => {
-	const componentStore = useComponentStore()
+	const alertData = useAlertData()
+	const actionsAlert = useAlertActions()
 
 	useEffect(() => {
 		let timer
 
-		if(componentStore.isAlertOpen) {
+		if(alertData.isAlertOpen) {
 			timer = setTimeout(() => {
-				componentStore.setIsAlertOpen(false)
-				componentStore.setAlertStatus(null)
+				actionsAlert.setIsAlertOpen(false)
+				actionsAlert.setAlertStatus(null)
 			}, 5000)
 		}
 
@@ -19,11 +20,11 @@ const useAlert = () => {
 				clearTimeout(timer)
 			}
 		}
-	}, [componentStore.isAlertOpen, componentStore.setIsAlertOpen])
+	}, [alertData.isAlertOpen, actionsAlert.setIsAlertOpen])
 
 	const closeAlert = () => {
-		componentStore.setIsAlertOpen(false)
-		componentStore.setAlertStatus(null)
+		actionsAlert.setIsAlertOpen(false)
+		actionsAlert.setAlertStatus(null)
 	}
 
 	const handleAlertPath = () => {
@@ -32,15 +33,15 @@ const useAlert = () => {
 			failed: 'M240-840h400v520L360-40l-50-50q-7-7-11.5-19t-4.5-23v-14l44-174H120q-32 0-56-24t-24-56v-80q0-7 1.5-15t4.5-15l120-282q9-20 30-34t44-14Zm480 520v-520h160v520H720Z'
 		}
 
-		return alertPath[componentStore.alertStatus]
+		return alertPath[alertData.alertStatus]
 	}
 
 	return {
 		closeAlert,
 		handleAlertPath,
-		isAlertOpen: componentStore.isAlertOpen,
-		alertStatus: componentStore.alertStatus,
-		alertMessage: componentStore.alertMessage
+		isAlertOpen: alertData.isAlertOpen,
+		alertStatus: alertData.alertStatus,
+		alertMessage: alertData.alertMessage
 	}
 }
 

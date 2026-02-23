@@ -1,34 +1,30 @@
 import { useEffect } from 'react'
 import { useSpotifyAuthData, useSpotifyAuthActions } from '../stores/spotifyAuthStore'
-import { useUserAuthData } from '../stores/userAuthStore'
 import spotifyApi from '../services/spotifyApi'
 
 const useSpotifyAuth = () => {
 	const spotifyAuthData = useSpotifyAuthData()
 	const actionsSpotifyAuth = useSpotifyAuthActions()
-	const userAuthData = useUserAuthData()
 
 	const authenticate = () => {
 		window.location.href = 'http://127.0.0.1:4000/auth/spotify/';
 	}
 
 	useEffect(() => {
-		if(!spotifyAuthData.isAuthorized && userAuthData.isAuthenticated) {
+		if(!spotifyAuthData.isAuthorized) {
 			spotifyApi.verifyAuthorization()
 			.then(response => {
 				if(response.status !== 200) {
-					return
+					authenticate()
 				}
 
-				authenticate()
 				actionsSpotifyAuth.setIsAuthorized(true)
-				actionsSpotifyAuth.setIsAuthLoading(false)
 			}).catch(error => {
 				console.log(error)
 				return error
 			})
 		}
-	}, [spotifyAuthData.isAuthorized, spotifyAuthData, userAuthData.isAuthenticated, userAuthData])
+	}, [spotifyAuthData.isAuthorized, actionsSpotifyAuth.setIsAuthorized])
 
 	const saveSpotifyTokens = (accessToken, refreshToken, expiresIn) => {
 		spotifyApi.saveSpotifyTokens(accessToken, refreshToken, expiresIn)
