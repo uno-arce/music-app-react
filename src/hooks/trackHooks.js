@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react'
-import { useTrackData, useTrackActions } from '../stores/componentStore'
+import { useTrackData, useTrackActions, useCollectionData, useMenuData } from '../stores/componentStore'
 
 const useTrack = () => {
 	const trackRef = useRef(null)
 	const trackData = useTrackData()
 	const actionsTrack = useTrackActions()
+	const collectionData = useCollectionData()
+	const menuData = useMenuData()
 
 	const handleOpenTrackView = async (item, call) => {
 		const trackDetails= {
@@ -143,11 +145,11 @@ const useTrack = () => {
 	const isTrackButtonDisabled = !trackData.trackPreviewDetails ? true : false
 
 	useEffect(() => {
-		if(trackData.selectedMenuCategory && trackData.isTrackPlaying || trackData.isTrackPaused) {
+		if(menuData.selectedMenuCategory && trackData.isTrackPlaying || trackData.isTrackPaused) {
 			removeTrackSource()
 		}
 
-		if(trackData.collectionSelectedIndex && trackData.isTrackPlaying) {
+		if(collectionData.collectionSelectedIndex && trackData.isTrackPlaying) {
 			pauseTrack()
 			removeTrackSource()
 		}
@@ -156,11 +158,11 @@ const useTrack = () => {
 			playTrack() 
 		}
 
-		if(trackData.collectionSelectedIndex && trackData.isTrackPaused && !trackData.isTrackPlaying) {
+		if(collectionData.collectionSelectedIndex && trackData.isTrackPaused && !trackData.isTrackPlaying) {
 			removeTrackSource()
 		}
 
-	}, [trackData.trackPreviewDetails, trackData.collectionSelectedIndex, trackData.selectedMenuCategory])
+	}, [trackData.trackPreviewDetails, collectionData.collectionSelectedIndex, menuData.selectedMenuCategory])
 
 	useEffect(() => {
 		if(trackRef.current) {
