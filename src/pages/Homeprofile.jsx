@@ -89,7 +89,7 @@ export default function Homeprofile() {
 		<div className='max-md:flex max-md:flex-col grid grid-cols-[auto_400px]'>
 			<img src={item.image}/>
 			<div className={ratingGroup}>
-				<p className={ratingTitle}>Your rating to <span>{item.track}</span> by <span>{item.artist}</span> </p>
+				<p className={ratingTitle}>Your rating to <span className='text-accent'>{item.track}</span> by <span className='text-accent'>{item.artist}</span> </p>
 				<div className={ratingDefault}>
 					{ratingButton}
 				</div>
@@ -344,7 +344,6 @@ export default function Homeprofile() {
 			<div 
 				className='max-2xl:justify-between max-lg:order-2 max-lg:gap-4 relative order-3 col-span-1 flex flex-col'
 			>	
-				<div className='max-2xl:hidden absolute z-0 inset-0 -right-10 -top-45 bg-[image:var(--asset-star2)] bg-cover bg-center aspect-square opacity-30'/>
 				<div className='max-2xl:flex-col-reverse max-2xl:self-center relative flex gap-4 self-end'>
 					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
 						<motion.div
@@ -418,7 +417,7 @@ export default function Homeprofile() {
 			</div>
 
 			<motion.div 
-				className='max-lg:justify-between order-4 col-span-1 relative z-1 flex flex-col gap-4 mb-1 mt-auto'
+				className='max-lg:justify-between order-4 col-span-1 flex flex-col gap-4 mb-1 mt-auto'
 				variants={slideInBottom}
 				initial='hidden'
 				animate='show'>

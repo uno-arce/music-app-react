@@ -31,7 +31,9 @@ export const useSpotifyData = () => useSpotifyStore(useShallow((state) => {
 		userPlaylists: state.userPlaylists,
 		mostlyPlayed: state.mostlyPlayed,
 		mostlyListened: state.mostlyListened,
-		ratedTracks: state.ratedTracks
+		ratedTracks: state.ratedTracks,
+
+		isLoading: state.isLoading
 	}
 }))
 
