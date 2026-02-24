@@ -13,13 +13,13 @@ export default function Alert() {
 				<svg 
 					className={alertIcon}
 					xmlns="http://www.w3.org/2000/svg" 
-					height="24px" 
+					height="20px" 
 					viewBox="0 -960 960 960" 
-					width="24px" 
+					width="20px" 
 					fill="currentColor">
 					<path d={handleAlertPath()}/>
 				</svg>
-				<p className={alertDescription}>{alertMessage}</p>
+				<label className={alertDescription}>{alertMessage}</label>
 			</div>
 		</div>
 	)

@@ -26,7 +26,7 @@ export const imageStyle = () => {
 export const popoverStyle = () => {
 	const popoverBackground = 'fixed w-screen h-screen inset-0 backdrop-blur-xs flex flex-col justify-center items-center z-5'
 	const popoverButton = 'fill-neutral-400 hover:fill-accent-light'
-	const popoverDefault = 'relative min-h-fit min-w-fit p-4 bg-neutral-100'
+	const popoverDefault = 'relative min-h-fit min-w-fit p-4 bg-[image:var(--background-main)] rounded-sm'
 	return {
 		popoverBackground,
 		popoverButton,
@@ -41,7 +41,7 @@ export const ratingStyle = (clickedIndex) => {
 	const ratingSymbolThird= `peer/third ${clickedIndex >= 3 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent transition-all`
 	const ratingSymbolSecond= `peer/second ${clickedIndex >= 2 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent transition-all`
 	const ratingSymbolFirst= `peer/first ${clickedIndex >= 1 ? 'fill-accent' : 'fill-accent-light'} hover:fill-accent peer-hover/fifth:fill-accent peer-hover/fourth:fill-accent peer-hover/third:fill-accent peer-hover/second:fill-accent transition-all`
-	const ratingGroup = 'flex flex-col items-start bg-[image:var(--background-main)] p-2'
+	const ratingGroup = 'flex flex-col items-start p-2'
 	const ratingTitle = 'text-2xl text-left text-pretty grow'
 	const ratingSubtitle = 'text-sm text-base-light'
 	const ratingDefault = 'flex flex-row-reverse'
@@ -61,9 +61,9 @@ export const ratingStyle = (clickedIndex) => {
 // Alert 
 export const alertStyle = (status) => {
 	const alertPosition = 'fixed z-10 inset-0 flex flex-col justify-center items-center'
-	const alertGroup = 'absolute top-0 flex min-h-fit min-w-fit p-4 mt-4 gap-4 bg-neutral-100'
-	const alertIcon = 'fill-blue-200'
-	const alertDescription = 'text-left'
+	const alertGroup = 'absolute top-0 flex min-h-fit min-w-fit p-4 mt-4 gap-4 bg-base rounded-sm'
+	const alertIcon = 'fill-base-light'
+	const alertDescription = 'text-left text-base-light'
 	return {
 		alertPosition,
 		alertGroup,
