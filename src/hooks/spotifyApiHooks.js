@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import spotifyApi from '../services/spotifyApi'
 import { useSpotifyData, useSpotifyActions } from '../stores/spotifyStore'
 import { useSpotifyAuthData, useSpotifyAuthActions } from '../stores/spotifyAuthStore'
-import { useMenuData, useCollectionData, useTrackActions, useAlertActions } from '../stores/componentStore'
+import { useMenuData, useCollectionData, useAlertData, useTrackActions, useAlertActions } from '../stores/componentStore'
 
 const useSpotifyApi = () => {
 	const spotifyData = useSpotifyData()
@@ -13,6 +13,7 @@ const useSpotifyApi = () => {
 	const actionsAlert = useAlertActions()
 	const menuData = useMenuData()
 	const collectionData = useCollectionData()
+	const alertData = useAlertData()
 
 	// Get unique items and populate respective store
 	const getUniqueItems = (items, populateStore) => {
@@ -73,20 +74,25 @@ const useSpotifyApi = () => {
 	}
 
 	const rateTrack = (ratedSong) => {
+		actionsAlert.setIsAlertOpen(true)
+		actionsAlert.setAlertStatus('loading')
+		actionsAlert.setAlertMessage('Saving to Database')
+
 		spotifyApi.rateTrack(ratedSong)
 		.then(response => {
+			actionsAlert.setIsAlertOpen(false)
+
 			if(response.status !== 200)  {
 				actionsAlert.setIsAlertOpen(true)
 				actionsAlert.setAlertStatus('failed')
 				return
+			} else {
+				actionsAlert.setIsAlertOpen(true)
+				actionsAlert.setAlertStatus('success')
+				actionsAlert.setAlertMessage(response.data.message)
+
+				actionsSpotify.setRatedTracks(response.data.updatedRatedTracks)
 			}
-			console.log(response)
-
-			actionsAlert.setIsAlertOpen(true)
-			actionsAlert.setAlertStatus('success')
-			actionsAlert.setAlertMessage(response.data.message)
-
-			actionsSpotify.setRatedTracks(response.data.updatedRatedTracks)
 		}).catch(error => {
 			actionsAlert.setIsAlertOpen(true)
 			actionsAlert.setAlertStatus('failed')
