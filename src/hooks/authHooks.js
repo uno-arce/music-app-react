@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { useShallow } from 'zustand/react/shallow'
 import { useUserAuthData, useUserAuthActions } from '../stores/userAuthStore'
-import { useFormActions } from '../stores/componentStore'
+import { useAlertData, useFormActions, useAlertActions } from '../stores/componentStore'
 import userAuth from '../services/userAuth'
 import useForm from '../hooks/formHooks'
 
@@ -10,27 +10,29 @@ const useAuth = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const userAuthData = useUserAuthData()
+	const alertData = useAlertData()
 	const actionsUserAuth = useUserAuthActions()
 	const actionsForm = useFormActions()
+	const actionsAlert = useAlertActions()
 
 	const { validateTextLength, validateTextCase, validateMixedCharacters, validateEmailFormat, validatePassword, validateUniqueness } = useForm()
 
 	useEffect(() => {
-		if(userAuthData.isLoading) {
+		if(userAuthData.isUserAuthLoading) {
 			userAuth.verify()
 			.then(response => {
 				if(response.status !== 200) {
-					actionsUserAuth.setIsLoading(false)
+					actionsUserAuth.setIsUserAuthLoading(false)
 					return
 				}
-				actionsUserAuth.setIsLoading(false)
+				actionsUserAuth.setIsUserAuthLoading(false)
 				actionsUserAuth.setIsAuthenticated(true)
 			}).catch(error => {
-				actionsUserAuth.setIsLoading(false)
+				actionsUserAuth.setIsUserAuthLoading(false)
 				actionsUserAuth.setIsAuthenticated(false)
 			})
 		}
-	}, [userAuthData.isLoading])
+	}, [userAuthData.isUserAuthLoading])
 
 	const loginInputs = [
 		{
@@ -53,17 +55,28 @@ const useAuth = () => {
 	
 	const login = () => {
 		actionsUserAuth.setIsFormDisabled(true)
+		actionsAlert.setIsAlertOpen(true)
+		actionsAlert.setAlertStatus('loading')
+		actionsAlert.setAlertMessage('Logging In')
 
 		userAuth.login(userAuthData.email, userAuthData.password)
 		.then(response => {
+			actionsAlert.setIsAlertOpen(false)
+
 			if(response.status !== 200) {
 				actionsUserAuth.resetUserAuthState()
+				actionsAlert.setIsAlertOpen(true)
+				actionsAlert.setAlertStatus('failed')
+				actionsAlert.setAlertMessage(response.data.error)
         		return
         	} 
 
-        	actionsUserAuth.setIsLoading(true)
+        	actionsUserAuth.setIsUserAuthLoading(true)
         	actionsUserAuth.resetUserAuthState()
-        	navigate('/homeprofile', { replace: true })
+
+        	if(alertData.isAlertOpen === false) {
+        		navigate('/homeprofile', { replace: true })
+        	}
 		}).catch(error => {
 			console.log(error)
 			actionsUserAuth.resetUserAuthState()
@@ -72,16 +85,27 @@ const useAuth = () => {
 
 	const register = () => {
 		actionsUserAuth.setIsFormDisabled(true)
+		actionsAlert.setIsAlertOpen(true)
+		actionsAlert.setAlertStatus('loading')
+		actionsAlert.setAlertMessage('Saving to Database')
 
 		userAuth.register(userAuthData.username, userAuthData.email, userAuthData.password)
 		.then(response => {
+			actionsAlert.setIsAlertOpen(false)
+
 			if(response.status !== 200) {
+				actionsAlert.setIsAlertOpen(true)
+				actionsAlert.setAlertStatus('failed')
+				actionsAlert.setAlertMessage(response.data.error)
 				return
 			}
 
 			actionsUserAuth.resetUserRegistrationState()
 			actionsForm.setCurrentFormStep('Username')
-			navigate('/login', { replace: true })
+			
+			if(alertData.isAlertOpen === false) {
+				navigate('/login', { replace: true })
+			}
 		}).catch(error => {
 			console.log(error)
 			return
@@ -191,7 +215,7 @@ const useAuth = () => {
 		toggleShowPassword,
 		username: userAuthData.username,
 		email: userAuthData.email,
-		isLoading: userAuthData.isLoading,
+		isUserAuthLoading: userAuthData.isUserAuthLoading,
 		isAuthenticated: userAuthData.isAuthenticated,
 		isFormDisabled: userAuthData.isFormDisabled,
 		isUsernameLengthCorrect: userAuthData.isUsernameLengthCorrect,

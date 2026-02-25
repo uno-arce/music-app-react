@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import Form from '../components/form'
 import Button from '../components/button'
+import Alert from '../components/alert'
 
 import useAuth from '../hooks/authHooks'
 import useForm from '../hooks/formHooks'
@@ -150,6 +151,7 @@ export default function Register() {
 					structure='grid gap-6 max-w-[350px] min-w-[330px]'
 				>
 					{renderFinalStepValidatorView()}
+					<Alert/>
 				</Form>
 			</div>
 

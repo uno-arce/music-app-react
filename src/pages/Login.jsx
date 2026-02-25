@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom'
 import Form from '../components/form'
 import Button from '../components/button'
+import Alert from '../components/alert'
 import useUserAuthStore from '../stores/userAuthStore'
 import useAuth from '../hooks/authHooks'
 import useForm from '../hooks/formHooks'
@@ -22,7 +23,10 @@ export default function Login() {
 					call={login}
 					isDisabled={userAuthStore.isFormDisabled}
 					structure='grid gap-6 max-w-[350px] min-w-[330px]'
-				/>
+
+				>
+					<Alert/>
+				</Form>
 			</div>
 
 			<div className='max-xl:order-1 max-xl:self-center max-xl:h-40 max-xl:w-40 flex flex-col items-start justify-self-end image bg-[image:var(--asset-logo-backdrop)] bg-contain h-90 w-90'>
@@ -34,7 +38,7 @@ export default function Login() {
 				<Button
 					name='Login'
 					form='loginForm'
-					isDisabled = {isLoginButtonDisabled}
+					isDisabled={isLoginButtonDisabled}
 					variant='max-xl:text-[14px] button button-primary text-2xl self-start max-xl:self-center'
 				/>
 				<span>Don't have an account? <NavLink to='/register'> Register</NavLink> </span>
