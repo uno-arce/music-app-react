@@ -16,7 +16,8 @@
   --color-interactive: #ED6AFF;
   --color-background-light: #DCFCE7;
   --color-background-dark: #222623;
-  --color-background-body: var(--color-neutral-200)
+  --color-background-body: var(--color-neutral-200);
+  --color-surface: #474f48;
 }
 
 @layer base {
@@ -31,7 +32,8 @@
     --color-interactive: #C75FD5;
     --color-background-light: #DCFCE7;
     --color-background-dark: #222623;
-    --color-background-body: var(--color-neutral-600)
+    --color-background-body: var(--color-neutral-600);
+    --color-surface: #caded3;
   }
 
   body {
@@ -199,8 +201,8 @@
     left: 0;
     height: 100dvh;
     min-width: 150px;
-    padding: 2rem  3rem 0 3rem;
-    background-image: var(--background-main);
+    padding: 2rem 3rem 0 3rem;
+    background-color: var(--color-surface);
     z-index: 5;
   }
 }
