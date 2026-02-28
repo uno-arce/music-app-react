@@ -1,7 +1,6 @@
 // Pages
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Homepage from './pages/Homepage'
 import Homeprofile from './pages/Homeprofile'
 import SpotifyCallback from './pages/SpotifyCallback'
 import './App.css'
@@ -15,7 +14,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Homepage/>}/>
 
         <Route
           path='/login' 
