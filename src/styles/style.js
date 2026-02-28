@@ -113,7 +113,7 @@ export const collectionTrackStyle = () => {
 	const trackSubtitle = 'text-left text-accent-light'
 	const trackSubtitleInfo = 'max-lg:text-start text-right text-accent'
 	const trackButtonGroup = 'flex justify-between'
-	const trackSubtitleButtonGroup = 'max-sm:text-lg max-md:my-4 max-lg:mt-15 text-2xl mt-26'
+	const trackSubtitleButtonGroup = 'max-sm:text-lg max-md:my-4 max-lg:my-15 text-2xl mt-26'
 
 	return {
 		trackGroup,

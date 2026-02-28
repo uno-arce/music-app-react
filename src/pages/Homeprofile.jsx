@@ -104,7 +104,7 @@ export default function Homeprofile() {
 		return(
 		<div className='max-2xl:order-3 order-2 col-span-1 row-span-2 flex flex-col'>
 			<div className='max-sm:h-auto max-sm:mt-4 relative h-32 mt-14'>
-				<motion.div className='max-sm:hidden absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
+				<motion.div className='max-lg:hidden absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
 					variants={fadeInLeft}
 					initial='hidden'
 					animate='show'>
@@ -121,7 +121,7 @@ export default function Homeprofile() {
 					}>
 					{selectedMenuCategory === 'mostlyListened' ? (
 							<motion.h1 
-								className='max-sm:text-3xl relative z-1'
+								className='max-sm:text-3xl max-lg:text-center relative z-1'
 								key={[selectedMenuCategory, selectedSpotifyItem?.artist]}
 								variants={slideInLeft}
 								initial='hidden'
@@ -130,7 +130,7 @@ export default function Homeprofile() {
 							</motion.h1>
 						) : selectedMenuCategory === 'playlists' ? (
 							<motion.h1 
-								className='max-sm:text-3xl relative z-1'
+								className='max-sm:text-3xl max-lg:text-center relative z-1'
 								key={[selectedMenuCategory, selectedSpotifyItem?.playlist]}
 								variants={slideInLeft}
 								initial='hidden'
@@ -139,7 +139,7 @@ export default function Homeprofile() {
 							</motion.h1>
 						) : (
 							<motion.h1 
-								className='max-sm:text-3xl relative z-1'
+								className='max-sm:text-3xl max-lg:text-center relative z-1'
 								key={[selectedMenuCategory, selectedSpotifyItem?.track]}
 								variants={slideInLeft}
 								initial='hidden'
@@ -186,19 +186,11 @@ export default function Homeprofile() {
 					</motion.div>
 				) : selectedMenuCategory === 'mostlyListened' ? (
 					<motion.div
-						className='mt-10'
+						className='max-lg:mt-auto mt-50'
 						key={`${selectedMenuCategory}-${selectedSpotifyItem?.artist}`}
 						variants={fadeInTop}
 						initial='hidden'
 						animate='show'>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Followers</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.followers}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Popularity</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
-					</div>
 					<span className={trackSubtitleButtonGroup}>{outbound} Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</span>
 					</motion.div>
 				) : selectedMenuCategory === 'mostlyPlayed' ? (
@@ -215,10 +207,6 @@ export default function Homeprofile() {
 					<div className={trackSubtitleGroup}>
 						<p className={trackSubtitle}>Artist</p>
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.artist}</p>
-					</div>
-					<div className={trackSubtitleGroup}>
-						<p className={trackSubtitle}>Popularity</p>
-						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.popularity}</p>
 					</div>
 					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
 					</motion.div>
@@ -401,7 +389,7 @@ export default function Homeprofile() {
 					</Placeholder>
 				</div>
 				<Sidebar 
-					structure='max-md:w-fit sidebar fixed flex flex-col gap-4 w-[600px]'
+					structure='max-lg:w-fit max-md:p-[1rem_2rem_0_1rem] sidebar fixed flex flex-col gap-4 w-[600px]'
 					variants={slideInLeft}
 					initial='hidden'
 					animate='show'
