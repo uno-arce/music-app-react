@@ -201,7 +201,7 @@
     left: 0;
     height: 100dvh;
     min-width: 150px;
-    padding: 2rem 3rem 0 3rem;
+    padding: 2rem 3rem 2rem 3rem;
     background-color: var(--color-surface);
     z-index: 5;
   }
