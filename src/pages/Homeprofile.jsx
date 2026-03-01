@@ -119,36 +119,15 @@ export default function Homeprofile() {
 					emptyView={
 						<h2 className='text-center'>Your Rated Tracks is Empty</h2>
 					}>
-					{selectedMenuCategory === 'mostlyListened' ? (
-							<motion.h1 
-								className='max-sm:text-3xl max-lg:text-center relative z-1'
-								key={[selectedMenuCategory, selectedSpotifyItem?.artist]}
-								variants={slideInLeft}
-								initial='hidden'
-								animate='show'>
-								{collectionSelectedIndex + 1}. {selectedSpotifyItem?.artist}
-							</motion.h1>
-						) : selectedMenuCategory === 'playlists' ? (
-							<motion.h1 
-								className='max-sm:text-3xl max-lg:text-center relative z-1'
-								key={[selectedMenuCategory, selectedSpotifyItem?.playlist]}
-								variants={slideInLeft}
-								initial='hidden'
-								animate='show'>
-								{collectionSelectedIndex + 1}. {selectedSpotifyItem?.playlist}
-							</motion.h1>
-						) : (
-							<motion.h1 
-								className='max-sm:text-3xl max-lg:text-center relative z-1'
-								key={[selectedMenuCategory, selectedSpotifyItem?.track]}
-								variants={slideInLeft}
-								initial='hidden'
-								animate='show'
-								>
-							{collectionSelectedIndex + 1}. {selectedSpotifyItem?.track}
-							</motion.h1>
-						)
-					}
+						<motion.h1 
+							className='max-sm:text-3xl max-lg:text-center relative z-1'
+							key={[selectedMenuCategory, selectedSpotifyItem?.track]}
+							variants={slideInLeft}
+							initial='hidden'
+							animate='show'
+							>
+						{collectionSelectedIndex + 1}. {selectedSpotifyItem?.track}
+						</motion.h1>
 				</Placeholder>
 			</div>
 
@@ -183,15 +162,6 @@ export default function Homeprofile() {
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.releaseDate}</p>
 					</div>
 					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
-					</motion.div>
-				) : selectedMenuCategory === 'mostlyListened' ? (
-					<motion.div
-						className='max-lg:mt-auto mt-50'
-						key={`${selectedMenuCategory}-${selectedSpotifyItem?.artist}`}
-						variants={fadeInTop}
-						initial='hidden'
-						animate='show'>
-					<span className={trackSubtitleButtonGroup}>{outbound} Listen to <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.artist}</a> On Spotify</span>
 					</motion.div>
 				) : selectedMenuCategory === 'mostlyPlayed' ? (
 					<motion.div
@@ -230,15 +200,6 @@ export default function Homeprofile() {
 						<p className={trackSubtitleInfo}>{selectedSpotifyItem?.rating}</p>
 					</div>
 					<span className={trackSubtitleButtonGroup}>{outbound} Play <a href= {selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.track}</a> On Spotify</span>
-					</motion.div>
-				) : selectedMenuCategory === 'playlists' ? (
-					<motion.div
-						className='mt-10'
-						key={`${selectedMenuCategory}-${selectedSpotifyItem?.playlist}`}
-						variants={fadeInTop}
-						initial='hidden'
-						animate='show'>
-					<span className={trackSubtitleButtonGroup}>{outbound} Visit <a href={selectedSpotifyItem?.reference} target='_blank'>{selectedSpotifyItem?.playlist} </a> On Spotify</span>
 					</motion.div>
 				) : null}
 				
@@ -333,47 +294,31 @@ export default function Homeprofile() {
 				className='max-2xl:justify-between max-lg:order-2 max-lg:gap-4 relative order-3 col-span-1 flex flex-col'
 			>	
 				<div className='max-2xl:flex-col-reverse max-2xl:self-center relative flex gap-4 self-end'>
-					{!['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
-						<motion.div
-						className='max-2xl:flex max-2xl:flex-row flex flex-col gap-1 justify-center'
-						variants={staggerContainer}
-						initial='hidden'
-						animate='show'>
-							<Button
-								call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
-								variants={fadeInRight}
-								variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}>
-								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
-							</Button>
-							<Button
-								call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
-								variants={fadeInRight}
-								variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
-							</Button>
-							<Button
-								call={() => handleOpenSidebarView()}
-								variant='xl:hidden relative button button-primary self-center gap-1'
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-							</Button>
-						</motion.div>
-					)}
-					{['mostlyListened', 'playlists'].includes(selectedMenuCategory) && (
-						<motion.div
-						className='max-2xl:flex max-2xl:flex-row flex gap-1 justify-end'
-						variants={staggerContainer}
-						initial='hidden'
-						animate='show'>
-							<Button
-								call={() => handleOpenSidebarView()}
-								variant='xl:hidden relative button button-primary self-center gap-1'
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-							</Button>
-						</motion.div>
-					)}
+					<motion.div
+					className='max-2xl:flex max-2xl:flex-row flex flex-col gap-1 justify-center'
+					variants={staggerContainer}
+					initial='hidden'
+					animate='show'>
+						<Button
+							call={() => handleOpenPopoverView(selectedSpotifyItem, true)}
+							variants={fadeInRight}
+							variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}>
+							<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+						</Button>
+						<Button
+							call={() => handleOpenTrackView(selectedSpotifyItem, getTrackPreviewDetails)}
+							variants={fadeInRight}
+							variant={`button button-primary ${spotifyCollectionItems.length === 0 ? 'hidden' : 'block' }`}
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
+						</Button>
+						<Button
+							call={() => handleOpenSidebarView()}
+							variant='xl:hidden relative button button-primary self-center gap-1'
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+						</Button>
+					</motion.div>
 					<Placeholder
 						isLoading={isLoading}
 						isEmpty={isLoading === false && spotifyCollectionItems.length === 0}
@@ -389,18 +334,18 @@ export default function Homeprofile() {
 					</Placeholder>
 				</div>
 				<Sidebar 
-					structure='max-lg:w-fit max-md:p-[1rem_2rem_0_1rem] sidebar fixed flex flex-col gap-4 w-[600px]'
+					structure='max-lg:w-fit max-md:p-[1rem_2rem_1rem_1rem] sidebar fixed flex flex-col gap-4 justify-between w-[500px]'
 					variants={slideInLeft}
 					initial='hidden'
 					animate='show'
 					exit='exit'>
-					<h2>Navigation</h2>
 					<Menu 
 						menuList={trackMenuList}
 						renderMenu={renderSidebarMenu}
 						itemVariants={slideInLeft}
-						structure='flex flex-col gap-6 mt-2'
+						structure='flex flex-col gap-6'
 					/>
+					<h2>Navigation</h2>
 				</Sidebar>
 			</div>
 

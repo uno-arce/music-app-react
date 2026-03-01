@@ -34,23 +34,17 @@ const useSpotifyApi = () => {
 			Promise.all([
 				spotifyApi.getRecentlyPlayed(),
 				spotifyApi.getSavedTracks(),
-				spotifyApi.getUserPlaylists(),
 				spotifyApi.getMostlyPlayed(),
-				spotifyApi.getMostlyListened(),
 				spotifyApi.getRatedTracks()
 			]).then(([
 				recentlyPlayedResponse,
 				savedTracksResponse,
-				userPlaylistsResponse,
 				mostlyPlayedResponse,
-				mostlyListenedResponse,
 				ratedTracksResponse
 			]) => {
 				getUniqueItems(recentlyPlayedResponse.data, actionsSpotify.setRecentlyPlayedTracks)
 				actionsSpotify.setSavedTracks(savedTracksResponse.data)
-				actionsSpotify.setUserPlaylists(userPlaylistsResponse.data)
 				actionsSpotify.setMostlyPlayed(mostlyPlayedResponse.data)
-				actionsSpotify.setMostlyListened(mostlyListenedResponse.data)
 				actionsSpotify.setRatedTracks(ratedTracksResponse.data)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
@@ -104,9 +98,6 @@ const useSpotifyApi = () => {
 		recentlyPlayed: {
 			items: spotifyData.recentlyPlayedTracks || []
 		},
-		mostlyListened: {
-			items: spotifyData.mostlyListened || []
-		},
 		mostlyPlayed: {
 			items: spotifyData.mostlyPlayed || []
 		},
@@ -115,9 +106,6 @@ const useSpotifyApi = () => {
 		},
 		ratedTracks: {
 			items: spotifyData.ratedTracks?.[collectionData.collectionSelectedGroup] || []
-		},
-		playlists: {
-			items: spotifyData.userPlaylists || []
 		}
 	}
 
