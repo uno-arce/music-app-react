@@ -11,10 +11,6 @@ const useMenu = () => {
 			label: 'Recently Played' 
 		},
 		{
-			activeCategoryKey: 'mostlyListened',
-			label: 'Mostly Listened'
-		},
-		{
 			activeCategoryKey: 'mostlyPlayed',
 			label: 'Mostly Played'
 		},
@@ -25,10 +21,6 @@ const useMenu = () => {
 		{
 			activeCategoryKey: 'ratedTracks',
 			label: 'Rated Tracks'
-		},
-		{
-			activeCategoryKey: 'playlists',
-			label: 'Playlists'
 		}
 	]
 
