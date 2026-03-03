@@ -16,6 +16,15 @@ function App() {
       <Routes>
 
         <Route
+          path='/' 
+          element={
+            <PublicRoute>
+              <Login/>
+            </PublicRoute>
+          }
+        />
+
+        <Route
           path='/login' 
           element={
             <PublicRoute>
