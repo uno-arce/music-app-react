@@ -14,7 +14,7 @@ export default function Login() {
 	const userAuthStore = useUserAuthStore()
 
 	return(
-		<div className='max-xl:flex max-xl:flex-col max-xl:gap-4 max-xl:p-[0.5rem] max-2xl:grid-cols-[1fr_1fr] grid grid-cols-[1.5fr_3fr] grid-rows-[2] gap-8 p-[0_12rem] content-center justify-center min-h-dvh'>
+		<div className='max-xl:flex max-xl:flex-col max-xl:gap-4 max-xl:p-[0.5rem] max-2xl:grid-cols-[1fr_1fr] grid grid-cols-[1.5fr_3fr] gap-8 p-[0_12rem] content-center justify-center min-h-dvh'>
 			<div className='max-xl:order-2 max-xl:self-center max-xl:border-none flex flex-col gap-10 row-span-2 border-r border-base-light'>
 				<h2 className='max-sm:text-center'>Login your Account</h2>
 				<Form 
