@@ -20,7 +20,6 @@ const useSpotifyAuth = () => {
 
 				actionsSpotifyAuth.setIsAuthorized(true)
 			}).catch(error => {
-				console.log(error)
 				return error
 			})
 		}
@@ -35,7 +34,6 @@ const useSpotifyAuth = () => {
 
 			actionsSpotifyAuth.setIsAuthorized(true)
 		}).catch(error => {
-			console.log(error)
 			return error
 		})
 	}

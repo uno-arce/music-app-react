@@ -6,10 +6,8 @@ const userAuth = {
 			email: email,
 			password: password
 		}).then(response => {
-			console.log(response)
 			return response
 		}).catch(error => {
-			console.error(error)
 			return error.response.data.error
 		})
 	},
@@ -29,11 +27,9 @@ const userAuth = {
 	verify: () => {
 		return instance.get('users/verify')
 		.then(response => {
-			console.log(response.data.message)
 			return response
 		})
 		.catch(error => {
-			console.log(error)
 			return error.response.data.error
 		})
 	},
@@ -41,11 +37,9 @@ const userAuth = {
 	logout: () => {
 		return instance.post('users/logout')
 		.then(response => {
-			console.log(response)
 			return response
 		})
 		.catch(error => {
-			console.log(error)
 			return error.response.data.error
 		})
 	},
@@ -58,7 +52,6 @@ const userAuth = {
 			return response
 		})
 		.catch(error => {
-			console.log(error)
 			return error.response.data.error
 		})
 	},

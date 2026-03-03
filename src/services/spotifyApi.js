@@ -9,7 +9,6 @@ const spotifyApi = {
 		}).then(response => {
 			return response
 		}).catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -20,7 +19,6 @@ const spotifyApi = {
 		}).then(response => {
 			return response
 		}).catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -28,10 +26,8 @@ const spotifyApi = {
 	verifyAuthorization: () => {
 		return instance.get('auth/spotify/verify-authorization')
 		.then(response => {
-			console.log(response.data.message)
 			return response
 		}).catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -42,7 +38,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -53,7 +48,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -64,7 +58,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -75,7 +68,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -86,7 +78,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 	},
@@ -107,7 +98,6 @@ const spotifyApi = {
 			return response
 		})
 		.catch(error => {
-			console.log(error.response.data.error)
 			return error.response.data.error
 		})
 

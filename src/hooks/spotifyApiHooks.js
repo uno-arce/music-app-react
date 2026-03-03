@@ -62,7 +62,6 @@ const useSpotifyApi = () => {
 			}
 			actionsTrack.setTrackPreviewDetails(response.data)
 		}).catch(error => {
-			console.log(error)
 			return
 		})
 	}
@@ -90,7 +89,6 @@ const useSpotifyApi = () => {
 		}).catch(error => {
 			actionsAlert.setIsAlertOpen(true)
 			actionsAlert.setAlertStatus('failed')
-			console.log(error)
 		})
 	}
 

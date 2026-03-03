@@ -26,7 +26,6 @@ export default function SpotifyCallback() {
 		} 
 
 		if(error) {
-			console.log('Spotify authorization error', error)
 			navigate('/homeprofile')
 		}
 

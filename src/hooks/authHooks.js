@@ -78,7 +78,6 @@ const useAuth = () => {
         		navigate('/homeprofile', { replace: true })
         	}
 		}).catch(error => {
-			console.log(error)
 			actionsUserAuth.resetUserAuthState()
 		})
 	}
@@ -107,7 +106,6 @@ const useAuth = () => {
 				navigate('/login', { replace: true })
 			}
 		}).catch(error => {
-			console.log(error)
 			return
 		})
 	}
@@ -122,7 +120,6 @@ const useAuth = () => {
 
 			actionsUserAuth.setIsEmailAvailable(true)
 		}).catch(error => {
-			console.log(error)
 			actionsUserAuth.setIsEmailAvailable(false)
 			return
 		})
@@ -184,7 +181,6 @@ const useAuth = () => {
 
 			actionsUserAuth.setIsAuthenticated(false)
 		}).catch(error => {
-			console.log(error)
 			return
 		})
 	}
