@@ -182,6 +182,8 @@ const useAuth = () => {
 			actionsUserAuth.setIsAuthenticated(false)
 		}).catch(error => {
 			return
+		}).finally(() => {
+			actionsUserAuth.setIsAuthenticated(false)
 		})
 	}
 
@@ -193,7 +195,7 @@ const useAuth = () => {
 	useEffect(() => {
 		const pathname = location.pathname
 		return () => {
-			if(pathname === '/login') {
+			if(pathname === '/login' || pathname === '/') {
 				actionsUserAuth.resetUserAuthState()
 			} else if (pathname === '/register') {
 				actionsUserAuth.resetUserRegistrationState()
