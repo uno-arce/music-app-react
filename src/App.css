@@ -14,8 +14,7 @@
   --color-accent: #E12AFB;
   --color-accent-light: #C49CCA;
   --color-interactive: #ED6AFF;
-  --color-background-light: #DCFCE7;
-  --color-background-dark: #222623;
+  --color-background: #DCFCE7;
   --color-background-body: var(--color-neutral-200);
   --color-surface: #474f48;
 }
@@ -30,8 +29,7 @@
     --color-accent: #E967FB;
     --color-accent-light: #B99DBD;
     --color-interactive: #C75FD5;
-    --color-background-light: #DCFCE7;
-    --color-background-dark: #222623;
+    --color-background: #474f48;
     --color-background-body: var(--color-neutral-600);
     --color-surface: #caded3;
   }
@@ -54,7 +52,7 @@
     width: 100%;
     max-width: 1920px;
     padding: 0;
-    background-color: #DCFCE7;
+    background-color: var(--color-background);
     background-image: var(--background-main)
   }
 
