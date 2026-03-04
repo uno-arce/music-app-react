@@ -74,9 +74,7 @@ const useAuth = () => {
         	actionsUserAuth.setIsUserAuthLoading(true)
         	actionsUserAuth.resetUserAuthState()
 
-        	if(alertData.isAlertOpen === false) {
-        		navigate('/homeprofile', { replace: true })
-        	}
+        	navigate('/homeprofile', { replace: true })
 		}).catch(error => {
 			actionsUserAuth.resetUserAuthState()
 		})
