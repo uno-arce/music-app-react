@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom'
 import useAuth from '../hooks/authHooks'
 
 const ProtectedRoute = ({ children }) => {
-	const {isLoading, isAuthenticated} = useAuth()
+	const {isUserAuthLoading, isAuthenticated} = useAuth()
 
-	if(isLoading) {
+	if(isUserAuthLoading) {
 		return <div className='flex animate-pulse'></div>
 	}
 
