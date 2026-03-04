@@ -30,9 +30,11 @@ const useAuth = () => {
 			}).catch(error => {
 				actionsUserAuth.setIsUserAuthLoading(false)
 				actionsUserAuth.setIsAuthenticated(false)
+			}).finally(() => {
+				actionsUserAuth.setIsUserAuthLoading(false)
 			})
 		}
-	}, [userAuthData.isUserAuthLoading])
+	}, [])
 
 	const loginInputs = [
 		{
