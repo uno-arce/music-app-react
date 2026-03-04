@@ -42,10 +42,10 @@ const useSpotifyApi = () => {
 				mostlyPlayedResponse,
 				ratedTracksResponse
 			]) => {
-				getUniqueItems(recentlyPlayedResponse.data, actionsSpotify.setRecentlyPlayedTracks)
-				actionsSpotify.setSavedTracks(savedTracksResponse.data)
-				actionsSpotify.setMostlyPlayed(mostlyPlayedResponse.data)
-				actionsSpotify.setRatedTracks(ratedTracksResponse.data)
+				getUniqueItems(recentlyPlayedResponse?.data, actionsSpotify.setRecentlyPlayedTracks)
+				actionsSpotify.setSavedTracks(savedTracksResponse?.data)
+				actionsSpotify.setMostlyPlayed(mostlyPlayedResponse?.data)
+				actionsSpotify.setRatedTracks(ratedTracksResponse?.data)
 			}).catch(error => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
