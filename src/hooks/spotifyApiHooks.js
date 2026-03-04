@@ -94,16 +94,16 @@ const useSpotifyApi = () => {
 
 	const spotifyCollectionItemConfig = {
 		recentlyPlayed: {
-			items: spotifyData.recentlyPlayedTracks || []
+			items: spotifyData?.recentlyPlayedTracks || []
 		},
 		mostlyPlayed: {
-			items: spotifyData.mostlyPlayed || []
+			items: spotifyData?.mostlyPlayed || []
 		},
 		likedTracks: {
-			items: spotifyData.savedTracks?.[collectionData.collectionSelectedGroup] || []
+			items: spotifyData?.savedTracks?.[collectionData.collectionSelectedGroup] || []
 		},
 		ratedTracks: {
-			items: spotifyData.ratedTracks?.[collectionData.collectionSelectedGroup] || []
+			items: spotifyData?.ratedTracks?.[collectionData.collectionSelectedGroup] || []
 		}
 	}
 
