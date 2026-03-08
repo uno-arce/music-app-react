@@ -26,8 +26,8 @@ const useCollection = () => {
 	}
 
 	const handleNextCollectionGroup = (collection) => {
-		const collectionGroupLength = Object.keys(collection).length
-		if(collectionSelectedGroup == collectionGroupLength) {
+		const nextCollectionGroupLength = Object.keys(collection[collectionSelectedGroup + 1]).length
+		if(nextCollectionGroupLength === 0) {
 			return
 		}
 
