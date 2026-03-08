@@ -7,6 +7,7 @@ const useUserAuthStore = create((set) => ({
 	password: '',
 
 	isAuthenticated: false,
+	isUserTester: false,
 	isFormDisabled: false,
 	isUserAuthLoading: true,
 
@@ -25,6 +26,7 @@ const useUserAuthStore = create((set) => ({
 		setPassword: (password) => set({ password: password }),
 		setIsFormDisabled: (form) => set({ isFormDisabled: form }),
 		setIsAuthenticated: (authenticated) => set({ isAuthenticated: authenticated }),
+		setIsUserTester: (isTester) => set({ isUserTester: isTester }),
 		setIsUserAuthLoading: (loading) => set({ isUserAuthLoading: loading }),
 
 		setIsUsernameLengthCorrect: (isLengthCorrect) => set({ isUsernameLengthCorrect: isLengthCorrect }),
@@ -78,6 +80,7 @@ export const useUserAuthData = () => useUserAuthStore(useShallow((state) => {
 		email: state.email,
 		password: state.password,
 		isAuthenticated: state.isAuthenticated,
+		isUserTester: state.isUserTester,
 		isFormDisabled: state.isFormDisabled,
 		isUserAuthLoading: state.isUserAuthLoading,
 		isUsernameLengthCorrect: state.isUsernameLengthCorrect,

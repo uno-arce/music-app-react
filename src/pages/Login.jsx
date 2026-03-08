@@ -3,19 +3,20 @@ import { NavLink } from 'react-router-dom'
 import Form from '../components/form'
 import Button from '../components/button'
 import Alert from '../components/alert'
+import Notice from '../components/notice'
 import useUserAuthStore from '../stores/userAuthStore'
 import useAuth from '../hooks/authHooks'
 import useForm from '../hooks/formHooks'
 
 
 export default function Login() {
-	const { login, loginInputs, isLoginButtonDisabled } = useAuth()
+	const { login, loginInputs, isLoginButtonDisabled, isUserTester, handleUserTester } = useAuth()
 	const { validate } = useForm()
 	const userAuthStore = useUserAuthStore()
 
 	return(
 		<div className='max-xl:flex max-xl:flex-col max-xl:gap-4 max-xl:p-[0.5rem] max-2xl:grid-cols-[1fr_1fr] grid grid-cols-[1.5fr_3fr] gap-8 p-[0_12rem] content-center justify-center min-h-dvh'>
-			<div className='max-xl:order-2 max-xl:self-center max-xl:border-none flex flex-col gap-10 row-span-2 border-r border-base-light'>
+			<div className='max-xl:order-2 max-xl:self-center max-xl:border-none flex flex-col gap-10 row-span-2 border-r border-base-light/40'>
 				<h2 className='max-sm:text-center'>Login your Account</h2>
 				<Form 
 					id='loginForm'
@@ -26,6 +27,15 @@ export default function Login() {
 
 				>
 					<Alert/>
+					<Notice message={
+						<div className='flex justify-between items-center'>
+							<p>Login as User Tester</p>
+							<input type='checkbox' 
+								checked={isUserTester} 
+								onChange={handleUserTester} 
+								className='appearance-none h-4 w-4 bg-base-light/40 border border-base-light/40 rounded-xs checked:bg-base/40'/>
+						</div>
+					} />
 				</Form>
 			</div>
 

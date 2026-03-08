@@ -82,6 +82,19 @@ const useAuth = () => {
 		})
 	}
 
+	const handleUserTester = (event) => {
+		const isUserTester = event.target.checked
+		actionsUserAuth.setIsUserTester(isUserTester)
+		
+		if(isUserTester) {
+			actionsUserAuth.setEmail('uno@gmail.com')
+			actionsUserAuth.setPassword('admin@123')
+		} else {
+			actionsUserAuth.setEmail('')
+			actionsUserAuth.setPassword('')
+		}
+	}
+
 	const register = () => {
 		actionsUserAuth.setIsFormDisabled(true)
 		actionsAlert.setIsAlertOpen(true)
@@ -211,10 +224,12 @@ const useAuth = () => {
 		register,
 		logout,
 		toggleShowPassword,
+		handleUserTester,
 		username: userAuthData.username,
 		email: userAuthData.email,
 		isUserAuthLoading: userAuthData.isUserAuthLoading,
 		isAuthenticated: userAuthData.isAuthenticated,
+		isUserTester: userAuthData.isUserData,
 		isFormDisabled: userAuthData.isFormDisabled,
 		isUsernameLengthCorrect: userAuthData.isUsernameLengthCorrect,
 		isUsernameCharactersCorrect: userAuthData.isUsernameCharactersCorrect,
