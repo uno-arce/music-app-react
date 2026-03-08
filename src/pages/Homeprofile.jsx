@@ -104,7 +104,7 @@ export default function Homeprofile() {
 		return(
 		<div className='max-2xl:order-3 order-2 col-span-1 row-span-2 flex flex-col'>
 			<div className='max-sm:h-auto max-sm:mt-4 relative h-32 mt-14'>
-				<motion.div className='max-lg:hidden absolute h-58 w-58 left-0 bottom-[-40px] z-0 bg-[image:var(--asset-star)] bg-cover'
+				<motion.div className='max-lg:hidden absolute h-55 w-55 left-0 bottom-[-45px] z-0 bg-[image:var(--asset-star)] bg-contain bg-no-repeat'
 					variants={fadeInLeft}
 					initial='hidden'
 					animate='show'>
@@ -266,6 +266,7 @@ export default function Homeprofile() {
 
 	return(
 		<div className='max-2xl:grid-cols-[1.8fr_1fr] max-lg:flex max-lg:flex-col max-lg:p-[0_1rem] grid grid-cols-[1.8fr_2fr] grid-rows-[auto_1fr_auto] gap-4 p-[0_3rem] min-h-dvh overflow-y-clip'>
+			<Alert/>
 			<motion.div 
 				className='order-1 col-span-2 row-span-1 h-20 flex items-center'
 				variants={slideInTop}
@@ -326,7 +327,7 @@ export default function Homeprofile() {
 						structure={{
 							skeleton: 'max-sm:w-full max-sm:h-full max-2xl:h-100 max-2xl:w-100 w-[550px] h-[550px] rounded-sm bg-base-light/40'}}>
 						<motion.img 
-							className='max-sm:w-full max-sm:h-full max-2xl:h-70 max-2xl:w-70 w-[550px] h-[550px] rounded-sm'
+							className='max-sm:w-full max-sm:h-full max-2xl:h-70 max-2xl:w-70 w-[550px] h-[550px] rounded-sm shadow-2xl'
 							src={selectedSpotifyItem?.image}
 							variants={fadeIn}
 							initial='hidden'

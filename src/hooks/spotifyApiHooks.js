@@ -30,6 +30,9 @@ const useSpotifyApi = () => {
 	useEffect(() => {
 		if(spotifyAuthData.isAuthorized) {
 			actionsSpotify.setIsLoading(true)
+			actionsAlert.setIsAlertOpen(true)
+			actionsAlert.setAlertStatus('loading')
+			actionsAlert.setAlertMessage('Now Fetching')
 
 			Promise.all([
 				spotifyApi.getRecentlyPlayed(),
@@ -50,6 +53,7 @@ const useSpotifyApi = () => {
 				console.error('Error fetching spotify data', error)
 			}).finally(() => {
 				actionsSpotify.setIsLoading(false)
+				actionsAlert.setIsAlertOpen(false)
 			}) 
 		}
 	}, [spotifyAuthData.isAuthorized, actionsSpotifyAuth.setIsAuthorized])
