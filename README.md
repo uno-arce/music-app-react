@@ -1,10 +1,43 @@
 ## App Context
 I developed a song rating app where users can rate the songs from their spotify account data, even listen to song previews. In able to get data from spotify, I used the Spotify API to require users authorization this will enable the app to get the data or songs that will be rated by the users.
 
-## Logging In The App
-_Note: In this project we will use my spotify data for presentation purposes only. I provided an instruction below if you want to authorize your spotify account and use your own data._
-1. Email: uno@gmail.com
-2. Password: admin@123
+## Key Functionalities
+**App Functionalities**
+- Stateless Token-Based Authentication using JSON Web Token
+- OAuth 2.0 Authorization
+- Data Hydration and State Management
+- Spotify Track Rating
+- Track Preview Player
+
+**Accessibility Functionalities** 
+- Experimental Page Layout
+- Mobile Responsiveness
+- Theme Toggle
+- Skeleton and Alerts
+- Component Animations
+
+## What's Inside
+**Dependencies**
+| Package | Purpose |
+| --- | --- |
+| `@tailwindcss/vite` | High Performance Development |
+| `axios` | HTTP Client |
+| `react-router-dom` | Dynamic Client-Side Routing |
+| `tailwindCSS` | Utility First Styling |
+| `zustand` | State Management |
+| `motionJS` | UI Animation |
+
+**Folder Structure**  
+```
+src/
+├── assets         # Images 
+├── components     # Reusable and standalone components
+├── hooks          # Component and states event handlers
+├── pages          # Individual routes screens or UI
+├── services       # Axios instance and HTTP requests
+├── stores         # Zustand state management
+├── styles         # Stateful component styles
+```
 
 ## How To Run The App Locally
 _Note: Because Spotify API limits user authorization to 5 users in Development Mode and requires manual whitelisting for testers, it's best to create a clone of this to your local repository and create your own spotify client id and secret so you can use the features of this app with your own data._
@@ -36,36 +69,3 @@ npm install
   - Create a new account and login
   - Authorize your spotify account and see your own data
   - Start rating your tracks and listen to track previews
-## What's Inside
-**Folder Structure**  
--- src <br/>
-&emsp;-- assets  
-&emsp;-- components   
-&emsp;-- hooks  
-&emsp;-- pages  
-&emsp;-- services  
-&emsp;-- stores  
-&emsp;-- styles
-
-**Dependencies**
-- React/Vite
-- React Router
-- Axios
-- Zustand
-- TailwindCSS
-- MotionJS
-
-## Functionalities
-**Key Functionalities**
-- User Authententication
-- API Authorization
-- Data Hydration and State Management
-- Spotify Track Rating
-- Track Preview Player
-
-**Accessibility Functionalities** 
-- Experimental Page Layout
-- Mobile Responsiveness
-- Theme Toggle
-- Skeleton and Spinners
-- Component Animations
